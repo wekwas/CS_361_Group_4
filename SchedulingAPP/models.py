@@ -17,7 +17,7 @@ class Semester(models.TextChoices):
 class User(models.Model):
     username = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
-    userType = models.CharField(max_length=10, choices=Role.choices, default=Role.ta)
+    role = models.CharField(max_length=10, choices=Role.choices, default=Role.ta)
     email = models.CharField(max_length=40)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
