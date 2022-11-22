@@ -20,5 +20,5 @@ from SchedulingAPP.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Login.as_view()),
-    path('supervisorHomepage/', .as_view())
+    path('supervisorHomepage/', SupervisorHomepage.as_view())
 ]
