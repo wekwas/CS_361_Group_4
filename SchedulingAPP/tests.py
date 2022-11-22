@@ -136,7 +136,7 @@ class TestLogin(TestCase):
                                         , last_name="Doe")
         test_user.save()
         response = self.client.post("/", data={"username": "jDoe", "password": "123"})
-        self.assertRedirects(response, "/home/")
+        self.assertRedirects(response, "/TAHomepage/")
 
 
 class TestUrlExists(TestCase):
