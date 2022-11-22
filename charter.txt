@@ -1,48 +1,59 @@
 Group 4
-
+Team Name: Cuatro Cuatro
 Meetings:
-Tuesday 11:30am-1:30pm
-Monday-Thursday: 7pm
+ Required:
+  Tuesday 11:30am-1:30pm
+  Monday-Thursday: 7pm
+ Optional:
+  Friday-Sunday: As needed
 
 Group Contacts:
 William Kwas: wekwas@uwm.edu
 Collin Anglese: canglese@uwm.edu
 Daniel Brennan: brenna48@uwm.edu
+William Zickler: zickler@uwm.edu
+
 
 
 Goals:
-1. Effectively communicate with team, show up to every meeting
+1. Effectively communicate with team, show up to every required meeting on time.
 
-2. Learn more about creating and maintaining websites through Django.
+2. Effectively create and maintain a functioning website by using HTML, CSS, Python, Django, etc.
 
-3. Completing quality work on time.
-
-
-
-Response time to communication expectations
- - Always show up to meetings (Scrums)
- - If someone reaches out for help respond to them with a helpful answer within 3 days
- - Do what is assigned to you
+3. Complete quality work on time.
 
 
-Definition of done: when is a task complete? (hint: "I'm done with that but I didn't check it in to github" is not done.)
+
+Response time to communication expectations:
+ - Always show up to required meetings if possible. (Scrums)
+ - If a team member cannot show up to a meeting, or will be late to a meeting, said team member will let the team know ahead of time.
+ - If someone reaches out for help respond to them with a helpful answer within 3 days.
+ - Do what is assigned to you.
+
+
+Definition of done: when is a task complete? (hint: "I'm done with that but I didn't check it in to github" is not done.):
  - Classes and methods passing test with edgecases taken into account.
  - Each user story is satisfied.
  - The code adheres to SOLID principles.
- - Everyone has reviewed the code.
+ - The code has been pushed to github.
+ - Everyone has reviewed the code and agreed that it is complete for the given task.
 
-Scrum meeting format/frequency and distribution of documentation tasks (meeting minutes, updating task board)
- - Meet over teams
- - Meet thursday over teams (also talk during lab on Tuesdays)
- - Meeting will take 30 minutes (Can go longer/shorter)
+Scrum meeting format/frequency and distribution of documentation tasks (meeting minutes, updating task board):
+ - Meet over discord or in person.
+ - Meet Monday-through Thursday. (also talk during lab on Tuesdays)
+ - Meetings will take 30 minutes. (Can go longer/shorter)
+ - Each team member will share what they have worked on since the last meeting. (If applicable)
+ - Work done will be reviewed by all team members. 
+ - Objectives to be completed will be discussed. 
 
-Procedure for adopting policies (e.g. code style, code check-in steps, documentation updates)
+Procedure for adopting policies (e.g. code style, code check-in steps, documentation updates):
 if you adopt such a policy during the initial meeting, put it here
- - During meetings everyone present should agree on policies
+ - During meetings everyone present should agree on policies.
+ - Let the team know if any changes were made to the project.
 
 Procedure for handling a member who is not meeting expectations
-must include at least 3 actions before involving the instructor
- - 3 strikes for unresponsive/unproductive team member
- - Everyone agrees during a meeting if someone deserves a strike
+must include at least 3 actions before involving the instructor:
+ - 3 strikes for unresponsive/unproductive team member.
+ - Everyone agrees during a meeting if someone deserves a strike.
 
-Signatures (Everyone type there name): Collin Anglese, William Kwas, Daniel Brennan
+Signatures (Everyone type there name): Collin Anglese, William Kwas, Daniel Brennan, William Zickler
