@@ -36,7 +36,7 @@ class Course(models.Model):
 
 
 class Section(models.Model):
-    section_num = models.IntegerField()
+    section_num = models.CharField(max_length=3)
     ta = models.CharField(max_length=50)
 
     def __str__(self):
