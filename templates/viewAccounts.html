@@ -7,49 +7,103 @@
   <link rel="stylesheet" href="viewAccounts.css"> 
 </head>
 <body>
+    <h1>View Accounts</h1>
+    <div class="homelink"><a href="/">Homepage</a></div>
+<div class="container">
+<div class="instructor">
 <form>
     <h2>Instructors:</h2>
     <table>
-        <!--{% for i in things %}--> 
+        <tr>
+            <th>Name</th>
+            <th>Classes</th>
+            <th>Email</th>
+        </tr>
+        <!--{% for  in database %}--> 
             <tr>
                 <td>
-                    Smith, CS 555, jsmith
+                    John Smith
+                </td>
+                <td>
+                    CS 555
                 </td> 
+                <td>
+                    jsmith
+                </td>  
             </tr>
             <tr>
                 <td>
-                    Bob Johnson, CS 420, bjohnson
+                    Bob Johnson
                 </td>
-            </tr>
-            <tr>
                 <td>
-                    Dan Williams, CS 729, dwilliams
+                    CS 420
+                </td> 
+                <td>
+                    bjohnson
+                </td>  
+            </tr><tr>
+                <td>
+                    Dan Williams
                 </td>
+                <td>
+                    CS 729
+                </td> 
+                <td>
+                    dwilliams
+                </td>  
             </tr>
         <!--{% endfor %}--> 
     </table>
+    </form>
+</div>
+    <div class="TA">
+    <form>
     <h2>TAs:</h2>
     <table>
-        <!--{% for i in things %}--> 
+        <tr>
+            <th>Name</th>
+            <th>Classes</th>
+            <th>Email</th>
+        </tr>
+        <!--{% for  in database %}--> 
             <tr>
                 <td>
-                    John Johnson, CS 555, jjohnson
+                    John Johnson
                 </td>
+                <td>
+                    CS 555
+                </td> 
+                <td>
+                    jjohnson
+                </td>  
             </tr>
             <tr>
                 <td>
-                    Don Thomson, CS 420, dthomson
+                    Don Thomson
                 </td>
-            </tr>
-            <tr>
                 <td>
-                    Tom Donson, CS 729, tdonson
+                    CS 420
+                </td> 
+                <td>
+                    dthomson
+                </td>  
+            </tr>
+                <td>
+                    Tom Donson
                 </td>
+                <td>
+                    CS 729
+                </td> 
+                <td>
+                    tdonson
+                </td>  
             </tr>
         <!--{% endfor %}--> 
     </table>
     
 </form>
-
+</div>
+</div>
+<a href="#top">Back to top of page</a>
 </body>
 </html>
