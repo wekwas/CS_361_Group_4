@@ -36,7 +36,7 @@ class SupervisorHomepage(View):
         return render(request, "supervisorHomepage.html", {})
 
     def post(self, request):
-        pass
+        return render(request, "supervisorHomepage.html", {})
 
 
 class InstructorHomepage(View):
@@ -44,7 +44,7 @@ class InstructorHomepage(View):
         return render(request, "instructorHomepage.html", {})
 
     def post(self, request):
-        pass
+        return render(request, "instructorHomepage.html", {})
 
 
 class TAHomepage(View):
@@ -52,4 +52,4 @@ class TAHomepage(View):
         return render(request, "TAHomepage.html", {})
 
     def post(self, request):
-        pass
+        return render(request, "TAHomepage.html", {})

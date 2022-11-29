@@ -214,32 +214,30 @@ class TestSectionClass(TestCase):
 class TestLogin(TestCase):
     def test_nonexistent_user_login(self):
         response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
-        self.assertRedirects(response, "/")
+        self.assertTemplateUsed(response, "LoginPage.html")
 
     def test_nonexistent_user_message(self):
         response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
-        self.assertRedirects(response, "/")
-        self.assertIn("User doesn't exist", response.context["message"], "Error message displayed incorrectly with "
-                                                                         "bad password")
+        self.assertTemplateUsed(response, "LoginPage.html")
+        self.assertIn("User doesn't exist", response.context["message"], "Error message displayed incorrectly with ")
 
     def test_bad_password_login(self):
         test_user = UserClass.UserClass()
         test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
-        self.assertRedirects(response, "/")
+        response = self.client.post("/", data={"username": " ", "password": "123"}, follow=True)
+        self.assertTemplateUsed(response, "LoginPage.html")
 
     def test_bad_password_message(self):
         test_user = UserClass.UserClass()
         test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
-        self.assertIn("Incorrect password", response.context["message"], "Error message displayed incorrectly with "
-                                                                         "bad password")
+        response = self.client.post("/", data={"username": " ", "password": "123"}, follow=True)
+        self.assertIn("Incorrect password", response.context["message"], "Error message displayed incorrectly")
 
     def test_ta_login(self):
         test_user = UserClass.UserClass()
         test_user.add_user()
         response = self.client.post("/", data={"username": " ", "password": " "})
-        self.assertRedirects(response, "/TAHomepage/")
+        self.assertRedirects(response, "TAHomepage/")
 
     def test_instructor_login(self):
         test_user = UserClass.UserClass()
