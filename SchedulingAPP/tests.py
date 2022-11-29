@@ -212,6 +212,29 @@ class TestSectionClass(TestCase):
 
 
 class TestLogin(TestCase):
+    def test_nonexistent_user_login(self):
+        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
+        self.assertRedirects(response, "/")
+
+    def test_nonexistent_user_message(self):
+        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
+        self.assertRedirects(response, "/")
+        self.assertIn("User doesn't exist", response.context["message"], "Error message displayed incorrectly with "
+                                                                         "bad password")
+
+    def test_bad_password_login(self):
+        test_user = UserClass.UserClass()
+        test_user.add_user()
+        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
+        self.assertRedirects(response, "/")
+
+    def test_bad_password_message(self):
+        test_user = UserClass.UserClass()
+        test_user.add_user()
+        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
+        self.assertIn("Incorrect password", response.context["message"], "Error message displayed incorrectly with "
+                                                                         "bad password")
+
     def test_ta_login(self):
         test_user = UserClass.UserClass()
         test_user.add_user()
