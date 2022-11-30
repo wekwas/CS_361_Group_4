@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>View Accounts</title>
+  <link rel="icon" href="PLACEHOLDER.jpg" > <!--PLACEHOLDER.jpg HERE--> 
+  <link rel="stylesheet" href="viewCourses.css"> 
+</head>
+<body>
+    <h1>View Courses</h1>
+    <div class="linkbox homelink "><a href="/">Homepage</a></div>
+<div class="container">
+<div class="instructor">
+<form>
+    <h2>All Courses:</h2>
+    <div class="linkbox">
+        <a href = "viewCourses.html">View just my courses</a>
+    </div>
+    <br>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Instructors</th>
+            <th>TAs</th>
+            <th>External Links</th>
+        </tr>
+        <!--{% for  in database %}--> 
+            <tr>
+                <td>
+                    CS 555
+                </td>
+                <td>
+                    John Smith, Will Rock
+                </td> 
+                <td>
+                    John Johnson
+                </td>  
+                <td>
+                    <a href="/">View Course Page</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CS 420
+                </td> 
+                <td>
+                    Bob Johnson, Will Rock
+                </td>
+                <td>
+                    Don Thomson
+                </td>  
+                <td>
+                    <a href="/">View Course Page</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CS 729
+                </td> 
+                <td>
+                    Dan Williams, Will Rock
+                </td>
+                <td>
+                    Tom Donson
+                </td>  
+                <td>
+                    <a href="/">View Course Page</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CS 350
+                </td> 
+                <td>
+                    Dan Billiams
+                </td>
+                <td>
+                    Tommy Bigson
+                </td>  
+                <td>
+                    <a href="/">View Course Page</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CS 647
+                </td> 
+                <td>
+                    Andrew Evans
+                </td>
+                <td>
+                    Timmy Adams
+                </td>  
+                <td>
+                    <a href="/">View Course Page</a>
+                </td>
+            </tr>
+        <!--{% endfor %}--> 
+    </table>
+    </form>
+
+</div>
+<div class="linkbox">
+    <a href = "#top">Back to top</a>
+</div>
+</body>
+</html>

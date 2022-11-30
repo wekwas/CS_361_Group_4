@@ -3,6 +3,8 @@ body{
     background-image:url("background.png");
     font-family: arial, sans-serif;
     background-size: cover;
+    background-attachment: fixed;
+
 }
 table {
     font-family: arial, sans-serif;
