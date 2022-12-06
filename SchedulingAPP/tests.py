@@ -1,254 +1,405 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from .models import User, Course, Section
 from classes import UserClass, CourseClass, SectionClass
 
 
 class TestUserClass(TestCase):
-    def test_default_constructor(self):
-        test_user = UserClass.UserClass()
-        self.assertEqual(test_user.user.username, " ")
-        self.assertEqual(test_user.user.password, " ")
-        self.assertEqual(test_user.user.role, "TA")
-        self.assertEqual(test_user.user.email, " ")
-        self.assertEqual(test_user.user.first_name, " ")
-        self.assertEqual(test_user.user.last_name, " ")
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        temp = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                    first_name="first_name_TA", last_name="last_name_TA")
+        temp.save()
+        temp = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        temp.save()
+        temp = User(username="test_user_sup", password="password_sup", role="Supervisor", email="email_sup",
+                    first_name="first_name_sup", last_name="last_name_sup")
+        temp.save()
 
     def test_set_username_length(self):
-        test_user = UserClass.UserClass()
+        test_user_ta = User.objects.get(username="test_user_TA")
         with self.assertRaises(Exception, msg="username is too long"):
-            test_user.set_username("-----------------------------")
+            UserClass.set_username(test_user_ta, "-----------------------------")
 
     def test_set_username_null(self):
-        test_user = UserClass.UserClass()
+        test_user_ta = User.objects.get(username="test_user_TA")
         with self.assertRaises(Exception, msg="username is null"):
-            test_user.set_username(None)
+            UserClass.set_username(test_user_ta, None)
+
+    def test_set_username(self):
+        test_user_ta = User.objects.get(username="test_user_TA")
+        UserClass.set_username(test_user_ta, "new_username_ta")
+        self.assertEqual("new_username_ta", test_user_ta.username)
 
     def test_set_password_length(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="password is too long"):
-            test_user.set_password("-----------------------------")
+            UserClass.set_password(test_user_inst, "-----------------------------")
 
     def test_set_password_null(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="password is null"):
-            test_user.set_password(None)
+            UserClass.set_password(test_user_inst, None)
 
-    def test_set_role_length(self):
-        test_user = UserClass.UserClass()
+    def test_set_password(self):
+        test_user_inst = User.objects.get(username="test_user_inst")
+        UserClass.set_password(test_user_inst, "new_password_inst")
+        self.assertEqual("new_password_inst", test_user_inst.password)
+
+    def test_set_nonexistent_role(self):
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="role is incorrect"):
-            test_user.set_role("-----------------------------")
+            UserClass.set_role(test_user_inst, "-----------------------------")
 
     def test_set_role_null(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="role is null"):
-            test_user.set_role(None)
+            UserClass.set_role(test_user_inst, None)
+
+    def test_set_role(self):
+        test_user_inst = User.objects.get(username="test_user_inst")
+        UserClass.set_role(test_user_inst, "Supervisor")
+        self.assertEqual("Supervisor", test_user_inst.role)
 
     def test_set_email_length(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="email is too long"):
-            test_user.set_email("----------------------------------------------------")
+            UserClass.set_email(test_user_inst, "----------------------------------------------------")
 
     def test_set_email_null(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="email is null"):
-            test_user.set_email(None)
+            UserClass.set_email(test_user_inst, None)
+
+    def test_set_email(self):
+        test_user_inst = User.objects.get(username="test_user_inst")
+        UserClass.set_email(test_user_inst, "new_email_inst")
+        self.assertEqual("new_email_inst", test_user_inst.email)
 
     def test_set_first_name_length(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="first_name is too long"):
-            test_user.set_first_name("-----------------------------")
+            UserClass.set_first_name(test_user_inst, "-----------------------------")
 
     def test_set_first_name_null(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="first_name is null"):
-            test_user.set_first_name(None)
+            UserClass.set_first_name(test_user_inst, None)
+
+    def test_set_first_name(self):
+        test_user_inst = User.objects.get(username="test_user_inst")
+        UserClass.set_first_name(test_user_inst, "new_first_name_inst")
+        self.assertEqual("new_first_name_inst", test_user_inst.first_name)
 
     def test_set_last_name_length(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="last_name is too long"):
-            test_user.set_last_name("-----------------------------")
+            UserClass.set_last_name(test_user_inst, "-----------------------------")
 
     def test_set_last_name_null(self):
-        test_user = UserClass.UserClass()
+        test_user_inst = User.objects.get(username="test_user_inst")
         with self.assertRaises(Exception, msg="last_name is null"):
-            test_user.set_last_name(None)
+            UserClass.set_last_name(test_user_inst, None)
+
+    def test_set_last_name(self):
+        test_user_inst = User.objects.get(username="test_user_inst")
+        UserClass.set_last_name(test_user_inst, "new_last_name_inst")
+        self.assertEqual("new_last_name_inst", test_user_inst.last_name)
+
+    def test_exists(self):
+        self.assertTrue(UserClass.exists("test_user_inst"))
+
+    def test_not_exists(self):
+        self.assertFalse(UserClass.exists("fake_username"))
 
     def test_add_user(self):
-        test_user = UserClass.UserClass()
-        test_user.add_user()
-        User.objects.get(username=test_user.get_username())
+        UserClass.add_user("username_new", "password_new", "TA", "email_new", "first_name_new", "last_name_new")
+        self.assertTrue(UserClass.exists("username_new"))
 
-    def test_add_existing_user(self):
-        test_user = UserClass.UserClass()
-        test_user.add_user()
-        test_user2 = UserClass.UserClass()
+    def test_add_existing(self):
         with self.assertRaises(Exception, msg="user already in database"):
-            test_user2.add_user()
+            UserClass.add_user("test_user_sup", "password_sup", "Supervisor", "email_sup", "first_name_sup",
+                               "last_name_sup")
+
+    def test_delete_user(self):
+        UserClass.delete_user("test_user_inst")
+        self.assertFalse(UserClass.exists("test_user_inst"))
 
     def test_delete_nonexistent_user(self):
-        test_user = UserClass.UserClass()
         with self.assertRaises(Exception, msg="user not in database"):
-            test_user.delete_user()
-
-    def test_delete_existing_user(self):
-        test_user = UserClass.UserClass()
-        test_user.add_user()
-        test_user.delete_user()
-        with self.assertRaises(Exception, msg="user has been deleted"):
-            User.objects.get(username=test_user.get_username())
+            UserClass.delete_user("fake_username")
 
 
 class TestCourseClass(TestCase):
-    def test_default_constructor(self):
-        test_course = CourseClass.CourseClass()
-        self.assertEqual(test_course.course.course_name, " ")
-        self.assertEqual(test_course.course.instructor, " ")
-        self.assertEqual(test_course.course.semester, "Fall")
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        temp = Course(course_name="test_course_1", instructor="test_inst_1", semester="Fall")
+        temp.save()
+        temp = Course(course_name="test_course_2", instructor="test_inst_2", semester="Winter")
+        temp.save()
+        temp = Course(course_name="test_course_3", instructor="test_inst_3", semester="Spring")
+        temp.save()
 
     def test_set_course_name_length(self):
-        test_course = CourseClass.CourseClass()
+        test_course = Course.objects.get(course_name="test_course_1")
         with self.assertRaises(Exception, msg="course_name is too long"):
-            test_course.set_course_name("----------------------------------------------------------")
+            CourseClass.set_course_name(test_course, "-----------------------------")
 
     def test_set_course_name_null(self):
-        test_course = CourseClass.CourseClass()
+        test_course = Course.objects.get(course_name="test_course_1")
         with self.assertRaises(Exception, msg="course_name is null"):
-            test_course.set_course_name(None)
+            CourseClass.set_course_name(test_course, None)
+
+    def test_set_course_name(self):
+        test_course = Course.objects.get(course_name="test_course_1")
+        CourseClass.set_course_name(test_course, "new_course_name")
+        self.assertEqual("new_course_name", test_course.course_name)
 
     def test_set_instructor_length(self):
-        test_course = CourseClass.CourseClass()
+        test_course = Course.objects.get(course_name="test_course_2")
         with self.assertRaises(Exception, msg="instructor is too long"):
-            test_course.set_instructor("-----------------------------------------------------------------------")
+            CourseClass.set_instructor(test_course, "----------------------------------------------------------")
 
     def test_set_instructor_null(self):
-        test_course = CourseClass.CourseClass()
+        test_course = Course.objects.get(course_name="test_course_2")
         with self.assertRaises(Exception, msg="instructor is null"):
-            test_course.set_instructor(None)
+            CourseClass.set_instructor(test_course, None)
 
-    def test_set_semester_length(self):
-        test_course = CourseClass.CourseClass()
+    def test_set_instructor(self):
+        test_course = Course.objects.get(course_name="test_course_2")
+        CourseClass.set_instructor(test_course, "new_instructor")
+        self.assertEqual("new_instructor", test_course.instructor)
+
+    def test_set_nonexistent_semester(self):
+        test_course = Course.objects.get(course_name="test_course_2")
         with self.assertRaises(Exception, msg="semester is incorrect"):
-            test_course.set_semester("-----------------------------")
+            CourseClass.set_semester(test_course, "-----------------------------")
 
     def test_set_semester_null(self):
-        test_course = CourseClass.CourseClass()
+        test_course = Course.objects.get(course_name="test_course_2")
         with self.assertRaises(Exception, msg="semester is null"):
-            test_course.set_semester(None)
+            CourseClass.set_semester(test_course, None)
+
+    def test_set_semester(self):
+        test_course = Course.objects.get(course_name="test_course_2")
+        CourseClass.set_semester(test_course, "Summer")
+        self.assertEqual("Summer", test_course.semester)
+
+    def test_exists(self):
+        self.assertTrue(CourseClass.exists("test_course_2"))
+
+    def test_not_exists(self):
+        self.assertFalse(CourseClass.exists("fake_course_name"))
 
     def test_add_course(self):
-        test_course = CourseClass.CourseClass()
-        test_course.add_course()
-        Course.objects.get(course_name=test_course.get_course_name())
+        CourseClass.add_course("course_name_new", "instructor_new", "Summer")
+        self.assertTrue(CourseClass.exists("course_name_new"))
 
-    def test_add_existing_course(self):
-        test_course = CourseClass.CourseClass()
-        test_course.add_course()
-        test_course2 = CourseClass.CourseClass()
-        with self.assertRaises(Exception, msg="Course already in database"):
-            test_course2.add_course()
+    def test_add_existing(self):
+        with self.assertRaises(Exception, msg="course already in database"):
+            CourseClass.add_course("test_course_2", "instructor_new", "Summer")
+
+    def test_delete_course(self):
+        CourseClass.delete_course("test_course_2")
+        self.assertFalse(CourseClass.exists("test_course_2"))
 
     def test_delete_nonexistent_course(self):
-        test_course = CourseClass.CourseClass()
-        with self.assertRaises(Exception, msg="Course not in database"):
-            test_course.delete_course()
-
-    def test_delete_existing_course(self):
-        test_course = CourseClass.CourseClass()
-        test_course.add_course()
-        test_course.delete_course()
-        with self.assertRaises(Exception, msg="Course has been deleted"):
-            Course.objects.get(course_name=test_course.get_course_name())
+        with self.assertRaises(Exception, msg="course not in database"):
+            CourseClass.delete_course("fake_course_name")
 
 
 class TestSectionClass(TestCase):
-    def test_default_constructor(self):
-        test_section = SectionClass.SectionClass()
-        self.assertEqual(test_section.section.section_num, " ")
-        self.assertEqual(test_section.section.ta, " ")
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        temp = Section(section_num="123", ta="test_ta_1")
+        temp.save()
+        temp = Section(section_num="456", ta="test_ta_2")
+        temp.save()
+        temp = Section(section_num="789", ta="test_ta_3",)
+        temp.save()
 
     def test_set_section_num_length(self):
-        test_section = SectionClass.SectionClass()
-        with self.assertRaises(Exception, msg="section_num is too long"):
-            test_section.set_section_num("----")
+        test_section = Section.objects.get(section_num="123")
+        with self.assertRaises(Exception, msg="course_name is too long"):
+            SectionClass.set_section_num(test_section, "-----------------------------")
 
     def test_set_section_num_null(self):
-        test_section = SectionClass.SectionClass()
-        with self.assertRaises(Exception, msg="section_num is null"):
-            test_section.set_section_num(None)
+        test_section = Section.objects.get(section_num="123")
+        with self.assertRaises(Exception, msg="course_name is null"):
+            SectionClass.set_section_num(test_section, None)
+
+    def test_set_section_num(self):
+        test_section = Section.objects.get(section_num="123")
+        SectionClass.set_section_num(test_section, "321")
+        self.assertEqual("321", test_section.section_num)
 
     def test_set_ta_length(self):
-        test_section = SectionClass.SectionClass()
+        test_section = Section.objects.get(section_num="456")
         with self.assertRaises(Exception, msg="ta is too long"):
-            test_section.set_ta("-----------------------------------------------------------------------")
+            SectionClass.set_ta(test_section, "----------------------------------------------------------")
 
     def test_set_ta_null(self):
-        test_section = SectionClass.SectionClass()
+        test_section = Section.objects.get(section_num="456")
         with self.assertRaises(Exception, msg="ta is null"):
-            test_section.set_ta(None)
+            SectionClass.set_ta(test_section, None)
 
-    def test_add_section(self):
-        test_section = SectionClass.SectionClass()
-        test_section.add_section()
-        Section.objects.get(section_num=test_section.get_section_num())
+    def test_set_ta(self):
+        test_section = Section.objects.get(section_num="456")
+        SectionClass.set_ta(test_section, "new_ta")
+        self.assertEqual("new_ta", test_section.ta)
 
-    def test_add_existing_section(self):
-        test_section = SectionClass.SectionClass()
-        test_section.add_section()
-        test_section2 = SectionClass.SectionClass()
-        with self.assertRaises(Exception, msg="Section already in database"):
-            test_section2.add_section()
+    def test_exists(self):
+        self.assertTrue(SectionClass.exists("456"))
 
-    def test_delete_nonexistent_section(self):
-        test_section = SectionClass.SectionClass()
-        with self.assertRaises(Exception, msg="Section not in database"):
-            test_section.delete_section()
+    def test_not_exists(self):
+        self.assertFalse(SectionClass.exists("999"))
 
-    def test_delete_existing_section(self):
-        test_section = SectionClass.SectionClass()
-        test_section.add_section()
-        test_section.delete_section()
-        with self.assertRaises(Exception, msg="Section has been deleted"):
-            Section.objects.get(section_num=test_section.get_section_num())
+    def test_add_course(self):
+        SectionClass.add_section("999", "ta_new")
+        self.assertTrue(SectionClass.exists("999"))
+
+    def test_add_existing(self):
+        with self.assertRaises(Exception, msg="section already in database"):
+            SectionClass.add_section("456", "ta_new")
+
+    def test_delete_course(self):
+        SectionClass.delete_section("456")
+        self.assertFalse(SectionClass.exists("456"))
+
+    def test_delete_nonexistent_course(self):
+        with self.assertRaises(Exception, msg="section not in database"):
+            SectionClass.delete_section("999")
 
 
 class TestLogin(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        temp = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                    first_name="first_name_TA", last_name="last_name_TA")
+        temp.save()
+        temp = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        temp.save()
+        temp = User(username="test_user_sup", password="password_sup", role="Supervisor", email="email_sup",
+                    first_name="first_name_sup", last_name="last_name_sup")
+        temp.save()
+
     def test_nonexistent_user_login(self):
-        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
+        response = self.monkey.post("/", {"username": "fake_username", "password": "fake_password"}, follow=True)
         self.assertTemplateUsed(response, "LoginPage.html")
 
     def test_nonexistent_user_message(self):
-        response = self.client.post("/", data={"username": " ", "password": " "}, follow=True)
+        response = self.monkey.post("/", {"username": "fake_username", "password": "fake_password"}, follow=True)
         self.assertTemplateUsed(response, "LoginPage.html")
-        self.assertIn("User doesn't exist", response.context["message"], "Error message displayed incorrectly with ")
+        self.assertIn("Incorrect username", response.context["message"], "message displayed incorrectly with ")
 
     def test_bad_password_login(self):
-        test_user = UserClass.UserClass()
-        test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": "123"}, follow=True)
+        response = self.monkey.post("/", {"username": "test_user_TA", "password": "fake_password"}, follow=True)
         self.assertTemplateUsed(response, "LoginPage.html")
 
     def test_bad_password_message(self):
-        test_user = UserClass.UserClass()
-        test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": "123"}, follow=True)
-        self.assertIn("Incorrect password", response.context["message"], "Error message displayed incorrectly")
+        response = self.monkey.post("/", {"username": "test_user_TA", "password": "fake_password"}, follow=True)
+        self.assertIn("Incorrect password", response.context["message"], "message displayed incorrectly")
 
     def test_ta_login(self):
-        test_user = UserClass.UserClass()
-        test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": " "})
-        self.assertRedirects(response, "TAHomepage/")
+        response = self.monkey.post("/", {"username": "test_user_TA", "password": "password_TA"}, follow=True)
+        self.assertRedirects(response, "/TAHomepage/")
+
+    def test_ta_login_template(self):
+        response = self.monkey.post("/", {"username": "test_user_TA", "password": "password_TA"}, follow=True)
+        self.assertTemplateUsed(response, "TAHomepage.html")
 
     def test_instructor_login(self):
-        test_user = UserClass.UserClass()
-        test_user.set_role("Instructor")
-        test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": " "})
+        response = self.monkey.post("/", {"username": "test_user_inst", "password": "password_inst"}, follow=True)
         self.assertRedirects(response, "/instructorHomepage/")
 
+    def test_instructor_login_template(self):
+        response = self.monkey.post("/", {"username": "test_user_inst", "password": "password_inst"}, follow=True)
+        self.assertTemplateUsed(response, "instructorHomepage.html")
+
     def test_supervisor_login(self):
-        test_user = UserClass.UserClass()
-        test_user.set_role("Supervisor")
-        test_user.add_user()
-        response = self.client.post("/", data={"username": " ", "password": " "})
+        response = self.monkey.post("/", {"username": "test_user_sup", "password": "password_sup"}, follow=True)
         self.assertRedirects(response, "/supervisorHomepage/")
+
+    def test_supervisor_login_template(self):
+        response = self.monkey.post("/", {"username": "test_user_sup", "password": "password_sup"}, follow=True)
+        self.assertTemplateUsed(response, "supervisorHomepage.html")
+
+
+class TestCreateAccount(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        temp = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                    first_name="first_name_TA", last_name="last_name_TA")
+        temp.save()
+        temp = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        temp.save()
+        temp = User(username="test_user_sup", password="password_sup", role="Supervisor", email="email_sup",
+                    first_name="first_name_sup", last_name="last_name_sup")
+        temp.save()
+
+    def test_default_template(self):
+        response = self.monkey.get("/CreateAccount/", follow=True)
+        self.assertTemplateUsed(response, "CreateAccount.html")
+
+    def test_account_creation(self):
+        response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
+                                                        "userName": "test_userName", "password": "test_password",
+                                                        "passwordCheck": "test_password"}, follow=True)
+        self.assertTemplateUsed(response, "CreateAccount.html")
+        self.assertTrue(UserClass.exists("test_userName"), "user not added")
+
+    def test_account_creation_message(self):
+        response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
+                                                        "userName": "test_userName", "password": "test_password",
+                                                        "passwordCheck": "test_password"}, follow=True)
+        self.assertIn("User created", response.context["message"], "message displayed incorrectly")
+
+    def test_new_account_data(self):
+        self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
+                                             "userName": "test_userName", "password": "test_password",
+                                             "passwordCheck": "test_password"}, follow=True)
+        test_user = User.objects.get(username="test_userName")
+        self.assertEqual(test_user.username, "test_userName", "username incorrect")
+        self.assertEqual(test_user.password, "test_password", "password incorrect")
+        self.assertEqual(test_user.role, "TA", "role incorrect")
+        self.assertEqual(test_user.email, " ", "email incorrect")
+        self.assertEqual(test_user.first_name, "test_first_name", "first_name incorrect")
+        self.assertEqual(test_user.last_name, "test_last_name", "last_name incorrect")
+
+    def test_duplicate_creation(self):
+        response = self.monkey.post("/CreateAccount/", {"fullName": "first_name_TA last_name_TA", "role": "TA",
+                                                        "userName": "test_user_TA", "password": "password_TA",
+                                                        "passwordCheck": "password_TA"}, follow=True)
+        self.assertTemplateUsed(response, "CreateAccount.html")
+
+    def test_duplicate_creation_message(self):
+        response = self.monkey.post("/CreateAccount/", {"fullName": "first_name_TA last_name_TA", "role": "TA",
+                                                        "userName": "test_user_TA", "password": "password_TA",
+                                                        "passwordCheck": "password_TA"}, follow=True)
+        self.assertIn("User already exists", response.context["message"], "message displayed incorrectly")
+
+    def test_bad_password(self):
+        response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
+                                                        "userName": "test_userName", "password": "test_password",
+                                                        "passwordCheck": "fake_password"}, follow=True)
+        self.assertFalse(UserClass.exists("test_userName"), "user added")
+        self.assertTemplateUsed(response, "CreateAccount.html")
+
+    def test_bad_password_message(self):
+        response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
+                                                        "userName": "test_userName", "password": "test_password",
+                                                        "passwordCheck": "fake_password"}, follow=True)
+        self.assertIn("Passwords don't match", response.context["message"], "message displayed incorrectly")
+
