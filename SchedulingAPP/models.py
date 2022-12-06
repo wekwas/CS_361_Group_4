@@ -14,6 +14,7 @@ class Semester(models.TextChoices):
     winter = "Winter"
 
 
+
 class User(models.Model):
     username = models.CharField(max_length=25)
     password = models.CharField(max_length=25)
@@ -41,4 +42,5 @@ class Section(models.Model):
 
     def __str__(self):
         return "%d" % self.section_num
+
 

@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.body {
+body {
     background-image: url("https://cdn.discordapp.com/attachments/1042143501023977484/1047327132994523196/background.png");
     background-size: cover;
     background-attachment: fixed;
