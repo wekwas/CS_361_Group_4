@@ -19,7 +19,7 @@ class Login(View):
         if post_password != my_password:
             return render(request, "LoginPage.html", {"message": "Incorrect password"})
         else:
-            request.session["name"] = post_username
+            request.session["session_username"] = post_username
         if UserClass.get_role(my_user) == 'Supervisor':
             return redirect("/supervisorHomepage/")
         elif UserClass.get_role(my_user) == 'Instructor':
@@ -56,26 +56,34 @@ class TAHomepage(View):
 
 class MyAccount(View):
     def get(self, request):
-        pass
+        my_user = User.objects.get(username=request.session["session_username"])
+        return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
+                                                  "full_name": UserClass.get_full_name(my_user),
+                                                  "role": UserClass.get_role(my_user),
+                                                  "email": UserClass.get_email(my_user)})
 
     def post(self, request):
-        pass
+        my_user = User.objects.get(username=request.session["session_username"])
+        return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
+                                                  "full_name": UserClass.get_full_name(my_user),
+                                                  "role": UserClass.get_role(my_user),
+                                                  "email": UserClass.get_email(my_user)})
 
 
 class ViewCourses(View):
     def get(self, request):
-        pass
+        return render(request, "viewCourses.html", {})
 
     def post(self, request):
-        pass
+        return render(request, "viewCourses.html", {})
 
 
 class ViewAllCourses(View):
     def get(self, request):
-        pass
+        return render(request, "viewAllCourses.html", {})
 
     def post(self, request):
-        pass
+        return render(request, "viewAllCourses.html", {})
 
 
 class ViewAccounts(View):
@@ -108,9 +116,9 @@ class CreateAccount(View):
 
 class CreateCourse(View):
     def get(self, request):
-        pass
+        return render(request, "CreateCourse.html", {})
 
     def post(self, request):
-        pass
+        return render(request, "CreateCourse.html", {})
 
 
