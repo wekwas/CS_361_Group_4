@@ -43,3 +43,9 @@ class Section(models.Model):
         return "%d" % self.section_num
 
 
+class Notification(models.Model):
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25)
+    time = models.TimeField()
+    date = models.DateField()
+    message = models.CharField(max_length=500)
