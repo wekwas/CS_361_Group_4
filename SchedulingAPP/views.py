@@ -6,7 +6,7 @@ from classes import UserClass, CourseClass, SectionClass
 
 class Login(View):
     def get(self, request):
-        return render(request, "Login/LoginPage.html", {})
+        return render(request, "LoginPage.html", {})
 
     def post(self, request):
         post_username = request.POST['username']
