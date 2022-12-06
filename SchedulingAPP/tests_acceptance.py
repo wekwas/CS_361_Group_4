@@ -129,3 +129,23 @@ class TestCreateAccount(TestCase):
                                                         "passwordCheck": "fake_password"}, follow=True)
         self.assertIn("Passwords don't match", response.context["message"], "message displayed incorrectly")
 
+
+class TestMyAccount(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        temp = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                    first_name="first_name_TA", last_name="last_name_TA")
+        temp.save()
+        temp = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        temp.save()
+        temp = User(username="test_user_sup", password="password_sup", role="Supervisor", email="email_sup",
+                    first_name="first_name_sup", last_name="last_name_sup")
+        temp.save()
+
+    def test_default_template(self):
+        response = self.monkey.get("/MyAccount/", follow=True)
+        self.assertTemplateUsed(response, "MyAccount.html")
+
