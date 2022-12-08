@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+
 <head>
     
-    <link href="LoginPage.css" rel ="stylesheet" type = "text/css" />
-
+<link rel="stylesheet" href="{% static 'LoginPage.css' %}">
 </head>
 <body>
 <title>Login</title>
 
     <div  class="form">
-    <h1>LOGIN</h1>
-        <form action = "/" method="post">
-            {% csrf_token %}
-    <input type="text" name="username" placeholder="Account Name">
-    <input type="password" name="password" placeholder="Password">
+        <h1>LOGIN</h1>
+            <form action = "/" method="post">
+                {% csrf_token %}
+        <input type="text" name="username" placeholder="Account Name">
+        <input type="password" name="password" placeholder="Password">
     <button type = "submit">Enter</button>
 </form>
-    
+
     <p class="link">Don't have an account?
         <br>
         Make one <a href="#">here. </a>  </br>
