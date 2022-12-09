@@ -4,8 +4,13 @@
     font-family: sans-serf
 
 }
+h1{
+    font-family: Arial;
+    text-align: center;
+}
 body{
     background-position: center;
+    background-image:url("https://cdn.discordapp.com/attachments/1042143501023977484/1047327132994523196/background.png");
     background-size: cover;
     height: 100vh;
 }
@@ -14,8 +19,7 @@ body{
     width: 250px;
     height: 340px;
     color:white;
-    background: linear-gradient(to top, rgba(42, 39, 194, 0.8)50%,rgba(42, 39, 194
-    , 0.8)50%);
+    background: rgb(129, 172, 221);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -58,18 +62,17 @@ button{
     padding: 10px;
     margin: 22px 100px;
     display: inline-block;
-    width: 50px 50px;
+    width: 50px;
 }
 a{
     color:darkred
 }
 a:hover{
-    color: rgb(rgb(218, 83, 173));
+    color: rgb(218, 83, 173);
 }
 
 .form .link{
     text-decoration:rgb(218, 83, 173)
 
 }
-
 
