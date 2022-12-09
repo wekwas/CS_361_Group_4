@@ -23,7 +23,7 @@
     <br></br>
     <h1>Create an Account: </h1>
     <div  class="form">
-    <form action = "/" method="post">
+    <form action = "/CreateAccount/" method="post">
                 {% csrf_token %}
 
         <p>
@@ -39,7 +39,7 @@
               </select>
         </p>
         <p>
-            <label for="userName">Enter a Username: </label>
+            <label for="username">Enter a Username: </label>
             <input type="text" name="username">
         </p>
     
