@@ -9,6 +9,7 @@
 
 <body>
     <nav>
+
         <ul class="navlinks">
             <li><a href="/supervisorHomepage/">Homepage</a></li>
             <li><a href="/viewCourses/">My Courses</a></li>
@@ -21,7 +22,8 @@
     <br></br>
     <h1>Create an Account:</h1>
     <div  class="form">
-
+    <form action = "/" method="post">
+                {% csrf_token %}
 
         <p>
             <label for="fullName">Enter User's Full Name: </label>
@@ -48,7 +50,7 @@
             <label for="passwordCheck">Re-type Password: </label>
             <input type="text" name="passwordCheck">
         </p>
-
+    </form>
     </div>
 
     <button> Create </button>
