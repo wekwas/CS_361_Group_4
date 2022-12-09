@@ -81,23 +81,23 @@ class TestCreateAccount(TestCase):
 
     def test_account_creation(self):
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "userName": "test_userName", "password": "test_password",
+                                                        "username": "test_username", "password": "test_password",
                                                         "passwordCheck": "test_password"}, follow=True)
         self.assertTemplateUsed(response, "CreateAccount.html")
-        self.assertTrue(UserClass.exists("test_userName"), "user not added")
+        self.assertTrue(UserClass.exists("test_username"), "user not added")
 
     def test_account_creation_message(self):
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "userName": "test_userName", "password": "test_password",
+                                                        "username": "test_username", "password": "test_password",
                                                         "passwordCheck": "test_password"}, follow=True)
         self.assertIn("User created", response.context["message"], "message displayed incorrectly")
 
     def test_new_account_data(self):
         self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                             "userName": "test_userName", "password": "test_password",
+                                             "username": "test_username", "password": "test_password",
                                              "passwordCheck": "test_password"}, follow=True)
-        test_user = User.objects.get(username="test_userName")
-        self.assertEqual(test_user.username, "test_userName", "username incorrect")
+        test_user = User.objects.get(username="test_username")
+        self.assertEqual(test_user.username, "test_username", "username incorrect")
         self.assertEqual(test_user.password, "test_password", "password incorrect")
         self.assertEqual(test_user.role, "TA", "role incorrect")
         self.assertEqual(test_user.email, " ", "email incorrect")
@@ -106,7 +106,7 @@ class TestCreateAccount(TestCase):
 
     def test_duplicate_creation(self):
         response = self.monkey.post("/CreateAccount/", {"fullName": "first_name_TA last_name_TA", "role": "TA",
-                                                        "userName": "test_user_TA", "password": "password_TA",
+                                                        "username": "test_user_TA", "password": "password_TA",
                                                         "passwordCheck": "password_TA"}, follow=True)
         self.assertTemplateUsed(response, "CreateAccount.html")
 

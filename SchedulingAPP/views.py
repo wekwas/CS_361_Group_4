@@ -101,16 +101,16 @@ class CreateAccount(View):
     def post(self, request):
         fullName = request.POST['fullName'].split()
         role = request.POST['role']
-        userName = request.POST['userName']
+        username = request.POST['username']
         password = request.POST['password']
         passwordCheck = request.POST['passwordCheck']
 
-        if UserClass.exists(userName):
+        if UserClass.exists(username):
             return render(request, "CreateAccount.html", {"message": "User already exists"})
         elif password != passwordCheck:
             return render(request, "CreateAccount.html", {"message": "Passwords don't match"})
         else:
-            UserClass.add_user(userName, password, role, " ", fullName[0], fullName[len(fullName)-1])
+            UserClass.add_user(username, password, role, " ", fullName[0], fullName[len(fullName)-1])
             return render(request, "CreateAccount.html", {"message": "User created"})
 
 
@@ -121,6 +121,7 @@ class CreateCourse(View):
     def post(self, request):
         return render(request, "CreateCourse.html", {})
 
+...
 class notification(View):
     def get(self, request):
         return render(request, "notification.html", {})
