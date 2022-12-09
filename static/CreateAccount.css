@@ -72,6 +72,11 @@ nav ul {
     color: black;
     font-style: bold;
   }
+  .form select{
+    display: table-cell;
+    font-family: arial;
+    font-size: larger;
+  }
 
   .form input{
     display: table-cell;
