@@ -121,4 +121,16 @@ class CreateCourse(View):
     def post(self, request):
         return render(request, "CreateCourse.html", {})
 
+class notification(View):
+    def get(self, request):
+        return render(request, "notification.html", {})
 
+    def post(self, request):
+        return render(request, "notification.html", {})
+
+class CreateLabSection(View):
+    def get(self, request):
+        return render(request, "CreateLabSection.html", {})
+
+    def post(self, request):
+        return render(request, "CreateLabSection.html", {})
