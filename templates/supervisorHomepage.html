@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'supervisorHomepageStyles.css' %}">
+
   <meta charset="utf-8">
   <title>Homepage</title>
   <link rel="icon" href="PLACEHOLDER.jpg" > <!--PLACEHOLDER.jpg HERE--> 
-  <link rel="stylesheet" href="supervisorHomepageStyles.css"> 
 </head>
 <body>
     <h1>Supervisor Homepage</h1>
@@ -41,14 +43,14 @@
         <tr>
             <td>
                 <div class="boxSelection">
-                    <a href="CreateCourse.html">
+                    <a href="CreateCourse.htmle.html">
                         <div class="insideBox">
                             Create Courses
                         </div>
                     </a>
             </div>
             </td>
-            
+
             <td>
                 <div class="boxSelection">
                     <a href="CreateAccount.html">
@@ -60,16 +62,33 @@
             </td>
             <td>
                 <div class="boxSelection">
-                    <a href="notification.html">
+                    <a href="CreateLabSection.html">
                         <div class="insideBox">
-                            Mailbox
+                            Create Lab Section
                         </div>
                     </a>
             </div>
             </td>
-            
-        </tr>
-        
+
+
+    </tr>
+    <tr>
+        <td>
+            <div1 class="boxSelection"></div1>
+        </td>
+        <td>
+            <div class="boxSelection">
+                <a href="notification.html">
+                    <div class="insideBox">
+                        Mailbox
+                    </div>
+                </a>
+            </div>
+        </td>
+        <td>
+            <div1 class="boxSelection"></div1>
+        </td>
+    </tr>
     </table>
     
 
