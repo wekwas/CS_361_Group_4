@@ -42,7 +42,7 @@
             <label for="username">Enter a Username: </label>
             <input type="text" name="username">
         </p>
-    
+
         <p>
             <label for="password">Choose a Password: </label>
             <input type="text" name="password">
@@ -52,6 +52,17 @@
             <input type="text" name="passwordCheck">
         </p>
         <button type="submit"> Create </button>
+
+      <div class = "response">
+          {% if message != null %}
+          <ul>
+              <li>
+                  {{ message }}
+              </li>
+          </ul>
+           {% endif %}
+      </div>
+
     </form>
     </div>
 
