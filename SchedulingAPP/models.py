@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class WeekDay(models.TextChoices):
+    Monday = " Monday "
+    Tuesday = " Tuesday "
+    Wednesday = " Wednesday "
+    Thursday = " Thursday "
+    Friday = " Friday "
+
+
 class Role(models.TextChoices):
     supervisor = "Supervisor"
     instructor = "Instructor"
@@ -28,7 +36,7 @@ class User(models.Model):
 
 class Course(models.Model):
     course_name = models.CharField(max_length=20)
-    instructor = models.CharField(max_length=50)
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
     semester = models.CharField(max_length=10, choices=Semester.choices, default=Semester.fall)
 
     def __str__(self):
@@ -37,7 +45,11 @@ class Course(models.Model):
 
 class Section(models.Model):
     section_num = models.CharField(max_length=3)
-    ta = models.CharField(max_length=50)
+    ta = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    days = models.CharField(max_length=60)
+    time_start = models.TimeField(blank=True, null=True)
+    time_end = models.TimeField(blank=True, null=True)
 
     def __str__(self):
         return "%d" % self.section_num
