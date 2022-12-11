@@ -15,7 +15,15 @@
                 {% csrf_token %}
         <input type="text" name="username" placeholder="Account Name">
         <input type="password" name="password" placeholder="Password">
-    <button type = "submit">Enter</button>
+                {% if message != null %}
+          <ul>
+              <li>
+                  {{ message }}
+              </li>
+          </ul>
+           {% endif %}
+    <button type = "submit">Log In</button>
+
 </form>
 
     <p class="link">Don't have an account?

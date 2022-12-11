@@ -2,9 +2,16 @@
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'arial', sans-serif
 }
 
+h1{
+    margin-top: 10px;
+}
 body {
+    margin: 0;
     background-image: url("https://cdn.discordapp.com/attachments/1042143501023977484/1047327132994523196/background.png");
     background-size: cover;
     background-attachment: fixed;
