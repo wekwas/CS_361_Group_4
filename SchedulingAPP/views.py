@@ -14,7 +14,7 @@ class Login(View):
         if not UserClass.exists(post_username):
             return render(request, "LoginPage.html", {"message": "Incorrect username"})
         else:
-            my_user = User.objects.get(username=post_username)
+            my_user = my_user = UserClass.get_user(post_username)
             my_password = UserClass.get_password(my_user)
         if post_password != my_password:
             return render(request, "LoginPage.html", {"message": "Incorrect password"})
@@ -32,7 +32,11 @@ class Login(View):
 
 class SupervisorHomepage(View):
     def get(self, request):
-        return render(request, "supervisorHomepage.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "supervisorHomepage.html", {"username": UserClass.get_username(my_user),
+                                                           "full_name": UserClass.get_full_name(my_user),
+                                                           "role": UserClass.get_role(my_user),
+                                                           "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "supervisorHomepage.html", {})
@@ -40,7 +44,11 @@ class SupervisorHomepage(View):
 
 class InstructorHomepage(View):
     def get(self, request):
-        return render(request, "instructorHomepage.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "instructorHomepage.html", {"username": UserClass.get_username(my_user),
+                                                           "full_name": UserClass.get_full_name(my_user),
+                                                           "role": UserClass.get_role(my_user),
+                                                           "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "instructorHomepage.html", {})
@@ -48,7 +56,11 @@ class InstructorHomepage(View):
 
 class TAHomepage(View):
     def get(self, request):
-        return render(request, "TAHomepage.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "TAHomepage.html", {"username": UserClass.get_username(my_user),
+                                                   "full_name": UserClass.get_full_name(my_user),
+                                                   "role": UserClass.get_role(my_user),
+                                                   "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "TAHomepage.html", {})
@@ -56,14 +68,14 @@ class TAHomepage(View):
 
 class MyAccount(View):
     def get(self, request):
-        my_user = User.objects.get(username=request.session["session_username"])
+        my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
                                                   "full_name": UserClass.get_full_name(my_user),
                                                   "role": UserClass.get_role(my_user),
                                                   "email": UserClass.get_email(my_user)})
 
     def post(self, request):
-        my_user = User.objects.get(username=request.session["session_username"])
+        my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
                                                   "full_name": UserClass.get_full_name(my_user),
                                                   "role": UserClass.get_role(my_user),
@@ -72,7 +84,11 @@ class MyAccount(View):
 
 class ViewCourses(View):
     def get(self, request):
-        return render(request, "viewCourses.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourses.html", {"username": UserClass.get_username(my_user),
+                                                    "full_name": UserClass.get_full_name(my_user),
+                                                    "role": UserClass.get_role(my_user),
+                                                    "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "viewCourses.html", {})
@@ -80,7 +96,11 @@ class ViewCourses(View):
 
 class ViewAllCourses(View):
     def get(self, request):
-        return render(request, "viewAllCourses.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewAllCourses.html", {"username": UserClass.get_username(my_user),
+                                                       "full_name": UserClass.get_full_name(my_user),
+                                                       "role": UserClass.get_role(my_user),
+                                                       "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "viewAllCourses.html", {})
@@ -88,7 +108,11 @@ class ViewAllCourses(View):
 
 class ViewAccounts(View):
     def get(self, request):
-        return render(request, "viewAccounts.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewAccounts.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "viewAccounts.html", {})
@@ -96,7 +120,11 @@ class ViewAccounts(View):
 
 class CreateAccount(View):
     def get(self, request):
-        return render(request, "CreateAccount.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateAccount.html", {"username": UserClass.get_username(my_user),
+                                                      "full_name": UserClass.get_full_name(my_user),
+                                                      "role": UserClass.get_role(my_user),
+                                                      "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         fullName = request.POST['fullName'].split()
@@ -116,22 +144,36 @@ class CreateAccount(View):
 
 class CreateCourse(View):
     def get(self, request):
-        return render(request, "CreateCourse.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "CreateCourse.html", {})
+
 
 ...
 class notification(View):
     def get(self, request):
-        return render(request, "notification.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "notification.html", {})
 
+
 class CreateLabSection(View):
     def get(self, request):
-        return render(request, "CreateLabSection.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
+                                                         "full_name": UserClass.get_full_name(my_user),
+                                                         "role": UserClass.get_role(my_user),
+                                                         "email": UserClass.get_email(my_user)})
 
     def post(self, request):
         return render(request, "CreateLabSection.html", {})
