@@ -1,6 +1,10 @@
 from SchedulingAPP.models import User, Role
 
 
+def get_user(username):
+    User.objects.get(username=username)
+
+
 def get_username(user):
     return user.username
 
@@ -10,6 +14,8 @@ def set_username(user, new_username):
         raise Exception("New username is null")
     elif len(new_username) > 25:
         raise Exception("New username is > 25")
+    elif exists(new_username):
+        raise Exception("User already exists")
     else:
         user.username = new_username
 
@@ -83,34 +89,36 @@ def get_full_name(user):
     return user.__str__
 
 
+def get_courses(user):
+    return user.Course.all()
+
+
+def get_sections(user):
+    return user.Section.all()
+
+
 def exists(username):
     try:
-        User.objects.get(username=username)
+        get_user(username)
         return True
     except:
         return False
 
 
 def add_user(username, password, role, email, first_name, last_name):
-    if exists(username):
-        raise Exception("Username already exists")
-    else:
-        new_user = User(username=" ", password=" ", email=" ", first_name=" ", last_name=" ")
-        try:
-            set_username(new_user, username)
-            set_password(new_user, password)
-            set_role(new_user, role)
-            set_email(new_user, email)
-            set_first_name(new_user, first_name)
-            set_last_name(new_user, last_name)
-            new_user.save()
-        except:
-            return Exception("Incorrect data")
+    new_user = User(username=" ", password=" ", email=" ", first_name=" ", last_name=" ")
+    try:
+        set_username(new_user, username)
+        set_password(new_user, password)
+        set_role(new_user, role)
+        set_email(new_user, email)
+        set_first_name(new_user, first_name)
+        set_last_name(new_user, last_name)
+        new_user.save()
+    except Exception as e:
+        raise Exception(str(e))
 
 
-def delete_user(username):
-    if exists(username):
-        User.objects.get(username=username).delete()
-    else:
-        raise Exception("Username doesn't exists")
+def delete_user(user):
+    user.delete()
 

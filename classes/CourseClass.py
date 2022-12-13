@@ -1,4 +1,9 @@
 from SchedulingAPP.models import Course, Semester
+from classes import UserClass
+
+
+def get_course(course_name):
+    return Course.objects.get(course_name=course_name)
 
 
 def get_course_name(course):
@@ -19,10 +24,10 @@ def get_instructor(course):
 
 
 def set_instructor(course, new_instructor):
-    if new_instructor is None:
-        raise Exception
-    elif len(new_instructor) > 50:
-        raise Exception
+    if not UserClass.exists(new_instructor):
+        raise Exception("User doesn't exist")
+    elif UserClass.get_role(new_instructor) != "Instructor":
+        raise Exception("User not Instructor")
     else:
         course.instructor = new_instructor
 
@@ -43,29 +48,25 @@ def set_semester(course, new_semester):
 
 def exists(course_name):
     try:
-        Course.objects.get(course_name=course_name)
+        get_course(course_name)
         return True
     except:
         return False
 
 
 def add_course(course_name, instructor, semester):
-    if exists(course_name):
-        raise Exception("Course already exists")
-    else:
-        new_course = Course(course_name=" ", instructor=" ")
-        try:
-            set_course_name(new_course, course_name)
-            set_instructor(new_course, instructor)
-            set_semester(new_course, semester)
-            new_course.save()
-        except:
-            return Exception("Incorrect data")
+    if not UserClass.exists(instructor):
+        raise Exception("User doesn't exist")
+    new_course = Course(course_name=" ", instructor=instructor)
+    try:
+        set_course_name(new_course, course_name)
+        set_instructor(new_course, instructor)
+        set_semester(new_course, semester)
+        new_course.save()
+    except Exception as e:
+        return Exception(str(e))
 
 
-def delete_course(course_name):
-    if exists(course_name):
-        Course.objects.get(course_name=course_name).delete()
-    else:
-        raise Exception("Course doesn't exists")
+def delete_course(course):
+    course.delete()
 
