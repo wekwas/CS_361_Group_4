@@ -22,13 +22,17 @@
     <!--div class="homelink"><a href="/">Homepage</a></div-->
     </h1>
     <br></br>
+    <form action = "/MyAccount/" method = "get">
+        <div><a class="field">Username: </a>{{ username }}</div>
+        <div><a class="field">Full Name: </a> {{ full_name}}</div>
+        <div><a class="field">Role: </a>{{ role }}</div>
+        <div><a class="field">Contact Information: </a>{{ email }}</div>
+        <div><a class="field">Courses: </a>N/A</div>
+    </form>
     <!--Get user information-->
-        <div><a class="field">Username: </a>JohnSmith29</div>
-        <div><a class="field">Full Name: </a> John Q. Smith</div>
-        <div><a class="field">Role: </a>Supervisor</div>
-        <div><a class="field">Contact Information: </a>JohnSmith29@uwm.edu</div>
+
     <!--For professors and TAs only-->
-    <div><a class="field">Courses: </a>N/A</div>
+
     <br></br>
     <button>Edit Information</button>
 

@@ -9,7 +9,9 @@
   <link rel="icon" href="PLACEHOLDER.jpg" > <!--PLACEHOLDER.jpg HERE--> 
 </head>
 <body>
-    <h1>Supervisor Homepage</h1>
+<form action = "/MyAccount/" method = "get">
+    <h1> {{ role }} Homepage</h1>
+
     <table>
         <tr>
             <td>
@@ -41,6 +43,7 @@
             </td>
         </tr>
         <tr>
+            {% if role == sdafdfdf %}
             <td>
                 <div class="boxSelection">
                     <a href="/CreateCourse/">
@@ -50,7 +53,7 @@
                     </a>
             </div>
             </td>
-
+{% endif %}
             <td>
                 <div class="boxSelection">
                     <a href="/CreateAccount/">
@@ -91,6 +94,6 @@
     </tr>
     </table>
     
-
+</form>
 </body>
 </html>
