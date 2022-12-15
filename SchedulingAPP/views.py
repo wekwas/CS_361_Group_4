@@ -14,7 +14,7 @@ class Login(View):
         if not UserClass.exists(post_username):
             return render(request, "LoginPage.html", {"message": "Incorrect username"})
         else:
-            my_user = my_user = UserClass.get_user(post_username)
+            my_user = UserClass.get_user(post_username)
             my_password = UserClass.get_password(my_user)
         if post_password != my_password:
             return render(request, "LoginPage.html", {"message": "Incorrect password"})
@@ -36,10 +36,18 @@ class SupervisorHomepage(View):
         return render(request, "supervisorHomepage.html", {"username": UserClass.get_username(my_user),
                                                            "full_name": UserClass.get_full_name(my_user),
                                                            "role": UserClass.get_role(my_user),
-                                                           "email": UserClass.get_email(my_user)})
+                                                           "email": UserClass.get_email(my_user),
+                                                           "courses": UserClass.get_courses(my_user),
+                                                           "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "supervisorHomepage.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "supervisorHomepage.html", {"username": UserClass.get_username(my_user),
+                                                           "full_name": UserClass.get_full_name(my_user),
+                                                           "role": UserClass.get_role(my_user),
+                                                           "email": UserClass.get_email(my_user),
+                                                           "courses": UserClass.get_courses(my_user),
+                                                           "sections": UserClass.get_sections(my_user)})
 
 
 class InstructorHomepage(View):
@@ -48,10 +56,18 @@ class InstructorHomepage(View):
         return render(request, "instructorHomepage.html", {"username": UserClass.get_username(my_user),
                                                            "full_name": UserClass.get_full_name(my_user),
                                                            "role": UserClass.get_role(my_user),
-                                                           "email": UserClass.get_email(my_user)})
+                                                           "email": UserClass.get_email(my_user),
+                                                           "courses": UserClass.get_courses(my_user),
+                                                           "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "instructorHomepage.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "instructorHomepage.html", {"username": UserClass.get_username(my_user),
+                                                           "full_name": UserClass.get_full_name(my_user),
+                                                           "role": UserClass.get_role(my_user),
+                                                           "email": UserClass.get_email(my_user),
+                                                           "courses": UserClass.get_courses(my_user),
+                                                           "sections": UserClass.get_sections(my_user)})
 
 
 class TAHomepage(View):
@@ -60,10 +76,18 @@ class TAHomepage(View):
         return render(request, "TAHomepage.html", {"username": UserClass.get_username(my_user),
                                                    "full_name": UserClass.get_full_name(my_user),
                                                    "role": UserClass.get_role(my_user),
-                                                   "email": UserClass.get_email(my_user)})
+                                                   "email": UserClass.get_email(my_user),
+                                                   "courses": UserClass.get_courses(my_user),
+                                                   "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "TAHomepage.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "TAHomepage.html", {"username": UserClass.get_username(my_user),
+                                                   "full_name": UserClass.get_full_name(my_user),
+                                                   "role": UserClass.get_role(my_user),
+                                                   "email": UserClass.get_email(my_user),
+                                                   "courses": UserClass.get_courses(my_user),
+                                                   "sections": UserClass.get_sections(my_user)})
 
 
 class MyAccount(View):
@@ -72,14 +96,18 @@ class MyAccount(View):
         return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
                                                   "full_name": UserClass.get_full_name(my_user),
                                                   "role": UserClass.get_role(my_user),
-                                                  "email": UserClass.get_email(my_user)})
+                                                  "email": UserClass.get_email(my_user),
+                                                  "courses": UserClass.get_courses(my_user),
+                                                  "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
                                                   "full_name": UserClass.get_full_name(my_user),
                                                   "role": UserClass.get_role(my_user),
-                                                  "email": UserClass.get_email(my_user)})
+                                                  "email": UserClass.get_email(my_user),
+                                                  "courses": UserClass.get_courses(my_user),
+                                                  "sections": UserClass.get_sections(my_user)})
 
 
 class ViewCourses(View):
@@ -88,10 +116,18 @@ class ViewCourses(View):
         return render(request, "viewCourses.html", {"username": UserClass.get_username(my_user),
                                                     "full_name": UserClass.get_full_name(my_user),
                                                     "role": UserClass.get_role(my_user),
-                                                    "email": UserClass.get_email(my_user)})
+                                                    "email": UserClass.get_email(my_user),
+                                                    "courses": UserClass.get_courses(my_user),
+                                                    "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "viewCourses.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourses.html", {"username": UserClass.get_username(my_user),
+                                                    "full_name": UserClass.get_full_name(my_user),
+                                                    "role": UserClass.get_role(my_user),
+                                                    "email": UserClass.get_email(my_user),
+                                                    "courses": UserClass.get_courses(my_user),
+                                                    "sections": UserClass.get_sections(my_user)})
 
 
 class ViewAllCourses(View):
@@ -100,10 +136,18 @@ class ViewAllCourses(View):
         return render(request, "viewAllCourses.html", {"username": UserClass.get_username(my_user),
                                                        "full_name": UserClass.get_full_name(my_user),
                                                        "role": UserClass.get_role(my_user),
-                                                       "email": UserClass.get_email(my_user)})
+                                                       "email": UserClass.get_email(my_user),
+                                                       "courses": UserClass.get_courses(my_user),
+                                                       "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "viewAllCourses.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewAllCourses.html", {"username": UserClass.get_username(my_user),
+                                                       "full_name": UserClass.get_full_name(my_user),
+                                                       "role": UserClass.get_role(my_user),
+                                                       "email": UserClass.get_email(my_user),
+                                                       "courses": UserClass.get_courses(my_user),
+                                                       "sections": UserClass.get_sections(my_user)})
 
 
 class ViewAccounts(View):
@@ -112,10 +156,18 @@ class ViewAccounts(View):
         return render(request, "viewAccounts.html", {"username": UserClass.get_username(my_user),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user)})
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "viewAccounts.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewAccounts.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
 
 class CreateAccount(View):
@@ -124,7 +176,9 @@ class CreateAccount(View):
         return render(request, "CreateAccount.html", {"username": UserClass.get_username(my_user),
                                                       "full_name": UserClass.get_full_name(my_user),
                                                       "role": UserClass.get_role(my_user),
-                                                      "email": UserClass.get_email(my_user)})
+                                                      "email": UserClass.get_email(my_user),
+                                                      "courses": UserClass.get_courses(my_user),
+                                                      "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
         fullName = request.POST['fullName'].split()
@@ -148,10 +202,18 @@ class CreateCourse(View):
         return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user)})
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "CreateCourse.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
 
 ...
@@ -161,10 +223,18 @@ class notification(View):
         return render(request, "notification.html", {"username": UserClass.get_username(my_user),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user)})
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "notification.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
 
 class CreateLabSection(View):
@@ -173,7 +243,15 @@ class CreateLabSection(View):
         return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
                                                          "full_name": UserClass.get_full_name(my_user),
                                                          "role": UserClass.get_role(my_user),
-                                                         "email": UserClass.get_email(my_user)})
+                                                         "email": UserClass.get_email(my_user),
+                                                         "courses": UserClass.get_courses(my_user),
+                                                         "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        return render(request, "CreateLabSection.html", {})
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
+                                                         "full_name": UserClass.get_full_name(my_user),
+                                                         "role": UserClass.get_role(my_user),
+                                                         "email": UserClass.get_email(my_user),
+                                                         "courses": UserClass.get_courses(my_user),
+                                                         "sections": UserClass.get_sections(my_user)})
