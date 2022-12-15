@@ -2,7 +2,7 @@ from SchedulingAPP.models import User, Role
 
 
 def get_user(username):
-    User.objects.get(username=username)
+    return User.objects.get(username=username)
 
 
 def get_username(user):
@@ -90,11 +90,11 @@ def get_full_name(user):
 
 
 def get_courses(user):
-    return user.Course.all()
+    return user.course_set.all()
 
 
 def get_sections(user):
-    return user.Section.all()
+    return user.section_set.all()
 
 
 def exists(username):

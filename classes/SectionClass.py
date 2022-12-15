@@ -91,23 +91,25 @@ def set_time_end(section, new_time):
 
 def exists(section_num):
     try:
-        Section.objects.get(section_num=section_num)
+        get_section(section_num)
         return True
     except:
         return False
 
 
-def add_section(section_num, ta):
-    if exists(section_num):
-        raise Exception("Section already exists")
-    else:
-        new_section = Section(section_num=" ", ta=" ")
-        try:
-            set_section_num(new_section, section_num)
-            set_ta(new_section, ta)
-            new_section.save()
-        except:
-            return Exception("Incorrect data")
+def add_section(section_num, ta, course, days, time_start, time_end):
+    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59")
+    try:
+        set_section_num(new_section, section_num)
+        set_ta(new_section, ta)
+        set_course(new_section, course)
+        for i in days.split():
+            add_day(new_section, i)
+        set_time_start(new_section, time_start)
+        set_time_end(new_section, time_end)
+        new_section.save()
+    except Exception as e:
+        return Exception(str(e))
 
 
 def delete_section(section_num):
