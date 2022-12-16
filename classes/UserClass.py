@@ -11,11 +11,11 @@ def get_username(user):
 
 def set_username(user, new_username):
     if new_username is None:
-        raise Exception("New username is null")
+        raise Exception("Username is null")
     elif len(new_username) > 25:
-        raise Exception("New username is > 25")
+        raise Exception("Username is > 25")
     elif exists(new_username):
-        raise Exception("User already exists")
+        raise Exception("Username already exists")
     else:
         user.username = new_username
 
@@ -26,9 +26,9 @@ def get_password(user):
 
 def set_password(user, new_password):
     if new_password is None:
-        raise Exception("New password is null")
+        raise Exception("Password is null")
     elif len(new_password) > 25:
-        raise Exception("New password is > 25")
+        raise Exception("Password is too long")
     else:
         user.password = new_password
 
@@ -39,9 +39,9 @@ def get_role(user):
 
 def set_role(user, new_role):
     if new_role is None:
-        raise Exception("New role is null")
+        raise Exception("Role is null")
     elif new_role != Role.supervisor and new_role != Role.instructor and new_role != Role.ta:
-        raise Exception("New role isn't TA, instructor, or supervisor")
+        raise Exception("Role not valid")
     else:
         user.role = new_role
 
@@ -52,9 +52,9 @@ def get_email(user):
 
 def set_email(user, new_email):
     if new_email is None:
-        raise Exception("New email is null")
+        raise Exception("Email is null")
     elif len(new_email) > 40:
-        raise Exception("New email is > 40")
+        raise Exception("Email is too long")
     else:
         user.email = new_email
 
@@ -65,9 +65,9 @@ def get_first_name(user):
 
 def set_first_name(user, new_first_name):
     if new_first_name is None:
-        raise Exception("New first_name is null")
+        raise Exception("First name is null")
     elif len(new_first_name) > 25:
-        raise Exception("New first_name is > 25")
+        raise Exception("First name is too long")
     else:
         user.first_name = new_first_name
 
@@ -78,9 +78,9 @@ def get_last_name(user):
 
 def set_last_name(user, new_last_name):
     if new_last_name is None:
-        raise Exception("New last_name is null")
+        raise Exception("First name is null")
     elif len(new_last_name) > 25:
-        raise Exception("New last_name is > 25")
+        raise Exception("First name is too long")
     else:
         user.last_name = new_last_name
 
@@ -95,6 +95,13 @@ def get_courses(user):
 
 def get_sections(user):
     return user.section_set.all()
+
+
+def password_check(password, check):
+    if password == check:
+        return True
+    else:
+        return False
 
 
 def exists(username):
@@ -120,5 +127,8 @@ def add_user(username, password, role, email, first_name, last_name):
 
 
 def delete_user(user):
-    user.delete()
+    try:
+        user.delete()
+    except:
+        raise Exception("User doesn't exist")
 

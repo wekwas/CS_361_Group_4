@@ -13,11 +13,11 @@ def get_section_num(section):
 
 def set_section_num(section, new_section_num):
     if new_section_num is None:
-        raise Exception
+        raise Exception("Section number is null")
     elif not new_section_num.isdigit():
-        raise Exception
+        raise Exception("Section number not a number")
     elif len(new_section_num) > 3:
-        raise Exception
+        raise Exception("Section number too large")
     else:
         section.section_num = new_section_num
 
@@ -28,7 +28,7 @@ def get_ta(section):
 
 def set_ta(section, new_ta):
     if not UserClass.exists(new_ta):
-        raise Exception("User doesn't exist")
+        raise Exception("TA doesn't exist")
     elif UserClass.get_role(new_ta) != "TA":
         raise Exception("User not TA")
     else:
@@ -56,7 +56,7 @@ def get_days_list(section):
 
 def add_day(section, new_day):
     if new_day != WeekDay:
-        raise Exception("new_day not a WeekDay")
+        raise Exception("Day not a WeekDay")
     elif new_day in get_days_list(section):
         return
     else:
@@ -69,9 +69,9 @@ def get_time_start(section):
 
 def set_time_start(section, new_time):
     if new_time != models.TimeField:
-        raise Exception("new_time not a TimeField")
+        raise Exception("Start time not valid")
     elif new_time > section.time_end:
-        raise Exception("new_time > time_end")
+        raise Exception("Start time > End time")
     else:
         section.time_start = new_time
 
@@ -82,9 +82,9 @@ def get_time_end(section):
 
 def set_time_end(section, new_time):
     if new_time != models.TimeField:
-        raise Exception("new_time not a TimeField")
+        raise Exception("End time not valid")
     elif new_time < section.time_start:
-        raise Exception("new_time < time_start")
+        raise Exception("End time < Start time")
     else:
         section.time_end = new_time
 
@@ -112,8 +112,8 @@ def add_section(section_num, ta, course, days, time_start, time_end):
         return Exception(str(e))
 
 
-def delete_section(section_num):
-    if exists(section_num):
-        Section.objects.get(section_num=section_num).delete()
-    else:
-        raise Exception("Section doesn't exists")
+def delete_section(section):
+    try:
+        section.delete()
+    except:
+        raise Exception("Section doesn't exist")

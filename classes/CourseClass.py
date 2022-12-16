@@ -13,9 +13,9 @@ def get_course_name(course):
 
 def set_course_name(course, new_course_name):
     if new_course_name is None:
-        raise Exception
+        raise Exception("Course name is null")
     elif len(new_course_name) > 20:
-        raise Exception
+        raise Exception("Course name too long")
     else:
         course.course_name = new_course_name
 
@@ -26,7 +26,7 @@ def get_instructor(course):
 
 def set_instructor(course, new_instructor):
     if not UserClass.exists(new_instructor):
-        raise Exception("User doesn't exist")
+        raise Exception("Instructor doesn't exist")
     elif UserClass.get_role(new_instructor) != "Instructor":
         raise Exception("User not Instructor")
     else:
@@ -39,10 +39,10 @@ def get_semester(course):
 
 def set_semester(course, new_semester):
     if new_semester is None:
-        raise Exception
+        raise Exception("Semester is null")
     elif new_semester != Semester.spring and new_semester != Semester.summer and new_semester != Semester.fall and \
             new_semester != Semester.winter:
-        raise Exception
+        raise Exception("Semester not valid")
     else:
         course.semester = new_semester
 
@@ -57,7 +57,7 @@ def get_days_list(course):
 
 def add_day(course, new_day):
     if new_day != WeekDay:
-        raise Exception("new_day not a WeekDay")
+        raise Exception("Day not a WeekDay")
     elif new_day in get_days_list(course):
         return
     else:
@@ -70,9 +70,9 @@ def get_time_start(course):
 
 def set_time_start(course, new_time):
     if new_time != models.TimeField:
-        raise Exception("new_time not a TimeField")
+        raise Exception("Start time not valid")
     elif new_time > course.time_end:
-        raise Exception("new_time > time_end")
+        raise Exception("Start time > End time")
     else:
         course.time_start = new_time
 
@@ -83,9 +83,9 @@ def get_time_end(course):
 
 def set_time_end(course, new_time):
     if new_time != models.TimeField:
-        raise Exception("new_time not a TimeField")
+        raise Exception("End time not valid")
     elif new_time < course.time_start:
-        raise Exception("new_time < time_start")
+        raise Exception("End time < Start time")
     else:
         course.time_end = new_time
 
@@ -114,5 +114,8 @@ def add_course(course_name, instructor, semester, days, time_start, time_end):
 
 
 def delete_course(course):
-    course.delete()
+    try:
+        course.delete()
+    except:
+        raise Exception("Course doesn't exist")
 
