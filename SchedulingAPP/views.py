@@ -16,7 +16,7 @@ class Login(View):
         else:
             my_user = UserClass.get_user(post_username)
             my_password = UserClass.get_password(my_user)
-        if post_password != my_password:
+        if not UserClass.password_check(post_password, my_password):
             return render(request, "LoginPage.html", {"message": "Incorrect password"})
         else:
             request.session["session_username"] = post_username
@@ -147,7 +147,8 @@ class ViewAllCourses(View):
                                                        "role": UserClass.get_role(my_user),
                                                        "email": UserClass.get_email(my_user),
                                                        "courses": UserClass.get_courses(my_user),
-                                                       "sections": UserClass.get_sections(my_user)})
+                                                       "sections": UserClass.get_sections(my_user),
+                                                       "all_courses": Course.objects.get()})
 
 
 class ViewAccounts(View):
@@ -167,7 +168,11 @@ class ViewAccounts(View):
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
                                                      "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                     "sections": UserClass.get_sections(my_user),
+                                                     "all_accounts": User.objects.get(),
+                                                     "all_tas": User.objects.get(role="TA"),
+                                                     "all_instructors": User.objects.get(role="Instructor"),
+                                                     "all_supervisors": User.objects.get(role="Supervisor")})
 
 
 class CreateAccount(View):
@@ -181,18 +186,19 @@ class CreateAccount(View):
                                                       "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
-        fullName = request.POST['fullName'].split()
+        full_name = request.POST['fullName'].split()
         role = request.POST['role']
         username = request.POST['username']
         password = request.POST['password']
-        passwordCheck = request.POST['passwordCheck']
+        password_check = request.POST['passwordCheck']
 
-        if UserClass.exists(username):
-            return render(request, "CreateAccount.html", {"message": "User already exists"})
-        elif password != passwordCheck:
+        if not UserClass.password_check(password, password_check):
             return render(request, "CreateAccount.html", {"message": "Passwords don't match"})
         else:
-            UserClass.add_user(username, password, role, " ", fullName[0], fullName[len(fullName)-1])
+            try:
+                UserClass.add_user(username, password, role, " ", full_name[0], full_name[len(full_name)-1])
+            except Exception as e:
+                return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created"})
 
 
@@ -208,7 +214,18 @@ class CreateCourse(View):
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+        course_name = request.POST["course_name"]
+        instructor = request.POST["instructor"]
+        semester = request.POST["semester"]
+        days = request.POST["days"]
+        time_start = request.POST["time_start"]
+        time_end = request.POST["time_end"]
+        try:
+            CourseClass.add_course(course_name, instructor, semester, days, time_start, time_end)
+        except Exception as e:
+            return render(request, "CreateCourse.html", {"message": str(e)})
+        return render(request, "CreateCourse.html", {"message": "Course created",
+                                                     "username": UserClass.get_username(my_user),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
@@ -249,7 +266,18 @@ class CreateLabSection(View):
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
+        section_num = request.POST["section_num"]
+        ta = request.POST["ta"]
+        course = request.POST["course"]
+        days = request.POST["days"]
+        time_start = request.POST["time_start"]
+        time_end = request.POST["time_end"]
+        try:
+            SectionClass.add_section(section_num, ta, course, days, time_start, time_end)
+        except Exception as e:
+            return render(request, "CreateLabSection.html", {"message": str(e)})
+        return render(request, "CreateLabSection.html", {"message": "Section created",
+                                                         "username": UserClass.get_username(my_user),
                                                          "full_name": UserClass.get_full_name(my_user),
                                                          "role": UserClass.get_role(my_user),
                                                          "email": UserClass.get_email(my_user),
