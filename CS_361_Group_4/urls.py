@@ -28,9 +28,9 @@ urlpatterns = [
     path('viewAllCourses/', ViewAllCourses.as_view()),
     path('viewAccounts/', ViewAccounts.as_view()),
     path('CreateAccount/', CreateAccount.as_view()),
-    path('CreateCourse/', CreateCourse.as_view()),
     path('notification/', notification.as_view()),
     path('CreateLabSection/', CreateLabSection.as_view()),
+    path('newnotification/', NewNotification.as_view()),
 
 
 

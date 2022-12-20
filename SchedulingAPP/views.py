@@ -201,8 +201,12 @@ class CreateAccount(View):
                 return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created"})
 
-
-class CreateCourse(View):
+class CreateNotification(View):
+    def post(self, request):
+        name = request.POST['Name'].split()
+        role = request.POST['role']
+        message = request.POST['message']
+class NewNotification(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
