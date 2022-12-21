@@ -225,3 +225,36 @@ class CreateLabSection(View):
                                                          "email": UserClass.get_email(my_user),
                                                          "courses": UserClass.get_courses(my_user),
                                                          "sections": UserClass.get_sections(my_user)})
+    class CreateCourse(View):
+    def get(self, request):
+        instlist = User.objects.filter(role='Instructor').values()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user),
+                                                     "Instructors": instlist,})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        course_name = request.POST["course_name"]
+        instructorName = request.POST["instructor"]
+        semester = request.POST["semester"]
+        days = request.POST["days"]
+        time_start = request.POST["time_start"]
+        time_end = request.POST["time_end"]
+        location = request.POST["location"]
+        instructor = UserClass.get_user(instructorName)
+        try:
+            CourseClass.add_course(course_name, instructor, semester, days, time_start, time_end, location)
+        except Exception as e:
+            return render(request, "CreateCourse.html", {"message": str(e)})
+        return render(request, "CreateCourse.html", {"message": "Course created",
+                                                     "username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
+
