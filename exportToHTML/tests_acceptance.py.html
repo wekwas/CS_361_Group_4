@@ -1,0 +1,170 @@
+<html>
+<head>
+<title>tests_acceptance.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+tests_acceptance.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">django.test </span><span class="s0">import </span><span class="s1">TestCase</span><span class="s0">, </span><span class="s1">Client</span>
+<span class="s0">from </span><span class="s1">.models </span><span class="s0">import </span><span class="s1">User</span><span class="s0">, </span><span class="s1">Course</span><span class="s0">, </span><span class="s1">Section</span>
+<span class="s0">from </span><span class="s1">classes </span><span class="s0">import </span><span class="s1">UserClass</span><span class="s0">, </span><span class="s1">CourseClass</span><span class="s0">, </span><span class="s1">SectionClass</span>
+
+
+<span class="s0">class </span><span class="s1">TestLogin(TestCase):</span>
+    <span class="s1">monkey = </span><span class="s0">None</span>
+
+    <span class="s0">def </span><span class="s1">setUp(self):</span>
+        <span class="s1">self.monkey = Client()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_TA&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;TA&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_TA&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_TA&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_TA&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_inst&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_inst&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;Instructor&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_inst&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_inst&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_inst&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_sup&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_sup&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;Supervisor&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_sup&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_sup&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_sup&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+
+    <span class="s0">def </span><span class="s1">test_nonexistent_user_login(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_username&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;LoginPage.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_nonexistent_user_message(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_username&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;LoginPage.html&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertIn(</span><span class="s2">&quot;Incorrect username&quot;</span><span class="s0">, </span><span class="s1">response.context[</span><span class="s2">&quot;message&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s2">&quot;message displayed incorrectly with &quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_bad_password_login(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;LoginPage.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_bad_password_message(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertIn(</span><span class="s2">&quot;Incorrect password&quot;</span><span class="s0">, </span><span class="s1">response.context[</span><span class="s2">&quot;message&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s2">&quot;message displayed incorrectly&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_ta_login(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_TA&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertRedirects(response</span><span class="s0">, </span><span class="s2">&quot;/TAHomepage/&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_ta_login_template(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_TA&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;TAHomepage.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_instructor_login(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_inst&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_inst&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertRedirects(response</span><span class="s0">, </span><span class="s2">&quot;/instructorHomepage/&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_instructor_login_template(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_inst&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_inst&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;instructorHomepage.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_supervisor_login(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_sup&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_sup&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertRedirects(response</span><span class="s0">, </span><span class="s2">&quot;/supervisorHomepage/&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_supervisor_login_template(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;username&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_sup&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_sup&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;supervisorHomepage.html&quot;</span><span class="s1">)</span>
+
+
+<span class="s0">class </span><span class="s1">TestCreateAccount(TestCase):</span>
+    <span class="s1">monkey = </span><span class="s0">None</span>
+
+    <span class="s0">def </span><span class="s1">setUp(self):</span>
+        <span class="s1">self.monkey = Client()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_TA&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;TA&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_TA&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_TA&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_TA&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_inst&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_inst&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;Instructor&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_inst&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_inst&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_inst&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_sup&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_sup&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;Supervisor&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_sup&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_sup&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_sup&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+
+    <span class="s0">def </span><span class="s1">test_default_template(self):</span>
+        <span class="s1">response = self.monkey.get(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;CreateAccount.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_account_creation(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_first_name test_last_name&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_userName&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;CreateAccount.html&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertTrue(UserClass.exists(</span><span class="s2">&quot;test_userName&quot;</span><span class="s1">)</span><span class="s0">, </span><span class="s2">&quot;user not added&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_account_creation_message(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_first_name test_last_name&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_userName&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertIn(</span><span class="s2">&quot;User created&quot;</span><span class="s0">, </span><span class="s1">response.context[</span><span class="s2">&quot;message&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s2">&quot;message displayed incorrectly&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_new_account_data(self):</span>
+        <span class="s1">self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_first_name test_last_name&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                             <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_userName&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s0">,</span>
+                                             <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">test_user = User.objects.get(username=</span><span class="s2">&quot;test_userName&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertEqual(test_user.username</span><span class="s0">, </span><span class="s2">&quot;test_userName&quot;</span><span class="s0">, </span><span class="s2">&quot;username incorrect&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertEqual(test_user.password</span><span class="s0">, </span><span class="s2">&quot;test_password&quot;</span><span class="s0">, </span><span class="s2">&quot;password incorrect&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertEqual(test_user.role</span><span class="s0">, </span><span class="s2">&quot;TA&quot;</span><span class="s0">, </span><span class="s2">&quot;role incorrect&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertEqual(test_user.email</span><span class="s0">, </span><span class="s2">&quot; &quot;</span><span class="s0">, </span><span class="s2">&quot;email incorrect&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertEqual(test_user.first_name</span><span class="s0">, </span><span class="s2">&quot;test_first_name&quot;</span><span class="s0">, </span><span class="s2">&quot;first_name incorrect&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertEqual(test_user.last_name</span><span class="s0">, </span><span class="s2">&quot;test_last_name&quot;</span><span class="s0">, </span><span class="s2">&quot;last_name incorrect&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_duplicate_creation(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;first_name_TA last_name_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;password_TA&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;CreateAccount.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_duplicate_creation_message(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;first_name_TA last_name_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;password_TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;password_TA&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertIn(</span><span class="s2">&quot;User already exists&quot;</span><span class="s0">, </span><span class="s1">response.context[</span><span class="s2">&quot;message&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s2">&quot;message displayed incorrectly&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_bad_password(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_first_name test_last_name&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_userName&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertFalse(UserClass.exists(</span><span class="s2">&quot;test_userName&quot;</span><span class="s1">)</span><span class="s0">, </span><span class="s2">&quot;user added&quot;</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;CreateAccount.html&quot;</span><span class="s1">)</span>
+
+    <span class="s0">def </span><span class="s1">test_bad_password_message(self):</span>
+        <span class="s1">response = self.monkey.post(</span><span class="s2">&quot;/CreateAccount/&quot;</span><span class="s0">, </span><span class="s1">{</span><span class="s2">&quot;fullName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_first_name test_last_name&quot;</span><span class="s0">, </span><span class="s2">&quot;role&quot;</span><span class="s1">: </span><span class="s2">&quot;TA&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;userName&quot;</span><span class="s1">: </span><span class="s2">&quot;test_userName&quot;</span><span class="s0">, </span><span class="s2">&quot;password&quot;</span><span class="s1">: </span><span class="s2">&quot;test_password&quot;</span><span class="s0">,</span>
+                                                        <span class="s2">&quot;passwordCheck&quot;</span><span class="s1">: </span><span class="s2">&quot;fake_password&quot;</span><span class="s1">}</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertIn(</span><span class="s2">&quot;Passwords don't match&quot;</span><span class="s0">, </span><span class="s1">response.context[</span><span class="s2">&quot;message&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s2">&quot;message displayed incorrectly&quot;</span><span class="s1">)</span>
+
+
+<span class="s0">class </span><span class="s1">TestMyAccount(TestCase):</span>
+    <span class="s1">monkey = </span><span class="s0">None</span>
+
+    <span class="s0">def </span><span class="s1">setUp(self):</span>
+        <span class="s1">self.monkey = Client()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_TA&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_TA&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;TA&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_TA&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_TA&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_TA&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_inst&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_inst&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;Instructor&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_inst&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_inst&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_inst&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+        <span class="s1">temp = User(username=</span><span class="s2">&quot;test_user_sup&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s2">&quot;password_sup&quot;</span><span class="s0">, </span><span class="s1">role=</span><span class="s2">&quot;Supervisor&quot;</span><span class="s0">, </span><span class="s1">email=</span><span class="s2">&quot;email_sup&quot;</span><span class="s0">,</span>
+                    <span class="s1">first_name=</span><span class="s2">&quot;first_name_sup&quot;</span><span class="s0">, </span><span class="s1">last_name=</span><span class="s2">&quot;last_name_sup&quot;</span><span class="s1">)</span>
+        <span class="s1">temp.save()</span>
+
+    <span class="s0">def </span><span class="s1">test_default_template(self):</span>
+        <span class="s1">response = self.monkey.get(</span><span class="s2">&quot;/MyAccount/&quot;</span><span class="s0">, </span><span class="s1">follow=</span><span class="s0">True</span><span class="s1">)</span>
+        <span class="s1">self.assertTemplateUsed(response</span><span class="s0">, </span><span class="s2">&quot;MyAccount.html&quot;</span><span class="s1">)</span>
+
+</pre>
+</body>
+</html>
