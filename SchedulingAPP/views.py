@@ -198,24 +198,32 @@ class notification(View):
 
 class CreateLabSection(View):
     def get(self, request):
+        talist = User.objects.filter(role='TA').values()
+        courselist = Course.objects.values()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
                                                          "full_name": UserClass.get_full_name(my_user),
                                                          "role": UserClass.get_role(my_user),
                                                          "email": UserClass.get_email(my_user),
                                                          "courses": UserClass.get_courses(my_user),
-                                                         "sections": UserClass.get_sections(my_user)})
+                                                         "sections": UserClass.get_sections(my_user),
+                                                         "talist": talist,
+                                                         "courses": courselist})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         section_num = request.POST["section_num"]
-        ta = request.POST["ta"]
-        course = request.POST["course"]
+        taname = request.POST["ta"]
+        coursename = request.POST["course"]
         days = request.POST["days"]
         time_start = request.POST["time_start"]
         time_end = request.POST["time_end"]
+        location = request.POST["location"]
+        ta = UserClass.get_user(taname)
+        course = CourseClass.get_course(coursename)
+
         try:
-            SectionClass.add_section(section_num, ta, course, days, time_start, time_end)
+            SectionClass.add_section(section_num, ta, course, days, time_start, time_end, location)
         except Exception as e:
             return render(request, "CreateLabSection.html", {"message": str(e)})
         return render(request, "CreateLabSection.html", {"message": "Section created",
@@ -225,7 +233,7 @@ class CreateLabSection(View):
                                                          "email": UserClass.get_email(my_user),
                                                          "courses": UserClass.get_courses(my_user),
                                                          "sections": UserClass.get_sections(my_user)})
-    class CreateCourse(View):
+class CreateCourse(View):
     def get(self, request):
         instlist = User.objects.filter(role='Instructor').values()
         my_user = UserClass.get_user(request.session["session_username"])
