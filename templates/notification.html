@@ -37,105 +37,18 @@
                 </tr>
             </thead>
             <tbody>
+            {% for notification in notifications_list %}
                 <tr>
-                    <td>01</td>
-                    <td>Teacher</td>
-                    <td>This is a fake message</td>
+                    <td>1</td>
+                    <td>{{ notification.name }}</td>
+                    <td>{{ notification.message }}</td>
                     <td>
                         <span class="action_btn">
-                            <a href="#">View</a>
                             <a href="#">Mark as Read</a>
                         </span>
                     </td>
                 </tr>
-                <tr>
-                    <td>02</td>
-                    <td>Teacher</td>
-                    <td>This is a fake message thasdtjksadkt;ahlsdfkl;ashdfh;asdflkahsdf;kh;asldkfh;alsdh</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>03</td>
-                    <td>Suibe</td>
-                    <td>this is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>04</td>
-                    <td>teacher</td>
-                    <td>This is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>05</td>
-                    <td>Jayson Rock</td>
-                    <td>This is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>06</td>
-                    <td>Teacher</td>
-                    <td>This is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>07</td>
-                    <td>Teacher</td>
-                    <td>This is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>08</td>
-                    <td>Teacher</td>
-                    <td>This is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>09</td>
-                    <td>Teacher</td>
-                    <td>This is a fake message</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">View</a>
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

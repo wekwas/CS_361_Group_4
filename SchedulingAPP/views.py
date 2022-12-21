@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
-from classes import UserClass, CourseClass, SectionClass
+from classes import UserClass, CourseClass, SectionClass, NotificationClass
 
 
 class Login(View):
@@ -123,7 +123,7 @@ class ViewCourses(View):
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewCourses.html", {"username": UserClass.get_username(my_user),
-                                                    "full_name": UserClass.get_full_name(my_user),
+                                                    "name": UserClass.get_full_name(my_user),
                                                     "role": UserClass.get_role(my_user),
                                                     "email": UserClass.get_email(my_user),
                                                     "courses": UserClass.get_courses(my_user),
@@ -201,20 +201,18 @@ class CreateAccount(View):
                 return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created"})
 
-class CreateNotification(View):
-    def post(self, request):
-        name = request.POST['Name'].split()
-        role = request.POST['role']
-        message = request.POST['message']
+
 class NewNotification(View):
+
+
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
+        return render(request, "newnotification.html", {"username": UserClass.get_username(my_user),
+                                                     "name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user)})
+
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -238,15 +236,16 @@ class NewNotification(View):
 
 
 ...
-class notification(View):
+class Notification(View):
     def get(self, request):
+        notifications_list = Notification.objects.all()
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+        return render(request, "notification.html", {"name": NotificationClass.get_name(my_user),
+                                                     "message": NotificationClass.get_message(my_user),
+                                                     "role": NotificationClass.get_role(my_user),
+                                                     "email": NotificationClass.get_email(my_user),
+                                                     'notifications_list': notifications_list
+                                                     })
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
