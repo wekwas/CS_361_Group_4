@@ -218,22 +218,22 @@ class NewNotification(View):
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        course_name = request.POST["course_name"]
-        instructor = request.POST["instructor"]
-        semester = request.POST["semester"]
-        days = request.POST["days"]
-        time_start = request.POST["time_start"]
-        time_end = request.POST["time_end"]
+        name = request.POST["name"]
+        time = request.POST["time"]
+        date = request.POST["date"]
+        message = request.POST["message"]
+        role = request.POST["role"]
+        email = request.POST["email"]
+
         try:
-            CourseClass.add_course(course_name, instructor, semester, days, time_start, time_end)
+            Notification.add_to_class(name, time, date, message, role, email)
         except Exception as e:
-            return render(request, "CreateCourse.html", {"message": str(e)})
-        return render(request, "CreateCourse.html", {"message": "Course created",
-                                                     "username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
+            return render(request, "newnotification.html", {"message": str(e)})
+        return render(request, "newnotification.html", {"message": "Notification Sent",
+                                                     "name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
+                                                     "message": UserClass.get(my_user),
                                                      "sections": UserClass.get_sections(my_user)})
 
 

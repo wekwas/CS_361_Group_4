@@ -58,8 +58,7 @@ class Section(models.Model):
 
 
 class Notification(models.Model):
-    first_name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
+    name = models.CharField(max_length=25)
     time = models.TimeField()
     date = models.DateField()
     message = models.CharField(max_length=500)
@@ -67,5 +66,5 @@ class Notification(models.Model):
     email = models.EmailField(max_length=60)
 
     def __str__(self):
-        return "%s %s" % (self.first_name, self.last_name)
+        return self.name;
 
