@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
-from classes import UserClass, CourseClass, SectionClass, NotificationClass
+from classes import UserClass, CourseClass, SectionClass
 
 
 class Login(View):
@@ -33,61 +33,31 @@ class Login(View):
 class SupervisorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "supervisorHomepage.html", {"username": UserClass.get_username(my_user),
-                                                           "full_name": UserClass.get_full_name(my_user),
-                                                           "role": UserClass.get_role(my_user),
-                                                           "email": UserClass.get_email(my_user),
-                                                           "courses": UserClass.get_courses(my_user),
-                                                           "sections": UserClass.get_sections(my_user)})
+        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "supervisorHomepage.html", {"username": UserClass.get_username(my_user),
-                                                           "full_name": UserClass.get_full_name(my_user),
-                                                           "role": UserClass.get_role(my_user),
-                                                           "email": UserClass.get_email(my_user),
-                                                           "courses": UserClass.get_courses(my_user),
-                                                           "sections": UserClass.get_sections(my_user)})
+        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
 
 
 class InstructorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "instructorHomepage.html", {"username": UserClass.get_username(my_user),
-                                                           "full_name": UserClass.get_full_name(my_user),
-                                                           "role": UserClass.get_role(my_user),
-                                                           "email": UserClass.get_email(my_user),
-                                                           "courses": UserClass.get_courses(my_user),
-                                                           "sections": UserClass.get_sections(my_user)})
+        return render(request, "instructorHomepage.html", {"role": UserClass.get_role(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "instructorHomepage.html", {"username": UserClass.get_username(my_user),
-                                                           "full_name": UserClass.get_full_name(my_user),
-                                                           "role": UserClass.get_role(my_user),
-                                                           "email": UserClass.get_email(my_user),
-                                                           "courses": UserClass.get_courses(my_user),
-                                                           "sections": UserClass.get_sections(my_user)})
+        return render(request, "instructorHomepage.html", {"role": UserClass.get_role(my_user)})
 
 
 class TAHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "TAHomepage.html", {"username": UserClass.get_username(my_user),
-                                                   "full_name": UserClass.get_full_name(my_user),
-                                                   "role": UserClass.get_role(my_user),
-                                                   "email": UserClass.get_email(my_user),
-                                                   "courses": UserClass.get_courses(my_user),
-                                                   "sections": UserClass.get_sections(my_user)})
+        return render(request, "TAHomepage.html", {"role": UserClass.get_role(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "TAHomepage.html", {"username": UserClass.get_username(my_user),
-                                                   "full_name": UserClass.get_full_name(my_user),
-                                                   "role": UserClass.get_role(my_user),
-                                                   "email": UserClass.get_email(my_user),
-                                                   "courses": UserClass.get_courses(my_user),
-                                                   "sections": UserClass.get_sections(my_user)})
+        return render(request, "TAHomepage.html", {"role": UserClass.get_role(my_user)})
 
 
 class MyAccount(View):
@@ -113,77 +83,44 @@ class MyAccount(View):
 class ViewCourses(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewCourses.html", {"username": UserClass.get_username(my_user),
-                                                    "full_name": UserClass.get_full_name(my_user),
-                                                    "role": UserClass.get_role(my_user),
-                                                    "email": UserClass.get_email(my_user),
-                                                    "courses": UserClass.get_courses(my_user),
-                                                    "sections": UserClass.get_sections(my_user)})
+        return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
+                                                    "courses": UserClass.get_courses(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewCourses.html", {"username": UserClass.get_username(my_user),
-                                                    "name": UserClass.get_full_name(my_user),
-                                                    "role": UserClass.get_role(my_user),
-                                                    "email": UserClass.get_email(my_user),
-                                                    "courses": UserClass.get_courses(my_user),
-                                                    "sections": UserClass.get_sections(my_user)})
+        return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
+                                                    "courses": UserClass.get_courses(my_user)})
 
 
 class ViewAllCourses(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewAllCourses.html", {"username": UserClass.get_username(my_user),
-                                                       "full_name": UserClass.get_full_name(my_user),
-                                                       "role": UserClass.get_role(my_user),
-                                                       "email": UserClass.get_email(my_user),
-                                                       "courses": UserClass.get_courses(my_user),
-                                                       "sections": UserClass.get_sections(my_user)})
+        return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
+                                                       "all_courses": CourseClass.get_all_courses()})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewAllCourses.html", {"username": UserClass.get_username(my_user),
-                                                       "full_name": UserClass.get_full_name(my_user),
-                                                       "role": UserClass.get_role(my_user),
-                                                       "email": UserClass.get_email(my_user),
-                                                       "courses": UserClass.get_courses(my_user),
-                                                       "sections": UserClass.get_sections(my_user),
-                                                       "all_courses": Course.objects.get()})
+        return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
+                                                       "all_courses": CourseClass.get_all_courses()})
 
 
 class ViewAccounts(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewAccounts.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+        return render(request, "viewAccounts.html", {"role": UserClass.get_role(my_user),
+                                                     "all_users": UserClass.get_all_users()})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewAccounts.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user),
-                                                     "all_accounts": User.objects.get(),
-                                                     "all_tas": User.objects.get(role="TA"),
-                                                     "all_instructors": User.objects.get(role="Instructor"),
-                                                     "all_supervisors": User.objects.get(role="Supervisor")})
+        return render(request, "viewAccounts.html", {"role": UserClass.get_role(my_user),
+                                                     "all_users": UserClass.get_all_users()})
 
 
 class CreateAccount(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "CreateAccount.html", {"username": UserClass.get_username(my_user),
-                                                      "full_name": UserClass.get_full_name(my_user),
-                                                      "role": UserClass.get_role(my_user),
-                                                      "email": UserClass.get_email(my_user),
-                                                      "courses": UserClass.get_courses(my_user),
-                                                      "sections": UserClass.get_sections(my_user)})
+                                                      "role": UserClass.get_role(my_user)})
 
     def post(self, request):
         full_name = request.POST['fullName'].split()
@@ -201,18 +138,21 @@ class CreateAccount(View):
                 return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created"})
 
+class CreateNotification(View):
+    def post(self, request):
+        name = request.POST['Name'].split()
+        role = request.POST['role']
+        message = request.POST['message']
 
 class NewNotification(View):
-
-
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "newnotification.html", {"username": UserClass.get_username(my_user),
-                                                     "name": UserClass.get_full_name(my_user),
+        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user)})
-
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -236,16 +176,15 @@ class NewNotification(View):
 
 
 ...
-class Notification(View):
+class notification(View):
     def get(self, request):
-        notifications_list = Notification.objects.all()
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"name": NotificationClass.get_name(my_user),
-                                                     "message": NotificationClass.get_message(my_user),
-                                                     "role": NotificationClass.get_role(my_user),
-                                                     "email": NotificationClass.get_email(my_user),
-                                                     'notifications_list': notifications_list
-                                                     })
+        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -286,3 +225,36 @@ class CreateLabSection(View):
                                                          "email": UserClass.get_email(my_user),
                                                          "courses": UserClass.get_courses(my_user),
                                                          "sections": UserClass.get_sections(my_user)})
+    class CreateCourse(View):
+    def get(self, request):
+        instlist = User.objects.filter(role='Instructor').values()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user),
+                                                     "Instructors": instlist,})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        course_name = request.POST["course_name"]
+        instructorName = request.POST["instructor"]
+        semester = request.POST["semester"]
+        days = request.POST["days"]
+        time_start = request.POST["time_start"]
+        time_end = request.POST["time_end"]
+        location = request.POST["location"]
+        instructor = UserClass.get_user(instructorName)
+        try:
+            CourseClass.add_course(course_name, instructor, semester, days, time_start, time_end, location)
+        except Exception as e:
+            return render(request, "CreateCourse.html", {"message": str(e)})
+        return render(request, "CreateCourse.html", {"message": "Course created",
+                                                     "username": UserClass.get_username(my_user),
+                                                     "full_name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "courses": UserClass.get_courses(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
+

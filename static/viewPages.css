@@ -5,10 +5,13 @@
     font-family: 'arial', sans-serif
 
 }
+select {
+    max-width: 50%;
+}
 body{
     background-position: center;
     height: 100vh;
-    background-image:url("https://cdn.discordapp.com/attachments/1042143501023977484/1047327132994523196/background.png");
+    background-image:url("background.png");
     font-family: arial;
     background-size: cover;
 }
