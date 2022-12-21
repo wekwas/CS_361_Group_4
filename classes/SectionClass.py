@@ -89,6 +89,19 @@ def set_time_end(section, new_time):
         section.time_end = new_time
 
 
+def get_location(section):
+    return section.location
+
+
+def set_location(section, new_location):
+    if new_location is None:
+        raise Exception("Location is null")
+    elif len(new_location) > 25:
+        raise Exception("Location is > 25")
+    else:
+        section.location = new_location
+
+
 def exists(section_num):
     try:
         get_section(section_num)
@@ -97,8 +110,9 @@ def exists(section_num):
         return False
 
 
-def add_section(section_num, ta, course, days, time_start, time_end):
-    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59")
+def add_section(section_num, ta, course, days, time_start, time_end, location):
+    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59",
+                          location="")
     try:
         set_section_num(new_section, section_num)
         set_ta(new_section, ta)
@@ -107,6 +121,7 @@ def add_section(section_num, ta, course, days, time_start, time_end):
             add_day(new_section, i)
         set_time_start(new_section, time_start)
         set_time_end(new_section, time_end)
+        set_location(new_section, location)
         new_section.save()
     except Exception as e:
         return Exception(str(e))

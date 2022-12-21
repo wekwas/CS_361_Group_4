@@ -29,6 +29,7 @@ class User(models.Model):
     email = models.CharField(max_length=40)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
+
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
@@ -40,6 +41,7 @@ class Course(models.Model):
     days = models.CharField(max_length=60)
     time_start = models.TimeField(blank=True, null=True)
     time_end = models.TimeField(blank=True, null=True)
+    location = models.CharField(max_length=25)
 
     def __str__(self):
         return self.course_name
@@ -52,6 +54,7 @@ class Section(models.Model):
     days = models.CharField(max_length=601)
     time_start = models.TimeField(blank=True, null=True)
     time_end = models.TimeField(blank=True, null=True)
+    location = models.CharField(max_length=25)
 
     def __str__(self):
         return "%d" % self.section_num
