@@ -1,6 +1,10 @@
 from SchedulingAPP.models import User, Role
 
 
+def get_all_users():
+    return User.objects.all()
+
+
 def get_user(username):
     return User.objects.get(username=username)
 

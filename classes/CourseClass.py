@@ -3,6 +3,10 @@ from SchedulingAPP.models import Course, Semester, WeekDay
 from classes import UserClass
 
 
+def get_all_courses():
+    return Course.objects.all()
+
+
 def get_course(course_name):
     return Course.objects.get(course_name=course_name)
 
