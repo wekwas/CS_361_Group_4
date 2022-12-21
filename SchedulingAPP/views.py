@@ -225,7 +225,7 @@ class CreateLabSection(View):
                                                          "email": UserClass.get_email(my_user),
                                                          "courses": UserClass.get_courses(my_user),
                                                          "sections": UserClass.get_sections(my_user)})
-    class CreateCourse(View):
+class CreateCourse(View):
     def get(self, request):
         instlist = User.objects.filter(role='Instructor').values()
         my_user = UserClass.get_user(request.session["session_username"])
