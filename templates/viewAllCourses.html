@@ -36,20 +36,22 @@
             <th>TAs</th>
             <th>External Links</th>
         </tr>
+        {% for x in courses %}
             <tr>
                 <td>
-                    CS 555
+                    {{ x.course_name}}
                 </td>
                 <td>
-                    John Smith, Will Rock
+                    {{ x.instructor }}
                 </td> 
                 <td>
-                    John Johnson
+                    TA TBA
                 </td>  
                 <td>
                     <a href="/">View Course Page</a>
                 </td>
             </tr>
+        {% endfor %}
             <tr>
                 <td>
                     CS 420
