@@ -60,13 +60,11 @@ class Section(models.Model):
     location = models.CharField(max_length=25)
 
     def __str__(self):
-        return "%d" % self.section_num
+        return self.section_num
 
 
 class Notification(models.Model):
     name = models.CharField(max_length=25)
-    time = models.TimeField()
-    date = models.DateField()
     message = models.CharField(max_length=500)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.ta)
     email = models.EmailField(max_length=60)

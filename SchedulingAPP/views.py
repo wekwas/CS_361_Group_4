@@ -35,7 +35,7 @@ class SupervisorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user),
-                                                           "username": UserClass.get_username(my_user)})
+                                                           "first_name": UserClass.get_first_name(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -45,7 +45,8 @@ class SupervisorHomepage(View):
 class InstructorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "instructorHomepage.html", {"role": UserClass.get_role(my_user)})
+        return render(request, "instructorHomepage.html", {"role": UserClass.get_role(my_user),
+                                                           "first_name": UserClass.get_first_name(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -55,7 +56,8 @@ class InstructorHomepage(View):
 class TAHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "TAHomepage.html", {"role": UserClass.get_role(my_user)})
+        return render(request, "TAHomepage.html", {"role": UserClass.get_role(my_user),
+                                                   "first_name": UserClass.get_first_name(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -112,6 +114,7 @@ class ViewAllCourses(View):
                                                    "course": reqcourse,
                                                    "labs": labs})
 
+
 class ViewAccounts(View):
     def get(self, request):
         talist = UserClass.get_all_tas()
@@ -162,36 +165,30 @@ class NewNotification(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "newnotification.html", {"name": NotificationClass.get_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                        "role": UserClass.get_role(my_user),
+                                                        "email": UserClass.get_email(my_user)})
 
     def post(self, request):
 
         my_user = UserClass.get_user(request.session["session_username"])
         name = request.POST["name"]
         message = request.POST["message"]
-        role = request.POST["role"]
         email = request.POST["email"]
 
 
         try:
-            NotificationClass.add_notification(name, message, email, role)
+            NotificationClass.add_notification(name, message, email)
         except Exception as e:
             return render(request, "newnotification.html", {"message": str(e)})
         return render(request, "newnotification.html", {"message": "Notification Sent",
-                                                     "name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "message": UserClass.get(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                        "name": UserClass.get_full_name(my_user),
+                                                        "role": UserClass.get_role(my_user),
+                                                        "email": UserClass.get_email(my_user)})
 
 
 ...
 class Notification(View):
     def get(self, request):
-
         all_notifications = NotificationClass.get_allnotifications();
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "notification.html", {"name": NotificationClass.get_name(Notification),
@@ -201,8 +198,6 @@ class Notification(View):
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user),
                                                      "all_notifications": all_notifications})
-
-
 
 
 class CreateLabSection(View):
@@ -216,6 +211,7 @@ class CreateLabSection(View):
 
     def post(self, request):
         talist = UserClass.get_all_tas()
+        courses = CourseClass.get_all_courses()
         my_user = UserClass.get_user(request.session["session_username"])
         section_num = request.POST["section_num"]
         ta_name = request.POST["ta"]
@@ -231,7 +227,8 @@ class CreateLabSection(View):
             return render(request, "CreateLabSection.html", {"message": str(e)})
         return render(request, "CreateLabSection.html", {"message": "Section created",
                                                          "role": UserClass.get_role(my_user),
-                                                         "tas": talist})
+                                                         "tas": talist,
+                                                         "courses": courses})
 
 
 class CreateCourse(View):
@@ -262,10 +259,7 @@ class CreateCourse(View):
                                                      "role": UserClass.get_role(my_user),
                                                      "Instructors": instlist})
 class viewCourse(View):
-
-
     def get(self, request):
-
         talist = UserClass.get_all_tas()
         instlist = UserClass.get_all_instructors()
         suplist = UserClass.get_all_supervisors()
@@ -333,7 +327,7 @@ class viewSection(View):
         instlist = UserClass.get_all_instructors()
         suplist = UserClass.get_all_supervisors()
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+        return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
                                                      "all_users": UserClass.get_all_users(),
                                                      "supervisors": suplist,
                                                      "instructors": instlist,

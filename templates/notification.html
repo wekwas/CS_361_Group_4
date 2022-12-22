@@ -33,7 +33,9 @@
     <div class="heading">
         <h1>Notifications</h1>
     </div>
+    {% if role == "Supervisor" %}
     <button class="create-button" onclick="window.location.href='/newnotification/'">Create Notification</button>
+    {% endif %}
     <div class="table_responsive">
         <table>
             <thead>

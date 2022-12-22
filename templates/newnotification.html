@@ -39,7 +39,7 @@
         </ul>
     </nav>
     <div class="hero">
-        <form method="POST" action="/newnotification/">
+        <form action="/newnotification/" method="POST">
             {% csrf_token %}
             <div class="message-icon">
                 <i class="bi bi-telegram"></i>
@@ -64,4 +64,3 @@
 </body>
 
 </html>
-

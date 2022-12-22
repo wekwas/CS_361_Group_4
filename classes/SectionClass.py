@@ -113,7 +113,8 @@ def exists(section_num):
 
 
 def add_section(section_num, ta, course, days, time_start, time_end, location):
-    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59")
+    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59",
+                          location="")
     try:
         set_section_num(new_section, section_num)
         set_ta(new_section, ta)
