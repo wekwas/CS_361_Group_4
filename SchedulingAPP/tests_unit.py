@@ -18,9 +18,10 @@ class TestUserClass(TestCase):
                    first_name="first_name_sup", last_name="last_name_sup")
         sup.save()
         course = Course(course_name="test_course_101", instructor=inst, days=" Monday ", time_start="2:00",
-                        time_end="3:00")
+                        time_end="3:00", location="location1")
         course.save()
-        section = Section(section_num="100", ta=ta, course=course, days=" Monday ", time_start="2:00", time_end="3:00")
+        section = Section(section_num="100", ta=ta, course=course, days=" Monday ", time_start="2:00", time_end="3:00",
+                          location="location2")
         section.save()
 
     def test_get_user(self):
@@ -28,108 +29,108 @@ class TestUserClass(TestCase):
         self.assertEqual(UserClass.get_user("test_user_TA"), ta)
 
     def test_set_username_length(self):
-        test_user_ta = UserClass.get_user("test_user_inst")
+        ta = UserClass.get_user("test_user_TA")
         with self.assertRaises(Exception, msg="username is too long"):
-            UserClass.set_username(test_user_ta, "-----------------------------")
+            UserClass.set_username(ta, "-----------------------------")
 
     def test_set_username_null(self):
-        test_user_ta = UserClass.get_user("test_user_inst")
+        ta = UserClass.get_user("test_user_TA")
         with self.assertRaises(Exception, msg="username is null"):
-            UserClass.set_username(test_user_ta, None)
+            UserClass.set_username(ta, None)
 
     def test_set_username(self):
-        test_user_ta = UserClass.get_user("test_user_inst")
-        UserClass.set_username(test_user_ta, "new_username_ta")
-        self.assertEqual("new_username_ta", test_user_ta.username)
+        ta = UserClass.get_user("test_user_TA")
+        UserClass.set_username(ta, "new_username_ta")
+        self.assertEqual("new_username_ta", ta.username)
 
     def test_set_password_length(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="password is too long"):
-            UserClass.set_password(test_user_inst, "-----------------------------")
+            UserClass.set_password(inst, "-----------------------------")
 
     def test_set_password_null(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="password is null"):
-            UserClass.set_password(test_user_inst, None)
+            UserClass.set_password(inst, None)
 
     def test_set_password(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
-        UserClass.set_password(test_user_inst, "new_password_inst")
-        self.assertEqual("new_password_inst", test_user_inst.password)
+        inst = UserClass.get_user("test_user_inst")
+        UserClass.set_password(inst, "new_password_inst")
+        self.assertEqual("new_password_inst", inst.password)
 
     def test_set_nonexistent_role(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="role is incorrect"):
-            UserClass.set_role(test_user_inst, "-----------------------------")
+            UserClass.set_role(inst, "-----------------------------")
 
     def test_set_role_null(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="role is null"):
-            UserClass.set_role(test_user_inst, None)
+            UserClass.set_role(inst, None)
 
     def test_set_role(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
-        UserClass.set_role(test_user_inst, "Supervisor")
-        self.assertEqual("Supervisor", test_user_inst.role)
+        inst = UserClass.get_user("test_user_inst")
+        UserClass.set_role(inst, "Supervisor")
+        self.assertEqual("Supervisor", inst.role)
 
     def test_set_email_length(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="email is too long"):
-            UserClass.set_email(test_user_inst, "----------------------------------------------------")
+            UserClass.set_email(inst, "----------------------------------------------------")
 
     def test_set_email_null(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="email is null"):
-            UserClass.set_email(test_user_inst, None)
+            UserClass.set_email(inst, None)
 
     def test_set_email(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
-        UserClass.set_email(test_user_inst, "new_email_inst")
-        self.assertEqual("new_email_inst", test_user_inst.email)
+        inst = UserClass.get_user("test_user_inst")
+        UserClass.set_email(inst, "new_email_inst")
+        self.assertEqual("new_email_inst", inst.email)
 
     def test_set_first_name_length(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="first_name is too long"):
-            UserClass.set_first_name(test_user_inst, "-----------------------------")
+            UserClass.set_first_name(inst, "-----------------------------")
 
     def test_set_first_name_null(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="first_name is null"):
-            UserClass.set_first_name(test_user_inst, None)
+            UserClass.set_first_name(inst, None)
 
     def test_set_first_name(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
-        UserClass.set_first_name(test_user_inst, "new_first_name_inst")
-        self.assertEqual("new_first_name_inst", test_user_inst.first_name)
+        inst = UserClass.get_user("test_user_inst")
+        UserClass.set_first_name(inst, "new_first_name_inst")
+        self.assertEqual("new_first_name_inst", inst.first_name)
 
     def test_set_last_name_length(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="last_name is too long"):
-            UserClass.set_last_name(test_user_inst, "-----------------------------")
+            UserClass.set_last_name(inst, "-----------------------------")
 
     def test_set_last_name_null(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         with self.assertRaises(Exception, msg="last_name is null"):
-            UserClass.set_last_name(test_user_inst, None)
+            UserClass.set_last_name(inst, None)
 
     def test_set_last_name(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
-        UserClass.set_last_name(test_user_inst, "new_last_name_inst")
-        self.assertEqual("new_last_name_inst", test_user_inst.last_name)
+        inst = UserClass.get_user("test_user_inst")
+        UserClass.set_last_name(inst, "new_last_name_inst")
+        self.assertEqual("new_last_name_inst", inst.last_name)
 
     def test_get_courses(self):
-        test_user_inst = UserClass.get_user("test_user_inst")
+        inst = UserClass.get_user("test_user_inst")
         test_course = Course.objects.get(course_name="test_course_101")
-        self.assertEqual(UserClass.get_courses(test_user_inst)[0], test_course, msg="course not found")
+        self.assertEqual(UserClass.get_courses(inst)[0], test_course, msg="course not found")
         with self.assertRaises(Exception, msg="user has no sections"):
-            empty = UserClass.get_sections(test_user_inst)[0]
+            empty = UserClass.get_sections(inst)[0]
 
     def test_get_sections(self):
-        test_user_ta = UserClass.get_user("test_user_TA")
+        ta = UserClass.get_user("test_user_TA")
         test_section = Section.objects.get(section_num="100")
-        self.assertEqual(UserClass.get_sections(test_user_ta)[0], test_section, msg="section not found")
+        self.assertEqual(UserClass.get_sections(ta)[0], test_section, msg="section not found")
         with self.assertRaises(Exception, msg="user has no courses"):
-            empty = UserClass.get_courses(test_user_ta)[0]
+            empty = UserClass.get_courses(ta)[0]
 
     def test_exists(self):
         self.assertTrue(UserClass.exists("test_user_inst"))
@@ -147,9 +148,11 @@ class TestUserClass(TestCase):
                                "last_name_sup")
 
     def test_delete_user(self):
-        test_inst = UserClass.get_user("test_user_inst")
-        UserClass.delete_user(test_inst)
+        inst = UserClass.get_user("test_user_inst")
+        UserClass.delete_user(inst)
         self.assertFalse(UserClass.exists("test_user_inst"))
+
+    def test_delete_nonexistent_user(self):
         with self.assertRaises(Exception, msg="user not in database"):
             UserClass.delete_user("fake_username")
 
@@ -159,15 +162,26 @@ class TestCourseClass(TestCase):
 
     def setUp(self):
         self.monkey = Client()
-        temp = Course(course_name="test_course_1", instructor="test_inst_1", semester="Fall")
-        temp.save()
-        temp = Course(course_name="test_course_2", instructor="test_inst_2", semester="Winter")
-        temp.save()
-        temp = Course(course_name="test_course_3", instructor="test_inst_3", semester="Spring")
-        temp.save()
+        ta = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                  first_name="first_name_TA", last_name="last_name_TA")
+        ta.save()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+        course = Course(course_name="test_course_101", instructor=inst, days=" Monday ", time_start="2:00",
+                        time_end="3:00", location="location1")
+        course.save()
+        section = Section(section_num="100", ta=ta, course=course, days=" Monday ", time_start="2:00", time_end="3:00",
+                          location="location2")
+        section.save()
+
+    def test_get_course(self):
+        test_course = Course.objects.get(course_name="test_course_101")
+        self.assertEqual(UserClass.get_user("test_user_TA"), ta)
+
 
     def test_set_course_name_length(self):
-        test_course = Course.objects.get(course_name="test_course_1")
+        test_course = Course.objects.get(course_name="test_course_101")
         with self.assertRaises(Exception, msg="course_name is too long"):
             CourseClass.set_course_name(test_course, "-----------------------------")
 
