@@ -100,8 +100,15 @@ def set_location(course, location):
         course.location = location
 
 
+def get_sections(course):
+    return course.section_set.all()
+
+
 def get_tas(course):
-    return course.ta_set.all()
+    tas = []
+    for x in get_sections(course):
+        tas.append(x.ta)
+    return tas
 
 
 def exists(course_name):
