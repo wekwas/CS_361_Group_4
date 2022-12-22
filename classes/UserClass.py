@@ -4,6 +4,8 @@ from SchedulingAPP.models import User, Role
 def get_all_users():
     return User.objects.all()
 
+def get_all_tas():
+    return User.objects.filter(role="TA")
 
 def get_all_tas():
     User.objects.filter(role='TA').values()

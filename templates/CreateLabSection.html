@@ -9,7 +9,7 @@
  
 <body>
     <title>Create a Lab Section</title>
-   <nav>
+    <nav>
         <ul class="navlinks">
             <li><a href="/supervisorHomepage/">Homepage</a></li>
             <li><a href="/viewCourses/">My Courses</a></li>
@@ -17,45 +17,65 @@
             <li><a href="/MyAccount/">My Account</a></li>
             <li><a href="/viewAccounts/">View Accounts</a></li>
             <li><a href="/notification/">Mailbox</a></li>
-            <li><a href="/">Logout</a></li>
         </ul>
     </nav>
     <br></br>
     <h1>Create a Lab Section</h1>
+        <form action = "/CreateLabSection/" method="post">
+                        {% csrf_token %}
+
     <div class="form">
         <p>
             <label for="course">Select a Course for the Lab Section: </label>
-            <input type="text" name="course">
+            <select name="course" id="course">
+            {% for x in courses %}
+                <option value={{ x.course_name }}>{{ x.course_name }} </option>
+            {% endfor %}
+            </select>
+        </p>
+    <p>
+        <label for="section_num">Enter the Lab Section number: </label>
+        <input type="text" name="section_num">
+    </p>
+        <p>
+            <label for="ta">Select a TA for the Lab Section: </label>
+            <select name="ta" id="ta">
+            {% for x in talist %}
+                <option value={{ x.username }}>{{ x.username }} </option>
+            {% endfor %}
+        </select>
         </p>
         <p>
-            <label for="TA">Select a TA for the Lab Section: </label>
-            <input type="text" name="TA">
+            <label for="days">Select days of the week: </label>
+
+            <select name="days" id="days">
+                <option value="Monday">Monday </option>
+                <option value="Tuesday">Tuesday </option>
+                <option value="Wednesday">Wednesday </option>
+                <option value="Thursday">Thursday </option>
+                <option value="Friday">Friday </option>
+                <option value="Monday Wednesday">Monday Wednesday </option>
+                <option value="Monday Wednesday Friday">Monday Wednesday Friday</option>
+                <option value="Tuesday Thursday">Tuesday Thursday</option>
+        </select>
         </p>
         <p>
-            <label for="day">Select a Day for the Lab Section: </label>
-            <select name="day" id="day">
-            <option value="M">M</option>
-            <option value="M">T</option>
-            <option value="W">W</option>
-            <option value="TR">TR</option>
-            <option value="F">F</option>
-          </select>
+            <label for="time_start">Select a Start-Time of the Lab Section: </label>
+            <input type="time" name="time_start">
         </p>
         <p>
-            <label for="startTime">Select a Start-Time of the Lab Section: </label>
-            <input type="time" name="startTime">
-        </p>
-        <p>
-            <label for="endTime">Select an End-Time of the Lab Section: </label>
-            <input type="time" name="endTime">
+            <label for="time_end">Select an End-Time of the Lab Section: </label>
+            <input type="time" name="time_end">
         </p>
         <p>
             <label for="">Enter a Location for the Lab Section: </label>
             <input type="text" name="location">
         </p>
+{{ message }}
     </div>
+        <button type="submit"> Create </button>
+        </form>
 
-    <button> Create </button>
 
 
 
