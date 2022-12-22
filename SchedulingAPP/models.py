@@ -60,7 +60,7 @@ class Section(models.Model):
     location = models.CharField(max_length=25)
 
     def __str__(self):
-        return "%d" % self.section_num
+        return self.section_num
 
 
 class Notification(models.Model):
