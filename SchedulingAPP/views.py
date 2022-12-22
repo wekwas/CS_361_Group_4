@@ -458,6 +458,7 @@ class editSelfAccount(View):
             return render(request, "editSelfAccount.html", {"message": str(e),
                                                               "role": UserClass.get_role(my_user),
                                                               "account": accobj})
+        request.session["session_username"] = uname
         return render(request, "MyAccount.html", {"username": accobj.username,
                                                   "full_name": fname + " " + lname,
                                                   "role": accobj.role,
