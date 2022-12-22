@@ -97,11 +97,8 @@ class ViewCourses(View):
 class ViewAllCourses(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        courselist = Course.objects.values()
         return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
-                                                       "all_courses": CourseClass.get_all_courses(),
-                                                        "all_courses": CourseClass.get_all_courses(),
-                                                        "courses": courselist})
+                                                       "all_courses": CourseClass.get_all_courses()})
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
