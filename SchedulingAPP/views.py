@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
 from classes import UserClass, CourseClass, SectionClass
+from datetime import datetime
 
 
 class Login(View):
@@ -33,7 +34,8 @@ class Login(View):
 class SupervisorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
+        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user),
+                                                           "username": UserClass.get_username(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -184,6 +186,8 @@ class Notification(View):
                                                      "all_notifications": all_notifications})
 
 
+
+
 class CreateLabSection(View):
     def get(self, request):
         talist = UserClass.get_all_tas()
@@ -222,6 +226,8 @@ class CreateCourse(View):
         instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
         course_name = request.POST["course_name"]
+        if not UserClass.get_all_instructors:
+            return render(request, "CreateCourse.html", {"message": "No instructor"})
         instructor_name = request.POST["instructor"]
         semester = request.POST["semester"]
         days = request.POST["days"]
