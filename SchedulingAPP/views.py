@@ -86,7 +86,7 @@ class ViewCourses(View):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
                                                     "courses": UserClass.get_courses(my_user),
-                                                    "tacourses": UserClass.get_sections((my_user))})
+                                                    "tacourses": UserClass.get_sections(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -266,10 +266,11 @@ class viewCourse(View):
         suplist = UserClass.get_all_supervisors()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
-                                                     "all_users": UserClass.get_all_users(),
-                                                     "supervisors": suplist,
-                                                     "instructors": instlist,
-                                                     "tas": talist})
+                                                   "all_users": UserClass.get_all_users(),
+                                                   "supervisors": suplist,
+                                                   "instructors": instlist,
+                                                   "tas": talist})
+
     def post(self, request):
 
         my_user = UserClass.get_user(request.session["session_username"])
@@ -292,10 +293,10 @@ class EditCourse(View):
         suplist = UserClass.get_all_supervisors()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
-                                                     "all_users": UserClass.get_all_users(),
-                                                     "supervisors": suplist,
-                                                     "instructors": instlist,
-                                                     "tas": talist})
+                                                   "all_users": UserClass.get_all_users(),
+                                                   "supervisors": suplist,
+                                                   "instructors": instlist,
+                                                   "tas": talist})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -450,6 +451,7 @@ class editSelfAccount(View):
                                                         "supervisors": suplist,
                                                         "instructors": instlist,
                                                         "tas": talist})
+
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         accobj = UserClass.get_user(request.POST["account"])
@@ -469,11 +471,11 @@ class editSelfAccount(View):
                                                   "sections": UserClass.get_sections(accobj)})
 
 
-class deleteCourse(View) :
-
+class deleteCourse(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         deletedCourse = CourseClass.get_course(request.POST["deletec"])
@@ -487,11 +489,11 @@ class deleteCourse(View) :
         return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
 
 
-class deleteAccount(View) :
-
+class deleteAccount(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         deletedAccount = UserClass.get_user(request.POST["deletea"])
@@ -505,11 +507,11 @@ class deleteAccount(View) :
         return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
 
 
-class deleteSection(View) :
-
+class deleteSection(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         deletedSection = SectionClass.get_section(request.POST["deletes"])
@@ -522,10 +524,12 @@ class deleteSection(View) :
                                                        "sec": deletedSection})
         return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
 
+
 class sectionTA(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+
     def post(self, request):
         secobj = SectionClass.get_section(request.POST["secsub"])
         my_user = UserClass.get_user(request.session["session_username"])
@@ -541,3 +545,4 @@ class sectionTA(View):
                                                       "tas": UserClass.get_all_tas()})
         return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
                                                     "sec": secobj})
+
