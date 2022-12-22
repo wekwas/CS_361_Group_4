@@ -30,8 +30,6 @@ def set_message(notification, new_message):
 def get_email(email):
     return Notification.email
 
-
-
 def set_email(notification, new_email):
     if new_email is None:
         raise Exception("Email is null")
@@ -44,15 +42,13 @@ def set_email(notification, new_email):
 def add_notification(name, message, email,role):
     new_notification = Notification(name="", message="", email="")
 
-
-
-
     try:
 
         set_message(new_notification,message)
         set_name(new_notification,name)
         set_email(new_notification,email)
         set_role(new_notification,role)
+        new_notification.save()
     except Exception as e:
         return Exception(str(e))
 
