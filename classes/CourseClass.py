@@ -100,6 +100,10 @@ def set_location(course, location):
         course.location = location
 
 
+def get_tas(course):
+    return course.ta_set.all()
+
+
 def exists(course_name):
     try:
         get_course(course_name)
