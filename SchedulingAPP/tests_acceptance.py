@@ -149,3 +149,41 @@ class TestMyAccount(TestCase):
         response = self.monkey.get("/MyAccount/", follow=True)
         self.assertTemplateUsed(response, "MyAccount.html")
 
+
+class TestCreateCourse(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        ta = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                  first_name="first_name_TA", last_name="last_name_TA")
+        ta.save()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+        course = Course(course_name="test_course_101", instructor=inst, days=" Monday ", time_start="2:00",
+                        time_end="3:00", location="location1")
+        course.save()
+        section = Section(section_num="100", ta=ta, course=course, days=" Monday ", time_start="2:00", time_end="3:00",
+                          location="location2")
+        section.save()
+
+    def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.get("/CreateCourse/", follow=True)
+        self.assertTemplateUsed(response, "CreateCourse.html")
+
+    def test_course_creation(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        inst = UserClass.get_user("test_user_inst")
+        response = self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
+                                                       "semester": "Winter", "days": "Monday",
+                                                       "time_start": "00:01", "time_end": "12:00",
+                                                       "location": "the_abyss"}, follow=True)
+        self.assertTemplateUsed(response, "CreateCourse.html")
+        self.assertTrue(CourseClass.exists("test_add_101"), "course not added")
+
