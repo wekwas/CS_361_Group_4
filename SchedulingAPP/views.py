@@ -515,3 +515,22 @@ class deleteSection(View) :
                                                         "sec": deletedSection})
         return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
 
+class sectionTA(View):
+    def get(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+    def post(self, request):
+        secobj = SectionClass.get_section(request.POST["secsub"])
+        my_user = UserClass.get_user(request.session["session_username"])
+
+        try:
+            taname = request.POST["ta"]
+            ta = UserClass.get_user(taname)
+            SectionClass.set_ta(secobj,ta)
+        except Exception as e:
+            return render(request, "sectionTA.html", {"message": str(e),
+                                                      "role": UserClass.get_role(my_user),
+                                                      "sec": secobj,
+                                                      "tas": UserClass.get_all_tas()})
+        return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
+                                                    "sec": secobj})

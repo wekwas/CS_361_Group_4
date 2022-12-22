@@ -42,5 +42,6 @@ urlpatterns = [
     path('deleteCourse/', deleteCourse.as_view()),
     path('deleteAccount/', deleteAccount.as_view()),
     path('deleteSection/', deleteSection.as_view()),
+    path('sectionTA/', sectionTA.as_view()),
 
 ]

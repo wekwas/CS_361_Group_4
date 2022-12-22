@@ -32,31 +32,20 @@
 
     </h1>
     <br></br>
-    <form action = "/MyAccount/" method = "get">
-        <div><a class="field">Section Number: </a>{{ sec.section_num }}</div>
-        <div><a class="field">TA: </a> {{ sec.ta}}</div>
-        <div><a class="field">Days: </a>{{ sec.days }}</div>
-        <div><a class="field">Time Start: </a>{{ sec.time_start }}</div>
-        <div><a class="field">Time End: </a> {{ sec.time_end }}</div>
-        <div><a class="field">Location: </a>{{ sec.location }}</div>
 
-    </form>
-    <!--Get user information-->
+    <form action = "/sectionTA/" method = "post">
 
-    <!--For professors and TAs only-->
+        <div><a class="field">TA: </a> <select name="ta" id="ta">
+            {% for x in tas %}
+                <option required value={{ x.username }}>{{ x.username }} </option>
+            {% endfor %}
+        </select></div>
 
-    <br></br>
-    {% if role == "Supervisor" %}
-     <form action = "/viewSection/" method="post">
-         {% csrf_token %}
+        {% csrf_token %}
          <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>
-                    </form>
-{% endif %}
-{% if role != "TA" %}
-                    <form action = "/sectionTA/" method="post">
-                        {% csrf_token %}
-                        <button name="secsub" value="{{ sec.section_num }}" type="submit">Change TA</button>
-                    </form>
-                    {% endif %}
+    <!--For professors and TAs only-->
+    </form>
+    <br></br>
+
 </div>
 </body>
