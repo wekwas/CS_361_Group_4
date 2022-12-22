@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
 from classes import UserClass, CourseClass, SectionClass
+from datetime import datetime
 
 
 class Login(View):
@@ -138,11 +139,6 @@ class CreateAccount(View):
                 return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created"})
 
-class CreateNotification(View):
-    def post(self, request):
-        name = request.POST['Name'].split()
-        role = request.POST['role']
-        message = request.POST['message']
 
 class NewNotification(View):
     def get(self, request):
@@ -168,11 +164,11 @@ class NewNotification(View):
         except Exception as e:
             return render(request, "newnotification.html", {"message": str(e)})
         return render(request, "newnotification.html", {"message": "Notification Sent",
-                                                     "name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "message": UserClass.get(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                        "name": UserClass.get_full_name(my_user),
+                                                        "role": UserClass.get_role(my_user),
+                                                        "email": UserClass.get_email(my_user),
+                                                        "message": UserClass.get(my_user),
+                                                        "sections": UserClass.get_sections(my_user)})
 
 
 ...
@@ -198,63 +194,56 @@ class notification(View):
 
 class CreateLabSection(View):
     def get(self, request):
+        talist = UserClass.get_all_tas()
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
-                                                         "full_name": UserClass.get_full_name(my_user),
-                                                         "role": UserClass.get_role(my_user),
-                                                         "email": UserClass.get_email(my_user),
-                                                         "courses": UserClass.get_courses(my_user),
-                                                         "sections": UserClass.get_sections(my_user)})
+        return render(request, "CreateLabSection.html", {"role": UserClass.get_role(my_user),
+                                                         "tas": talist})
 
     def post(self, request):
+        talist = UserClass.get_all_tas()
         my_user = UserClass.get_user(request.session["session_username"])
         section_num = request.POST["section_num"]
-        ta = request.POST["ta"]
+        ta_name = request.POST["ta"]
         course = request.POST["course"]
         days = request.POST["days"]
         time_start = request.POST["time_start"]
         time_end = request.POST["time_end"]
+        location = request.POST["location"]
+        ta = UserClass.get_user(ta_name)
         try:
-            SectionClass.add_section(section_num, ta, course, days, time_start, time_end)
+            SectionClass.add_section(section_num, ta, course, days, time_start, time_end, location)
         except Exception as e:
             return render(request, "CreateLabSection.html", {"message": str(e)})
         return render(request, "CreateLabSection.html", {"message": "Section created",
-                                                         "username": UserClass.get_username(my_user),
-                                                         "full_name": UserClass.get_full_name(my_user),
                                                          "role": UserClass.get_role(my_user),
-                                                         "email": UserClass.get_email(my_user),
-                                                         "courses": UserClass.get_courses(my_user),
-                                                         "sections": UserClass.get_sections(my_user)})
-    class CreateCourse(View):
+                                                         "tas": talist})
+
+
+class CreateCourse(View):
     def get(self, request):
-        instlist = User.objects.filter(role='Instructor').values()
+        instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user),
-                                                     "Instructors": instlist,})
+        return render(request, "CreateCourse.html", {"role": UserClass.get_role(my_user),
+                                                     "Instructors": instlist})
+
     def post(self, request):
+        instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
         course_name = request.POST["course_name"]
-        instructorName = request.POST["instructor"]
+        if not UserClass.get_all_instructors:
+            return render(request, "CreateCourse.html", {"message": "No instructor"})
+        instructor_name = request.POST["instructor"]
         semester = request.POST["semester"]
         days = request.POST["days"]
         time_start = request.POST["time_start"]
         time_end = request.POST["time_end"]
         location = request.POST["location"]
-        instructor = UserClass.get_user(instructorName)
+        instructor = UserClass.get_user(instructor_name)
         try:
             CourseClass.add_course(course_name, instructor, semester, days, time_start, time_end, location)
         except Exception as e:
             return render(request, "CreateCourse.html", {"message": str(e)})
         return render(request, "CreateCourse.html", {"message": "Course created",
-                                                     "username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                     "Instructors": instlist})
 
