@@ -31,6 +31,7 @@ def get_email(email):
     return Notification.email
 
 
+
 def set_email(notification, new_email):
     if new_email is None:
         raise Exception("Email is null")
