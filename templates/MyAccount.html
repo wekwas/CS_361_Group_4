@@ -8,7 +8,16 @@
 <body>
     <nav>
         <ul class="navlinks">
-            <li><a href="/supervisorHomepage/">Homepage</a></li>
+            <li> {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
             <li><a href="/viewCourses/">My Courses</a></li>
             <li><a href="/viewAllCourses/">View Courses</a></li>
             <li><a href="/MyAccount/">My Account</a></li>
@@ -19,7 +28,7 @@
 <div  class="form">
 
     <h1>My Account
-    <!--div class="homelink"><a href="/">Homepage</a></div-->
+    
     </h1>
     <br></br>
     <form action = "/MyAccount/" method = "get">
