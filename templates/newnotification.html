@@ -17,9 +17,19 @@
 </head>
 
 <body>
-   <nav>
+0    <nav>
         <ul class="navlinks">
-            <li><a href="/supervisorHomepage/">Homepage</a></li>
+            <li>
+                {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
             <li><a href="/viewCourses/">My Courses</a></li>
             <li><a href="/viewAllCourses/">View Courses</a></li>
             <li><a href="/MyAccount/">My Account</a></li>
@@ -29,7 +39,7 @@
         </ul>
     </nav>
     <div class="hero">
-        <form action="https://formspree.io/f/mknelddy" method="POST">
+        <form action="/" method="POST">
             {% csrf_token %}
             <div class="message-icon">
                 <i class="bi bi-telegram"></i>

@@ -9,9 +9,20 @@
 </head>
 
 <body>
-   <nav>
+    <nav>
+
         <ul class="navlinks">
-            <li><a href="/supervisorHomepage/">Homepage</a></li>
+            <li>
+                {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
             <li><a href="/viewCourses/">My Courses</a></li>
             <li><a href="/viewAllCourses/">View Courses</a></li>
             <li><a href="/MyAccount/">My Account</a></li>
@@ -20,7 +31,7 @@
             <li><a href="/">Logout</a></li>
         </ul>
     </nav>
-   <br></br>
+    <br></br>
     <h1>Create an Account: </h1>
     <div  class="form">
     <form action = "/CreateAccount/" method="post">

@@ -8,9 +8,19 @@
     <link rel="stylesheet" href="{% static 'viewContent.css' %}">
 </head>
 <body>
-   <nav>
+    <nav>
         <ul class="navlinks">
-            <li><a href="/supervisorHomepage/">Homepage</a></li>
+              <li>
+                {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
             <li><a href="/viewCourses/">My Courses</a></li>
             <li><a href="/viewAllCourses/">View Courses</a></li>
             <li><a href="/MyAccount/">My Account</a></li>
@@ -23,6 +33,7 @@
 
 
     <h1>My Courses</h1>
+    <div class="linkbox homelink"><a href="/">Homepage</a></div>
 <form>
     <h2>Courses:</h2>
     <div class="linkbox">

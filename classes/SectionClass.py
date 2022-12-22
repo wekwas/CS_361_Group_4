@@ -27,7 +27,7 @@ def get_ta(section):
 
 
 def set_ta(section, new_ta):
-    if not UserClass.exists(new_ta):
+    if not UserClass.exists(UserClass.get_username(new_ta)):
         raise Exception("TA doesn't exist")
     elif UserClass.get_role(new_ta) != "TA":
         raise Exception("User not TA")
@@ -50,17 +50,10 @@ def get_days(section):
     return section.days
 
 
-def get_days_list(section):
-    return section.days.split()
-
-
-def add_day(section, new_day):
-    if new_day != WeekDay:
+def set_days(section, new_day):
+    if not (new_day in WeekDay):
         raise Exception("Day not a WeekDay")
-    elif new_day in get_days_list(section):
-        return
-    else:
-        section.days.append(new_day)
+    section.days = new_day
 
 
 def get_time_start(section):
@@ -68,10 +61,10 @@ def get_time_start(section):
 
 
 def set_time_start(section, new_time):
-    if new_time != models.TimeField:
-        raise Exception("Start time not valid")
-    elif new_time > section.time_end:
-        raise Exception("Start time > End time")
+    if new_time is None:
+        raise Exception("Start time not null")
+    elif len(new_time) > 5:
+        raise Exception("Start time > 5")
     else:
         section.time_start = new_time
 
@@ -81,10 +74,10 @@ def get_time_end(section):
 
 
 def set_time_end(section, new_time):
-    if new_time != models.TimeField:
-        raise Exception("End time not valid")
-    elif new_time < section.time_start:
-        raise Exception("End time < Start time")
+    if new_time is None:
+        raise Exception("Start time not null")
+    elif len(new_time) > 5:
+        raise Exception("End time > 5")
     else:
         section.time_end = new_time
 
@@ -93,13 +86,13 @@ def get_location(section):
     return section.location
 
 
-def set_location(section, new_location):
-    if new_location is None:
-        raise Exception("Location is null")
-    elif len(new_location) > 25:
-        raise Exception("Location is > 25")
+def set_location(section, location):
+    if location is None:
+        raise Exception("Location null")
+    elif len(location) > 25:
+        raise Exception("Location > 25")
     else:
-        section.location = new_location
+        section.location = location
 
 
 def exists(section_num):
@@ -111,14 +104,12 @@ def exists(section_num):
 
 
 def add_section(section_num, ta, course, days, time_start, time_end, location):
-    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59",
-                          location="")
+    new_section = Section(section_num=" ", ta=ta, course=course, days="", time_start="00:00", time_end="23:59")
     try:
         set_section_num(new_section, section_num)
         set_ta(new_section, ta)
         set_course(new_section, course)
-        for i in days.split():
-            add_day(new_section, i)
+        set_days(new_section, days)
         set_time_start(new_section, time_start)
         set_time_end(new_section, time_end)
         set_location(new_section, location)

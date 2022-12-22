@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
 from classes import UserClass, CourseClass, SectionClass
+from datetime import datetime
 
 
 class Login(View):
@@ -140,33 +141,27 @@ class CreateAccount(View):
                 return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created"})
 
-class CreateNotification(View):
-    def post(self, request):
-        name = request.POST['Name'].split()
-        role = request.POST['role']
-        message = request.POST['message']
 
 class NewNotification(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
+        return render(request, "newnotification.html", {"name": NotificationClass.get_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
+
         my_user = UserClass.get_user(request.session["session_username"])
         name = request.POST["name"]
-        time = request.POST["time"]
-        date = request.POST["date"]
         message = request.POST["message"]
         role = request.POST["role"]
         email = request.POST["email"]
 
+
         try:
-            Notification.add_to_class(name, time, date, message, role, email)
+            NotificationClass.add_notification(name, message, email, role)
         except Exception as e:
             return render(request, "newnotification.html", {"message": str(e)})
         return render(request, "newnotification.html", {"message": "Notification Sent",
@@ -178,93 +173,74 @@ class NewNotification(View):
 
 
 ...
-class notification(View):
+class Notification(View):
     def get(self, request):
-        my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
 
-    def post(self, request):
+        all_notifications = NotificationClass.get_allnotifications();
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
-
-
-class CreateLabSection(View):
-    def get(self, request):
-        talist = User.objects.filter(role='TA').values()
-        courselist = Course.objects.values()
-        my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateLabSection.html", {"username": UserClass.get_username(my_user),
-                                                         "full_name": UserClass.get_full_name(my_user),
-                                                         "role": UserClass.get_role(my_user),
-                                                         "email": UserClass.get_email(my_user),
-                                                         "courses": UserClass.get_courses(my_user),
-                                                         "sections": UserClass.get_sections(my_user),
-                                                         "talist": talist,
-                                                         "courses": courselist})
-
-    def post(self, request):
-        my_user = UserClass.get_user(request.session["session_username"])
-        section_num = request.POST["section_num"]
-        taname = request.POST["ta"]
-        coursename = request.POST["course"]
-        days = request.POST["days"]
-        time_start = request.POST["time_start"]
-        time_end = request.POST["time_end"]
-        location = request.POST["location"]
-        ta = UserClass.get_user(taname)
-        course = CourseClass.get_course(coursename)
-
-        try:
-            SectionClass.add_section(section_num, ta, course, days, time_start, time_end, location)
-        except Exception as e:
-            return render(request, "CreateLabSection.html", {"message": str(e)})
-        return render(request, "CreateLabSection.html", {"message": "Section created",
-                                                         "username": UserClass.get_username(my_user),
-                                                         "full_name": UserClass.get_full_name(my_user),
-                                                         "role": UserClass.get_role(my_user),
-                                                         "email": UserClass.get_email(my_user),
-                                                         "courses": UserClass.get_courses(my_user),
-                                                         "sections": UserClass.get_sections(my_user)})
-class CreateCourse(View):
-    def get(self, request):
-        instlist = User.objects.filter(role='Instructor').values()
-        my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
+        return render(request, "notification.html", {"name": NotificationClass.get_name(Notification),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user),
-                                                     "Instructors": instlist,})
+                                                     "all_notifications": all_notifications})
+
+
+
+
+class CreateLabSection(View):
+    def get(self, request):
+        talist = UserClass.get_all_tas()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateLabSection.html", {"role": UserClass.get_role(my_user),
+                                                         "tas": talist})
+
     def post(self, request):
+        talist = UserClass.get_all_tas()
+        my_user = UserClass.get_user(request.session["session_username"])
+        section_num = request.POST["section_num"]
+        ta_name = request.POST["ta"]
+        course = request.POST["course"]
+        days = request.POST["days"]
+        time_start = request.POST["time_start"]
+        time_end = request.POST["time_end"]
+        location = request.POST["location"]
+        ta = UserClass.get_user(ta_name)
+        try:
+            SectionClass.add_section(section_num, ta, course, days, time_start, time_end, location)
+        except Exception as e:
+            return render(request, "CreateLabSection.html", {"message": str(e)})
+        return render(request, "CreateLabSection.html", {"message": "Section created",
+                                                         "role": UserClass.get_role(my_user),
+                                                         "tas": talist})
+
+
+class CreateCourse(View):
+    def get(self, request):
+        instlist = UserClass.get_all_instructors()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "CreateCourse.html", {"role": UserClass.get_role(my_user),
+                                                     "Instructors": instlist})
+
+    def post(self, request):
+        instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
         course_name = request.POST["course_name"]
-        instructorName = request.POST["instructor"]
+        if not UserClass.get_all_instructors:
+            return render(request, "CreateCourse.html", {"message": "No instructor"})
+        instructor_name = request.POST["instructor"]
         semester = request.POST["semester"]
         days = request.POST["days"]
         time_start = request.POST["time_start"]
         time_end = request.POST["time_end"]
         location = request.POST["location"]
-        instructor = UserClass.get_user(instructorName)
+        instructor = UserClass.get_user(instructor_name)
         try:
             CourseClass.add_course(course_name, instructor, semester, days, time_start, time_end, location)
         except Exception as e:
             return render(request, "CreateCourse.html", {"message": str(e)})
         return render(request, "CreateCourse.html", {"message": "Course created",
-                                                     "username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                     "Instructors": instlist})
 
