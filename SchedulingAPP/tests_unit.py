@@ -177,67 +177,124 @@ class TestCourseClass(TestCase):
 
     def test_get_course(self):
         test_course = Course.objects.get(course_name="test_course_101")
-        self.assertEqual(UserClass.get_user("test_user_TA"), ta)
-
+        self.assertEqual(CourseClass.get_course("test_user_TA"), test_course)
 
     def test_set_course_name_length(self):
-        test_course = Course.objects.get(course_name="test_course_101")
+        test_course = CourseClass.get_course("test_course_101")
         with self.assertRaises(Exception, msg="course_name is too long"):
             CourseClass.set_course_name(test_course, "-----------------------------")
 
     def test_set_course_name_null(self):
-        test_course = Course.objects.get(course_name="test_course_1")
+        test_course = CourseClass.get_course("test_course_101")
         with self.assertRaises(Exception, msg="course_name is null"):
             CourseClass.set_course_name(test_course, None)
 
     def test_set_course_name(self):
-        test_course = Course.objects.get(course_name="test_course_1")
+        test_course = CourseClass.get_course("test_course_101")
         CourseClass.set_course_name(test_course, "new_course_name")
         self.assertEqual("new_course_name", test_course.course_name)
 
-    def test_set_instructor_length(self):
-        test_course = Course.objects.get(course_name="test_course_2")
-        with self.assertRaises(Exception, msg="instructor is too long"):
-            CourseClass.set_instructor(test_course, "----------------------------------------------------------")
-
-    def test_set_instructor_null(self):
-        test_course = Course.objects.get(course_name="test_course_2")
-        with self.assertRaises(Exception, msg="instructor is null"):
-            CourseClass.set_instructor(test_course, None)
-
     def test_set_instructor(self):
-        test_course = Course.objects.get(course_name="test_course_2")
-        CourseClass.set_instructor(test_course, "new_instructor")
-        self.assertEqual("new_instructor", test_course.instructor)
+        inst = UserClass.get_user(username="test_user_inst")
+        test_course = CourseClass.get_course("test_course_101")
+        CourseClass.set_instructor(test_course, inst)
+        self.assertEqual(inst.username, test_course.instructor.username)
+
+    def test_set_nonexistent_instructor(self):
+        inst = User(username=" ", password=" ", role="inst", email=" ", first_name=" ", last_name=" ")
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="course_name is null"):
+            CourseClass.set_instructor(test_course, inst)
+
+    def test_set_nonexistent_day(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="day is incorrect"):
+            CourseClass.set_days(test_course, "-----------------------------")
+
+    def test_set_day_null(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="day is null"):
+            CourseClass.set_days(test_course, None)
+
+    def test_set_day(self):
+        test_course = CourseClass.get_course("test_course_101")
+        CourseClass.set_days(test_course, "Monday")
+        self.assertEqual("Monday", test_course.days)
 
     def test_set_nonexistent_semester(self):
-        test_course = Course.objects.get(course_name="test_course_2")
+        test_course = CourseClass.get_course("test_course_101")
         with self.assertRaises(Exception, msg="semester is incorrect"):
             CourseClass.set_semester(test_course, "-----------------------------")
 
     def test_set_semester_null(self):
-        test_course = Course.objects.get(course_name="test_course_2")
+        test_course = CourseClass.get_course("test_course_101")
         with self.assertRaises(Exception, msg="semester is null"):
             CourseClass.set_semester(test_course, None)
 
     def test_set_semester(self):
-        test_course = Course.objects.get(course_name="test_course_2")
+        test_course = CourseClass.get_course("test_course_101")
         CourseClass.set_semester(test_course, "Summer")
         self.assertEqual("Summer", test_course.semester)
 
+    def test_set_start_time_length(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="start_time is too long"):
+            CourseClass.set_time_start(test_course, "-----------------------------")
+
+    def test_set_start_time_null(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="start_time is null"):
+            CourseClass.set_time_start(test_course, None)
+
+    def test_set_start_time(self):
+        test_course = CourseClass.get_course("test_course_101")
+        CourseClass.set_time_start(test_course, "10:00")
+        self.assertEqual("10:00", test_course.time_start)
+
+    def test_set_end_time_length(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="start_time is too long"):
+            CourseClass.set_time_end(test_course, "-----------------------------")
+
+    def test_set_end_time_null(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="start_time is null"):
+            CourseClass.set_time_end(test_course, None)
+
+    def test_set_end_time(self):
+        test_course = CourseClass.get_course("test_course_101")
+        CourseClass.set_time_end(test_course, "10:00")
+        self.assertEqual("10:00", test_course.time_end)
+
+    def test_set_location_length(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="location is too long"):
+            CourseClass.set_location(test_course, "-----------------------------")
+
+    def test_set_location_null(self):
+        test_course = CourseClass.get_course("test_course_101")
+        with self.assertRaises(Exception, msg="start_time is null"):
+            CourseClass.set_time_end(test_course, None)
+
+    def test_set_location(self):
+        test_course = CourseClass.get_course("test_course_101")
+        CourseClass.set_location(test_course, "location")
+        self.assertEqual("location", test_course.location)
+
     def test_exists(self):
-        self.assertTrue(CourseClass.exists("test_course_2"))
+        self.assertTrue(CourseClass.exists("test_course_101"))
 
     def test_not_exists(self):
         self.assertFalse(CourseClass.exists("fake_course_name"))
 
     def test_add_course(self):
-        CourseClass.add_course("course_name_new", "instructor_new", "Summer")
+        inst = UserClass.get_user("test_user_inst")
+        CourseClass.add_course("course_name_new", inst, "Summer", "Monday", "00:00", "11:11", "location")
         self.assertTrue(CourseClass.exists("course_name_new"))
 
     def test_add_existing(self):
         with self.assertRaises(Exception, msg="course already in database"):
-            CourseClass.add_course("test_course_2", "instructor_new", "Summer")
+            CourseClass.add_course("test_course_101", "instructor_new", "Summer")
 
     def test_delete_course(self):
         CourseClass.delete_course("test_course_2")
@@ -247,18 +304,38 @@ class TestCourseClass(TestCase):
         with self.assertRaises(Exception, msg="course not in database"):
             CourseClass.delete_course("fake_course_name")
 
+    def test_get_sections(self):
+        section = Section.objects.get(section_num="100")
+        test_course = CourseClass.get_course("test_course_101")
+        self.assertEqual(CourseClass.get_sections(test_course)[0], section, msg="ta not found")
+
+    def test_get_tas(self):
+        ta = UserClass.get_user("test_user_TA")
+        test_course = CourseClass.get_course("test_course_101")
+        self.assertEqual(CourseClass.get_tas(test_course)[0], ta, msg="ta not found")
+
 
 class TestSectionClass(TestCase):
     monkey = None
 
     def setUp(self):
         self.monkey = Client()
-        temp = Section(section_num="123", ta="test_ta_1")
-        temp.save()
-        temp = Section(section_num="456", ta="test_ta_2")
-        temp.save()
-        temp = Section(section_num="789", ta="test_ta_3",)
-        temp.save()
+        ta = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                  first_name="first_name_TA", last_name="last_name_TA")
+        ta.save()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+        course = Course(course_name="test_course_101", instructor=inst, days="Monday", time_start="2:00",
+                        time_end="3:00", location="location1")
+        course.save()
+        section = Section(section_num="123", ta=ta, course=course, days="Monday", time_start="2:00", time_end="3:00",
+                          location="location2")
+        section.save()
+
+
+    def test_get_section(self):
+        test_section = Section.objects.get(section_num="123")
 
     def test_set_section_num_length(self):
         test_section = Section.objects.get(section_num="123")
