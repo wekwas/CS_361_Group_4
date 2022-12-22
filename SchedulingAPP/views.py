@@ -208,7 +208,7 @@ class CreateLabSection(View):
         my_user = UserClass.get_user(request.session["session_username"])
         section_num = request.POST["section_num"]
         ta_name = request.POST["ta"]
-        course = request.POST["course"]
+        course = CourseClass.get_course(request.POST["course"])
         days = request.POST["days"]
         time_start = request.POST["time_start"]
         time_end = request.POST["time_end"]
