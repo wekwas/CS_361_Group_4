@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
-from classes import UserClass, CourseClass, SectionClass, NotificationClass
+from classes import UserClass, CourseClass, SectionClass
 from datetime import datetime
 
 
@@ -97,10 +97,8 @@ class ViewCourses(View):
 class ViewAllCourses(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        courselist = Course.objects.values()
         return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
-                                                       "all_courses": CourseClass.get_all_courses(),
-                                                       "courses": courselist})
+                                                       "all_courses": CourseClass.get_all_courses()})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -192,13 +190,13 @@ class Notification(View):
 
 class CreateLabSection(View):
     def get(self, request):
-        talist = User.objects.filter(role='TA').values()
+        talist = UserClass.get_all_tas()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "CreateLabSection.html", {"role": UserClass.get_role(my_user),
                                                          "tas": talist})
 
     def post(self, request):
-        talist = User.objects.filter(role='TA').values()
+        talist = UserClass.get_all_tas()
         my_user = UserClass.get_user(request.session["session_username"])
         section_num = request.POST["section_num"]
         ta_name = request.POST["ta"]
@@ -219,13 +217,13 @@ class CreateLabSection(View):
 
 class CreateCourse(View):
     def get(self, request):
-        instlist = User.objects.filter(role='Instructor').values()
+        instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "CreateCourse.html", {"role": UserClass.get_role(my_user),
                                                      "Instructors": instlist})
 
     def post(self, request):
-        instlist = User.objects.filter(role='Instructor').values()
+        instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
         course_name = request.POST["course_name"]
         if not UserClass.get_all_instructors:

@@ -10,11 +10,11 @@ def get_all_tas():
 
 
 def get_all_instructors():
-    User.objects.filter(role='Instructor').values()
+    return User.objects.filter(role='Instructor').values()
 
 
 def get_all_supervisors():
-    User.objects.filter(role='Supervisor').values()
+    return User.objects.filter(role='Supervisor').values()
 
 
 def get_user(username):
