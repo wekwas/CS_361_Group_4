@@ -374,3 +374,18 @@ class editSection(View):
                                                        "Instructors": UserClass.get_all_instructors()})
         return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
                                                    "sec": secobj})
+
+
+class ViewAccounts(View):
+    def get(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
+                                                    "courses": UserClass.get_courses(my_user)})
+
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        reqcourse = CourseClass.get_course(request.POST['coursesub'])
+        labs = CourseClass.get_sections(reqcourse)
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                   "course": reqcourse,
+                                                   "labs": labs})

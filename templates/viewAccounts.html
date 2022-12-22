@@ -37,6 +37,7 @@
             <th>Name</th>
             <th>Classes</th>
             <th>Email</th>
+            <th>External Links</th>
         </tr>
             {% for x in supervisors %}
             <tr>
@@ -48,6 +49,12 @@
                 </td>
                 <td>
                     {{ x.email }}
+                </td>
+                <td>
+                    <form action = "/viewAccounts/" method="post">
+                        {% csrf_token %}
+                        <button name="account" value="{{ x.username }}" type="submit">Profile</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
@@ -61,6 +68,7 @@
             <th>Name</th>
             <th>Classes</th>
             <th>Email</th>
+            <th>External Links</th>
         </tr>
             {% for x in instructors %}
             <tr>
@@ -72,7 +80,13 @@
                 </td> 
                 <td>
                     {{ x.email }}
-                </td>  
+                </td>
+            <td>
+                    <form action = "/viewAccounts/" method="post">
+                        {% csrf_token %}
+                        <button name="account" value="{{ x.username }}" type="submit">Profile</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
 
@@ -87,6 +101,7 @@
             <th>Name</th>
             <th>Classes</th>
             <th>Email</th>
+            <th>External Links</th>
         </tr>
            {% for x in tas %}
             <tr>
@@ -94,10 +109,15 @@
                     {{ x.first_name }} {{ x.last_name }}
                 </td>
                 <td>
-                    <!-- PUT COURSES HERE--->
                 </td>
                 <td>
                     {{ x.email }}
+                </td>
+            <td>
+                    <form action = "/viewAccounts/" method="post">
+                        {% csrf_token %}
+                        <button name="account" value="{{ x.username }}" type="submit">Profile</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
