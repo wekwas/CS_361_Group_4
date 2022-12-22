@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive HTML Table</title>
 {% load static %}
-    <link rel="stylesheet" href="{% static 'TaNotification.css' %}">
+    <link rel="stylesheet" href="{% static 'notification.css' %}">
 </head>
 
 <body>
     <nav>
-        <li> {% if role == "Supervisor" %}
+         <li> {% if role == "Supervisor" %}
                 <a href="/supervisorHomepage/">Homepage</a>
 
                 {%  elif role == "Instructor" %}
@@ -33,6 +33,7 @@
     <div class="heading">
         <h1>Notifications</h1>
     </div>
+    <button class="create-button" onclick="window.location.href='/newnotification/'">Create Notification</button>
     <div class="table_responsive">
         <table>
             <thead>
@@ -60,3 +61,4 @@
 </body>
 
 </html>
+
