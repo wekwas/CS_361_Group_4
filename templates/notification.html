@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive HTML Table</title>
 {% load static %}
-    <link rel="stylesheet" href="{% static 'notification.css' %}">
+    <link rel="stylesheet" href="{% static 'TaNotification.css' %}">
 </head>
 
 <body>
     <nav>
-     <li> {% if role == "Supervisor" %}
+        <li> {% if role == "Supervisor" %}
                 <a href="/supervisorHomepage/">Homepage</a>
 
                 {%  elif role == "Instructor" %}
@@ -21,27 +21,26 @@
                 {% elif role == "TA" %}
                 <a href="/TAHomepage">Homepage</a>
                 {% endif %}
-            </li>
-            <li><a href="/viewCourses/">My Courses</a></li>
-            <li><a href="/viewAllCourses/">View Courses</a></li>
-            <li><a href="/MyAccount/">My Account</a></li>
-            <li><a href="/viewAccounts/">View Accounts</a></li>
-            <li><a href="/notification/">Mailbox</a></li>
-            <li><a href="/">Logout</a></li>
+        </li>
+        <li><a href="/viewCourses/">My Courses</a></li>
+        <li><a href="/viewAllCourses/">View Courses</a></li>
+        <li><a href="/MyAccount/">My Account</a></li>
+        <li><a href="/viewAccounts/">View Accounts</a></li>
+        <li><a href="/notification/">Mailbox</a></li>
+        <li><a href="/">Logout</a></li>
     </nav>
 
     <div class="heading">
         <h1>Notifications</h1>
     </div>
-    <button class="create-button" onclick="window.location.href='/newnotification/'">Create Notification</button>
     <div class="table_responsive">
         <table>
             <thead>
                 <tr>
                     <th></th>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Message</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,12 +49,8 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ notification.name }}</td>
+                    <td>{{ notification.email }}</td>
                     <td>{{ notification.message }}</td>
-                    <td>
-                        <span class="action_btn">
-                            <a href="#">Mark as Read</a>
-                        </span>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
