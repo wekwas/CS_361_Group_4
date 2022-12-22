@@ -43,6 +43,7 @@ def set_email(notification, new_email):
 def add_notification(name, message, email,role):
     new_notification = Notification(name="", message="", email="")
 
+
     try:
 
         set_message(new_notification,message)
