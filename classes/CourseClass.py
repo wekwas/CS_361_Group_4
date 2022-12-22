@@ -67,7 +67,7 @@ def get_time_start(course):
 
 def set_time_start(course, new_time):
     if new_time is None:
-        raise Exception("Start time not null")
+        raise Exception("Start time is null")
     elif len(new_time) > 5:
         raise Exception("Start time > 5")
     else:
@@ -80,11 +80,24 @@ def get_time_end(course):
 
 def set_time_end(course, new_time):
     if new_time is None:
-        raise Exception("Start time not null")
+        raise Exception("Start time is null")
     elif len(new_time) > 5:
         raise Exception("End time > 5")
     else:
         course.time_end = new_time
+
+
+def get_location(course):
+    return course.location
+
+
+def set_location(course, location):
+    if location is None:
+        raise Exception("Location null")
+    elif len(location) > 25:
+        raise Exception("Location > 25")
+    else:
+        course.location = location
 
 
 def exists(course_name):
@@ -95,8 +108,9 @@ def exists(course_name):
         return False
 
 
-def add_course(course_name, instructor, semester, days, time_start, time_end):
-    new_course = Course(course_name=" ", instructor=instructor, days=days, time_start=time_start, time_end=time_end)
+def add_course(course_name, instructor, semester, days, time_start, time_end, location):
+    new_course = Course(course_name=" ", instructor=instructor, days=days, time_start=time_start, time_end=time_end,
+                        location=location)
     try:
         set_course_name(new_course, course_name)
         set_instructor(new_course, instructor)
@@ -104,6 +118,7 @@ def add_course(course_name, instructor, semester, days, time_start, time_end):
         set_days(new_course, days)
         set_time_start(new_course, time_start)
         set_time_end(new_course, time_end)
+        set_location(new_course, location)
         new_course.save()
     except Exception as e:
         raise Exception(str(e))
