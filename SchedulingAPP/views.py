@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
-from classes import UserClass, CourseClass, SectionClass
-
+from classes import UserClass, CourseClass, SectionClass,NotificationClass
+from .models import Notification
 
 class Login(View):
     def get(self, request):
@@ -147,14 +147,14 @@ class CreateNotification(View):
 class NewNotification(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
+        return render(request, "newnotification.html", {"name": NotificationClass.get_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
+
         my_user = UserClass.get_user(request.session["session_username"])
         name = request.POST["name"]
         time = request.POST["time"]
@@ -163,8 +163,9 @@ class NewNotification(View):
         role = request.POST["role"]
         email = request.POST["email"]
 
+
         try:
-            Notification.add_to_class(name, time, date, message, role, email)
+            NotificationClass.add_notification(name, message, email, role)
         except Exception as e:
             return render(request, "newnotification.html", {"message": str(e)})
         return render(request, "newnotification.html", {"message": "Notification Sent",
@@ -176,19 +177,11 @@ class NewNotification(View):
 
 
 ...
-class notification(View):
+class Notification(View):
     def get(self, request):
-        my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
 
-    def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
+        return render(request, "notification.html", {"name": NotificationClass.get_name(Notification),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
@@ -219,8 +212,7 @@ class CreateLabSection(View):
         except Exception as e:
             return render(request, "CreateLabSection.html", {"message": str(e)})
         return render(request, "CreateLabSection.html", {"message": "Section created",
-                                                         "username": UserClass.get_username(my_user),
-                                                         "full_name": UserClass.get_full_name(my_user),
+                                                         "name": NotificationClass.get_name(my_user),
                                                          "role": UserClass.get_role(my_user),
                                                          "email": UserClass.get_email(my_user),
                                                          "courses": UserClass.get_courses(my_user),
