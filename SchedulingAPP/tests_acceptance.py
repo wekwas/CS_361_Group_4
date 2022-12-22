@@ -76,6 +76,9 @@ class TestCreateAccount(TestCase):
         temp.save()
 
     def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.get("/CreateAccount/", follow=True)
         self.assertTemplateUsed(response, "CreateAccount.html")
 
@@ -112,20 +115,20 @@ class TestCreateAccount(TestCase):
 
     def test_duplicate_creation_message(self):
         response = self.monkey.post("/CreateAccount/", {"fullName": "first_name_TA last_name_TA", "role": "TA",
-                                                        "userName": "test_user_TA", "password": "password_TA",
+                                                        "username": "test_user_TA", "password": "password_TA",
                                                         "passwordCheck": "password_TA"}, follow=True)
-        self.assertIn("User already exists", response.context["message"], "message displayed incorrectly")
+        self.assertIn("Username already exists", response.context["message"], "message displayed incorrectly")
 
     def test_bad_password(self):
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "userName": "test_userName", "password": "test_password",
+                                                        "username": "test_userName", "password": "test_password",
                                                         "passwordCheck": "fake_password"}, follow=True)
         self.assertFalse(UserClass.exists("test_userName"), "user added")
         self.assertTemplateUsed(response, "CreateAccount.html")
 
     def test_bad_password_message(self):
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "userName": "test_userName", "password": "test_password",
+                                                        "username": "test_userName", "password": "test_password",
                                                         "passwordCheck": "fake_password"}, follow=True)
         self.assertIn("Passwords don't match", response.context["message"], "message displayed incorrectly")
 
@@ -146,6 +149,9 @@ class TestMyAccount(TestCase):
         temp.save()
 
     def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.get("/MyAccount/", follow=True)
         self.assertTemplateUsed(response, "MyAccount.html")
 
@@ -179,11 +185,106 @@ class TestCreateCourse(TestCase):
         session = self.monkey.session
         session['session_username'] = 'test_user_inst'
         session.save()
-        inst = UserClass.get_user("test_user_inst")
         response = self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
                                                        "semester": "Winter", "days": "Monday",
                                                        "time_start": "00:01", "time_end": "12:00",
                                                        "location": "the_abyss"}, follow=True)
         self.assertTemplateUsed(response, "CreateCourse.html")
         self.assertTrue(CourseClass.exists("test_add_101"), "course not added")
+
+    def test_course_creation_message(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
+                                                       "semester": "Winter", "days": "Monday",
+                                                       "time_start": "00:01", "time_end": "12:00",
+                                                       "location": "the_abyss"}, follow=True)
+        self.assertIn("Course created", response.context["message"], "message displayed incorrectly")
+
+    def test_new_course_data(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
+                                                       "semester": "Winter", "days": "Monday",
+                                                       "time_start": "00:01", "time_end": "12:00",
+                                                       "location": "the_abyss"}, follow=True)
+        test_course = Course.objects.get(course_name="test_add_101")
+        self.assertEqual(test_course.course_name, "test_add_101", "course_name incorrect")
+        self.assertEqual(test_course.instructor.username, "test_user_inst", "instructor incorrect")
+        self.assertEqual(test_course.semester, "Winter", "semester incorrect")
+        self.assertEqual(test_course.days, "Monday", "days incorrect")
+        self.assertEqual(test_course.time_start, "00:01", "time_start incorrect")
+        self.assertEqual(test_course.time_end, "12:00", "time_end incorrect")
+        self.assertEqual(test_course.location, "the_abyss", "location incorrect")
+
+
+class TestCreateSection(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        ta = User(username="test_user_TA", password="password_TA", role="TA", email="email_TA",
+                  first_name="first_name_TA", last_name="last_name_TA")
+        ta.save()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+        course = Course(course_name="test_course_101", instructor=inst, days=" Monday ", time_start="2:00",
+                        time_end="3:00", location="location1")
+        course.save()
+        section = Section(section_num="100", ta=ta, course=course, days=" Monday ", time_start="2:00", time_end="3:00",
+                          location="location2")
+        section.save()
+
+    def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.get("/CreateSection/", follow=True)
+        self.assertTemplateUsed(response, "CreateSection.html")
+
+    def test_section_creation(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.post("/CreateSection/", {"course_name": "test_add_101", "instructor": "test_user_inst",
+                                                       "semester": "Winter", "days": "Monday",
+                                                       "time_start": "00:01", "time_end": "12:00",
+                                                       "location": "the_abyss"}, follow=True)
+        self.assertTemplateUsed(response, "CreateCourse.html")
+        self.assertTrue(CourseClass.exists("test_add_101"), "course not added")
+
+    def test_course_creation_message(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
+                                                       "semester": "Winter", "days": "Monday",
+                                                       "time_start": "00:01", "time_end": "12:00",
+                                                       "location": "the_abyss"}, follow=True)
+        self.assertIn("Course created", response.context["message"], "message displayed incorrectly")
+
+    def test_new_course_data(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
+                                                       "semester": "Winter", "days": "Monday",
+                                                       "time_start": "00:01", "time_end": "12:00",
+                                                       "location": "the_abyss"}, follow=True)
+        test_course = Course.objects.get(course_name="test_add_101")
+        self.assertEqual(test_course.course_name, "test_add_101", "course_name incorrect")
+        self.assertEqual(test_course.instructor.username, "test_user_inst", "instructor incorrect")
+        self.assertEqual(test_course.semester, "Winter", "semester incorrect")
+        self.assertEqual(test_course.days, "Monday", "days incorrect")
+        self.assertEqual(test_course.time_start, "00:01", "time_start incorrect")
+        self.assertEqual(test_course.time_end, "12:00", "time_end incorrect")
+        self.assertEqual(test_course.location, "the_abyss", "location incorrect")
+
+
+
+
+
 
