@@ -35,15 +35,22 @@
 <p>
     {{ message }}
 </p>
-    <form action = "/MyAccount/" method = "get">
-        <div><a class="field">Course Name: </a><input type='text' name='coursename' placeholder='{{ course.course_name }}' /></div>
+    <form action = "/EditCourse/" method = "post">
+        <div><a class="field">Course Name: </a><input type='text' name='course_name' placeholder='{{ course.course_name }}' /></div>
 
         <div><a class="field">Instructor: </a> <select name="instructor" id="instructor">
             {% for x in Instructors %}
                 <option value={{ x.username }}>{{ x.username }} </option>
             {% endfor %}
         </select></div>
+            <label for="semester">Semester: </label>
+                <select name="semester" id="semester">
 
+=               <option value="Fall">Fall </option>
+                <option value="Winter">Winter </option>
+                <option value="Spring">Spring </option>
+                <option value="Summer">Summer </option>
+                </select>
         <div><a class="field">Days: </a>
             <select name="days" id="days">
                 <option value="Monday">Monday </option>
@@ -62,19 +69,16 @@
         <div><a class="field">Time End: </a> <input type="time" id="time_end" name="time_end"
             min="00:00" max="24:00" placeholder="{{ course.time_end }}" required></div>
 
-        <div><a class="field">Location: </a><input type='text' name='coursename' placeholder='{{ course.location }} ' /></div>
+        <div><a class="field">Location: </a><input type='text' name='location' placeholder='{{ course.location }} ' /></div>
 
-
+        {% csrf_token %}
+         <button name="coursesub" value="{{ course.course_name }}" type="submit">Edit Information</button>
     </form>
     <!--Get user information-->
 
     <!--For professors and TAs only-->
 
     <br></br>
-     <form action = "/viewCourse/" method="post">
-         {% csrf_token %}
-         <button name="coursesub" value="{{ course.course_name }}" type="submit">Edit Information</button>
-                    </form>
 
 </div>
 </body>

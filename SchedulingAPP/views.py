@@ -286,8 +286,6 @@ class EditCourse(View):
         my_user = UserClass.get_user(request.session["session_username"])
         courseobj = CourseClass.get_course(request.POST["coursesub"])
         course_name = request.POST["course_name"]
-        if not UserClass.get_all_instructors:
-            return render(request, "CreateCourse.html", {"message": "No instructor"})
         instructor_name = request.POST["instructor"]
         semester = request.POST["semester"]
         days = request.POST["days"]
@@ -302,7 +300,7 @@ class EditCourse(View):
             CourseClass.set_time_start(courseobj, time_start)
             CourseClass.set_time_end(courseobj, time_end)
             CourseClass.set_location(courseobj, location)
-            CourseClass.set_instructor(instructor)
+            CourseClass.set_instructor(courseobj, instructor)
         except Exception as e:
             return render(request, "EditCourse.html", {"message": str(e),
                                                        "role": UserClass.get_role(my_user),

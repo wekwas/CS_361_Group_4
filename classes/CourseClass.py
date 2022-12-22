@@ -26,6 +26,7 @@ def set_course_name(course, new_course_name):
         raise Exception("Course name already in use")
     else:
         course.course_name = new_course_name
+        course.save()
 
 
 def get_instructor(course):
@@ -39,6 +40,7 @@ def set_instructor(course, new_instructor):
         raise Exception("User not Instructor")
     else:
         course.instructor = new_instructor
+        course.save()
 
 
 def get_semester(course):
@@ -53,6 +55,7 @@ def set_semester(course, new_semester):
         raise Exception("Semester not valid")
     else:
         course.semester = new_semester
+        course.save()
 
 
 def get_days(course):
@@ -63,6 +66,7 @@ def set_days(course, new_day):
     if not (new_day in WeekDay):
         raise Exception("Day not a WeekDay")
     course.days = new_day
+    course.save()
 
 
 def get_time_start(course):
@@ -76,6 +80,7 @@ def set_time_start(course, new_time):
         raise Exception("Start time > 5")
     else:
         course.time_start = new_time
+        course.save()
 
 
 def get_time_end(course):
@@ -89,6 +94,7 @@ def set_time_end(course, new_time):
         raise Exception("End time > 5")
     else:
         course.time_end = new_time
+        course.save()
 
 
 def get_location(course):
@@ -102,6 +108,7 @@ def set_location(course, location):
         raise Exception("Location > 25")
     else:
         course.location = location
+        course.save()
 
 
 def get_sections(course):
