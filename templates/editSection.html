@@ -67,7 +67,10 @@
          <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>
     </form>
     <!--Get user information-->
-
+<form action = "/deleteSection/" method="post">
+        {% csrf_token %}
+        <button name="deletes" value="{{ sec.section_num }}" type="submit">DELETE SECTION</button>
+    </form>
     <!--For professors and TAs only-->
 
     <br></br>

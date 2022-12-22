@@ -393,6 +393,7 @@ class viewTargetAccount(View):
         my_user = UserClass.get_user(request.session["session_username"])
         account = UserClass.get_user(request.POST['account'])
         return render(request, "editTargetAccount.html", {"role": UserClass.get_role(my_user),
+                                                          "username": UserClass.get_username(my_user),
                                                           "account": account})
 
 class editTargetAccount(View):
@@ -405,6 +406,7 @@ class editTargetAccount(View):
                                                      "all_users": UserClass.get_all_users(),
                                                      "supervisors": suplist,
                                                      "instructors": instlist,
+                                                     "username": UserClass.get_username(my_user),
                                                      "tas": talist})
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -425,6 +427,7 @@ class editTargetAccount(View):
         except Exception as e:
             return render(request, "editTargetAccount.html", {"message": str(e),
                                                        "role": UserClass.get_role(my_user),
+                                                       "username": UserClass.get_username(my_user),
                                                        "account": accobj})
         return render(request, "viewTargetAccount.html", {"role": UserClass.get_role(my_user),
                                                           "account": accobj})
@@ -458,3 +461,55 @@ class editSelfAccount(View):
                                                   "email": accobj.email,
                                                   "courses": UserClass.get_courses(accobj),
                                                   "sections": UserClass.get_sections(accobj)})
+
+class deleteCourse(View) :
+
+    def get(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        deletedCourse = CourseClass.get_course(request.POST["deletec"])
+
+        try:
+            CourseClass.delete_course(deletedCourse)
+        except Exception as e:
+            return render(request, "editCourse.html", {"message": str(e),
+                                                        "role": UserClass.get_role(my_user),
+                                                        "course": deletedCourse})
+        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
+
+class deleteAccount(View) :
+
+    def get(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        deletedAccount = UserClass.get_user(request.POST["deletea"])
+
+        try:
+            UserClass.delete_user(deletedAccount)
+        except Exception as e:
+            return render(request, "editTargetAccount.html", {"message": str(e),
+                                                        "role": UserClass.get_role(my_user),
+                                                        "account": deletedAccount})
+        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
+
+class deleteSection(View) :
+
+    def get(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user)})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        deletedSection = SectionClass.get_section(request.POST["deletes"])
+
+        try:
+            SectionClass.delete_section(deletedSection)
+        except Exception as e:
+            return render(request, "editCourse.html", {"message": str(e),
+                                                        "role": UserClass.get_role(my_user),
+                                                        "sec": deletedSection})
+        return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user)})
+

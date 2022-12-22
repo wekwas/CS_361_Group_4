@@ -53,9 +53,13 @@
          <button name="account" value="{{ account.username }}" type="submit">Edit Information</button>
     </form>
     <!--Get user information-->
-
+    {% if account.username != username %}
+<form action = "/deleteAccount/" method="post">
+        {% csrf_token %}
+        <button name="deletea" value="{{account.username }}" type="submit">DELETE USER</button>
+    </form>
     <!--For professors and TAs only-->
-
+{% endif %}
     <br></br>
 
 </div>

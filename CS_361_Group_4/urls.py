@@ -39,5 +39,8 @@ urlpatterns = [
     path('viewTargetAccount/', viewTargetAccount.as_view()),
     path('editTargetAccount/', editTargetAccount.as_view()),
     path('editSelfAccount/', editSelfAccount.as_view()),
+    path('deleteCourse/', deleteCourse.as_view()),
+    path('deleteAccount/', deleteAccount.as_view()),
+    path('deleteSection/', deleteSection.as_view()),
 
 ]

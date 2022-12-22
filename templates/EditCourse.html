@@ -74,6 +74,10 @@
         {% csrf_token %}
          <button name="coursesub" value="{{ course.course_name }}" type="submit">Edit Information</button>
     </form>
+    <form action = "/deleteCourse/" method="post">
+        {% csrf_token %}
+        <button name="deletec" value="{{ course.course_name }}" type="submit">DELETE COURSE</button>
+    </form>
     <!--Get user information-->
 
     <!--For professors and TAs only-->
