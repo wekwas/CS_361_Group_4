@@ -5,6 +5,18 @@ def get_all_users():
     return User.objects.all()
 
 
+def get_all_tas():
+    User.objects.filter(role='TA').values()
+
+
+def get_all_instructors():
+    User.objects.filter(role='Instructor').values()
+
+
+def get_all_supervisors():
+    User.objects.filter(role='Supervisor').values()
+
+
 def get_user(username):
     return User.objects.get(username=username)
 
