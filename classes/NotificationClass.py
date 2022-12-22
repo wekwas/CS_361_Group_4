@@ -45,6 +45,7 @@ def add_notification(name, message, email,role):
 
 
 
+
     try:
 
         set_message(new_notification,message)
