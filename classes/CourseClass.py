@@ -20,6 +20,10 @@ def set_course_name(course, new_course_name):
         raise Exception("Course name is null")
     elif len(new_course_name) > 20:
         raise Exception("Course name too long")
+    elif len(new_course_name.split()) > 1:
+        raise Exception("Spaces not allowed in course name")
+    elif exists("new_course_name"):
+        raise Exception("Course name already in use")
     else:
         course.course_name = new_course_name
 

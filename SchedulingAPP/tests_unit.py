@@ -177,7 +177,7 @@ class TestCourseClass(TestCase):
 
     def test_get_course(self):
         test_course = Course.objects.get(course_name="test_course_101")
-        self.assertEqual(CourseClass.get_course("test_user_TA"), test_course)
+        self.assertEqual(CourseClass.get_course("test_course_101"), test_course)
 
     def test_set_course_name_length(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -297,7 +297,8 @@ class TestCourseClass(TestCase):
             CourseClass.add_course("test_course_101", "instructor_new", "Summer")
 
     def test_delete_course(self):
-        CourseClass.delete_course("test_course_2")
+        test_course = CourseClass.get_course("test_course_101")
+        CourseClass.delete_course(test_course)
         self.assertFalse(CourseClass.exists("test_course_2"))
 
     def test_delete_nonexistent_course(self):
@@ -333,58 +334,114 @@ class TestSectionClass(TestCase):
                           location="location2")
         section.save()
 
-
     def test_get_section(self):
         test_section = Section.objects.get(section_num="123")
+        self.assertEqual(SectionClass.get_section("123"), test_section)
 
     def test_set_section_num_length(self):
-        test_section = Section.objects.get(section_num="123")
+        test_section = SectionClass.get_section("123")
         with self.assertRaises(Exception, msg="course_name is too long"):
             SectionClass.set_section_num(test_section, "-----------------------------")
 
     def test_set_section_num_null(self):
-        test_section = Section.objects.get(section_num="123")
+        test_section = SectionClass.get_section("123")
         with self.assertRaises(Exception, msg="course_name is null"):
             SectionClass.set_section_num(test_section, None)
 
     def test_set_section_num(self):
-        test_section = Section.objects.get(section_num="123")
+        test_section = SectionClass.get_section("123")
         SectionClass.set_section_num(test_section, "321")
         self.assertEqual("321", test_section.section_num)
 
-    def test_set_ta_length(self):
-        test_section = Section.objects.get(section_num="456")
-        with self.assertRaises(Exception, msg="ta is too long"):
-            SectionClass.set_ta(test_section, "----------------------------------------------------------")
-
-    def test_set_ta_null(self):
-        test_section = Section.objects.get(section_num="456")
-        with self.assertRaises(Exception, msg="ta is null"):
-            SectionClass.set_ta(test_section, None)
-
     def test_set_ta(self):
-        test_section = Section.objects.get(section_num="456")
-        SectionClass.set_ta(test_section, "new_ta")
-        self.assertEqual("new_ta", test_section.ta)
+        ta = UserClass.get_user(username="test_user_TA")
+        test_section = SectionClass.get_section("123")
+        SectionClass.set_ta(test_section, ta)
+        self.assertEqual(ta.username, test_section.ta.username)
+
+    def test_set_nonexistent_ta(self):
+        ta = User(username=" ", password=" ", role="TA", email=" ", first_name=" ", last_name=" ")
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="ta doesn't exist"):
+            SectionClass.set_ta(test_section, ta)
+
+    def test_set_course(self):
+        course = CourseClass.get_course(course_name="test_course_101")
+        test_section = SectionClass.get_section("123")
+        SectionClass.set_course(test_section, course)
+        self.assertEqual(course.course_name, test_section.course.course_name)
+
+    def test_set_nonexistent_course(self):
+        inst = UserClass.get_user("test_user_inst")
+        course = Course(course_name=" ", instructor=inst, days=" ", time_start="2:00",
+                        time_end="3:00", location=" ")
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="ta doesn't exist"):
+            SectionClass.set_ta(test_section, course)
+
+    def test_set_nonexistent_day(self):
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="day is incorrect"):
+            SectionClass.set_days(test_section, "-----------------------------")
+
+    def test_set_day_null(self):
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="day is null"):
+            SectionClass.set_days(test_section, None)
+
+    def test_set_day(self):
+        test_section = SectionClass.get_section("123")
+        SectionClass.set_days(test_section, "Monday")
+        self.assertEqual("Monday", test_section.days)
+
+    def test_set_start_time_length(self):
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="start_time is too long"):
+            SectionClass.set_time_start(test_section, "-----------------------------")
+
+    def test_set_start_time_null(self):
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="start_time is null"):
+            SectionClass.set_time_start(test_section, None)
+
+    def test_set_start_time(self):
+        test_section = SectionClass.get_section("123")
+        SectionClass.set_time_start(test_section, "10:00")
+        self.assertEqual("10:00", test_section.time_start)
+
+    def test_set_end_time_length(self):
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="start_time is too long"):
+            SectionClass.set_time_end(test_section, "-----------------------------")
+
+    def test_set_end_time_null(self):
+        test_section = SectionClass.get_section("123")
+        with self.assertRaises(Exception, msg="start_time is null"):
+            SectionClass.set_time_end(test_section, None)
+
+    def test_set_end_time(self):
+        test_section = SectionClass.get_section("123")
+        SectionClass.set_time_end(test_section, "10:00")
+        self.assertEqual("10:00", test_section.time_end)
 
     def test_exists(self):
-        self.assertTrue(SectionClass.exists("456"))
+        self.assertTrue(SectionClass.exists("123"))
 
     def test_not_exists(self):
         self.assertFalse(SectionClass.exists("999"))
 
-    def test_add_course(self):
-        SectionClass.add_section("999", "ta_new")
-        self.assertTrue(SectionClass.exists("999"))
+    def test_add_section(self):
+        ta = UserClass.get_user("test_user_TA")
+        course = CourseClass.get_course("test_course_101")
+        SectionClass.add_section("333", ta, course, "Monday", "2:00", "3:00", "location2")
+        self.assertTrue(SectionClass.exists("333"))
 
-    def test_add_existing(self):
-        with self.assertRaises(Exception, msg="section already in database"):
-            SectionClass.add_section("456", "ta_new")
+    def test_delete_section(self):
+        test_section = SectionClass.get_section("123")
+        SectionClass.delete_section(test_section)
+        self.assertFalse(SectionClass.exists("123"))
 
-    def test_delete_course(self):
-        SectionClass.delete_section("456")
-        self.assertFalse(SectionClass.exists("456"))
-
-    def test_delete_nonexistent_course(self):
+    def test_delete_nonexistent_section(self):
         with self.assertRaises(Exception, msg="section not in database"):
             SectionClass.delete_section("999")
+
