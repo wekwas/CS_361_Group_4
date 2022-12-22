@@ -28,7 +28,7 @@
     </nav>
 <div  class="form">
 
-    <h1>My Account
+    <h1>{{ course.course_name }}
 
     </h1>
     <br></br>
@@ -45,7 +45,10 @@
     <!--For professors and TAs only-->
 
     <br></br>
-    <button>Edit Information</button>
+     <form action = "/viewCourse/" method="post">
+         {% csrf_token %}
+         <button name="coursesub" value="{{ course.course_name }}" type="submit">Course Information</button>
+                    </form>
 
 </div>
 </body>

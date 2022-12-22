@@ -57,7 +57,7 @@
                     TA TBA
                 </td>  
                 <td>
-                    <form action = "/ViewAllCourses/" method="post">
+                    <form action = "/viewAllCourses/" method="post">
                         {% csrf_token %}
                         <button name="coursesub" value="{{ x.course_name }}" type="submit">Course Information</button>
                     </form>

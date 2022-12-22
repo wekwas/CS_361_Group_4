@@ -101,6 +101,7 @@ class ViewAllCourses(View):
         return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
                                                        "all_courses": CourseClass.get_all_courses()})
     def post(self, request):
+
         my_user = UserClass.get_user(request.session["session_username"])
         reqcourse = CourseClass.get_course(request.POST['coursesub'])
         return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
