@@ -35,7 +35,7 @@ class SupervisorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "supervisorHomepage.html", {"role": UserClass.get_role(my_user),
-                                                           "username": UserClass.get_username(my_user)})
+                                                           "first_name": UserClass.get_first_name(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -46,7 +46,7 @@ class InstructorHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "instructorHomepage.html", {"role": UserClass.get_role(my_user),
-                                                           "username": UserClass.get_username(my_user)})
+                                                           "first_name": UserClass.get_first_name(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -57,7 +57,7 @@ class TAHomepage(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "TAHomepage.html", {"role": UserClass.get_role(my_user),
-                                                   "username": UserClass.get_username(my_user)})
+                                                   "first_name": UserClass.get_first_name(my_user)})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -253,10 +253,7 @@ class CreateCourse(View):
                                                      "role": UserClass.get_role(my_user),
                                                      "Instructors": instlist})
 class viewCourse(View):
-
-
     def get(self, request):
-
         talist = UserClass.get_all_tas()
         instlist = UserClass.get_all_instructors()
         suplist = UserClass.get_all_supervisors()
@@ -324,7 +321,7 @@ class viewSection(View):
         instlist = UserClass.get_all_instructors()
         suplist = UserClass.get_all_supervisors()
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+        return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
                                                      "all_users": UserClass.get_all_users(),
                                                      "supervisors": suplist,
                                                      "instructors": instlist,
