@@ -2,11 +2,14 @@ from django.db import models
 
 
 class WeekDay(models.TextChoices):
-    Monday = " Monday "
-    Tuesday = " Tuesday "
-    Wednesday = " Wednesday "
-    Thursday = " Thursday "
-    Friday = " Friday "
+    Monday = "Monday"
+    Tuesday = "Tuesday"
+    Wednesday = "Wednesday"
+    Thursday = "Thursday"
+    Friday = "Friday"
+    Monday_Wednesday = "Monday Wednesday"
+    Monday_Wednesday_Friday = "Monday Wednesday Friday"
+    Tuesday_Thursday = "Tuesday Thursday"
 
 
 class Role(models.TextChoices):
@@ -38,9 +41,9 @@ class Course(models.Model):
     course_name = models.CharField(max_length=20)
     instructor = models.ForeignKey(User, on_delete=models.CASCADE)
     semester = models.CharField(max_length=10, choices=Semester.choices, default=Semester.fall)
-    days = models.CharField(max_length=60)
-    time_start = models.TimeField(blank=True, null=True)
-    time_end = models.TimeField(blank=True, null=True)
+    days = models.CharField(max_length=23, choices=WeekDay.choices, default=WeekDay.Monday)
+    time_start = models.CharField(max_length=5)
+    time_end = models.CharField(max_length=5)
     location = models.CharField(max_length=25)
 
     def __str__(self):
@@ -51,9 +54,9 @@ class Section(models.Model):
     section_num = models.CharField(max_length=3)
     ta = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    days = models.CharField(max_length=601)
-    time_start = models.TimeField(blank=True, null=True)
-    time_end = models.TimeField(blank=True, null=True)
+    days = models.CharField(max_length=23, choices=WeekDay.choices, default=WeekDay.Monday)
+    time_start = models.CharField(max_length=5)
+    time_end = models.CharField(max_length=5)
     location = models.CharField(max_length=25)
 
     def __str__(self):
@@ -69,5 +72,5 @@ class Notification(models.Model):
     email = models.EmailField(max_length=60)
 
     def __str__(self):
-        return self.name;
+        return self.name
 
