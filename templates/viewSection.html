@@ -28,22 +28,22 @@
     </nav>
 <div  class="form">
 
-    <h1>{{ course.course_name }}
+    <h1>{{ sec.sec_num }}
 
     </h1>
     <br></br>
-        <div><a class="field">Course Name: </a>{{ course.course_name }}</div>
-        <div><a class="field">Instructor: </a> {{ course.instructor}}</div>
+    <form action = "/MyAccount/" method = "get">
+        <div><a class="field">Section Number: </a>{{ sec.sec_num }}</div>
+        <div><a class="field">Instructor: </a> {{ sec.instructor}}</div>
         <div><a class="field">Days: </a>{{ course.days }}</div>
         <div><a class="field">Time Start: </a>{{ course.time_start }}</div>
         <div><a class="field">Time End: </a> {{ course.time_end }}</div>
         <div><a class="field">Location: </a>{{ course.location }}</div>
         <div><a class="field">Sections: </a>
             {% for x in labs %}
-                <form action = "/ViewCourse/" method = "edsec">
-                <button name="secsub" value="{{ x.section_num }}" type="submit">{{ x.section_num }}</button>
-                </form>
+            <button name="labsub" value="{{ x.section_num }}" type="submit">{{ x.section_num }}</button>
             {% endfor %}</div>
+    </form>
     <!--Get user information-->
 
     <!--For professors and TAs only-->
