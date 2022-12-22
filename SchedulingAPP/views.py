@@ -149,12 +149,13 @@ class CreateAccount(View):
         username = request.POST['username']
         password = request.POST['password']
         password_check = request.POST['passwordCheck']
+        email = request.POST['email']
 
         if not UserClass.password_check(password, password_check):
             return render(request, "CreateAccount.html", {"message": "Passwords don't match"})
         else:
             try:
-                UserClass.add_user(username, password, role, " ", full_name[0], full_name[len(full_name)-1])
+                UserClass.add_user(username, password, role, email, full_name[0], full_name[len(full_name)-1])
             except Exception as e:
                 return render(request, "CreateAccount.html", {"message": str(e)})
             return render(request, "CreateAccount.html", {"message": "User created",
