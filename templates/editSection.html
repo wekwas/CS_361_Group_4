@@ -36,15 +36,15 @@
     {{ message }}
 </p>
     <form action = "/editSection/" method = "post">
-        <div><a class="field">Section Number: </a><input type='text' name='section_num' placeholder='{{ sec.section_num }}' /></div>
+        <div><a class="field">Section Number: </a><input required type='text' name='section_num' placeholder='{{ sec.section_num }}' /></div>
 
         <div><a class="field">TA: </a> <select name="ta" id="ta">
             {% for x in tas %}
-                <option value={{ x.username }}>{{ x.username }} </option>
+                <option required value={{ x.username }}>{{ x.username }} </option>
             {% endfor %}
         </select></div>
         <div><a class="field">Days: </a>
-            <select name="days" id="days">
+            <select name="days" id="days" required>
                 <option value="Monday">Monday </option>
                 <option value="Tuesday">Tuesday </option>
                 <option value="Wednesday">Wednesday </option>
@@ -61,7 +61,7 @@
         <div><a class="field">Time End: </a> <input type="time" id="time_end" name="time_end"
             min="00:00" max="24:00" placeholder="{{ sec.time_end }}" required></div>
 
-        <div><a class="field">Location: </a><input type='text' name='location' placeholder='{{ sec.location }} ' /></div>
+        <div><a class="field">Location: </a><input required type='text' name='location' placeholder='{{ sec.location }} ' /></div>
 
         {% csrf_token %}
          <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>

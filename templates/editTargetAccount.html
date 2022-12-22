@@ -36,18 +36,18 @@
     {{ message }}
 </p>
     <form action = "/editTargetAccount/" method = "post">
-        <div><a class="field">Username: </a><input type='text' name='username' placeholder='{{ account.username }}' /></div>
-        <div><a class="field">First Name: </a><input type='text' name='first_name' placeholder='{{ account.first_name }}' /></div>
-        <div><a class="field">Last Name: </a><input type='text' name='last_name' placeholder='{{ account.last_name }}' /></div>
+        <div><a class="field">Username: </a><input required type='text' name='username' placeholder='{{ account.username }}' /></div>
+        <div><a class="field">First Name: </a><input required type='text' name='first_name' placeholder='{{ account.first_name }}' /></div>
+        <div><a class="field">Last Name: </a><input required type='text' name='last_name' placeholder='{{ account.last_name }}' /></div>
 
         <label for="accrole">Role:</label>
-              <select name="accrole" id="accrole">
+              <select name="accrole" id="accrole" required>
                 <option value="Supervisor">Supervisor </option>
                 <option value="Instructor">Instructor</option>
                 <option value="TA">TA</option>
               </select>
 
-        <div><a class="field">Contact Information: </a><input type='text' name='contact' placeholder='{{ account.email }}' /></div>
+        <div><a class="field">Contact Information: </a><input required type='text' name='contact' placeholder='{{ account.email }}' /></div>
 
         {% csrf_token %}
          <button name="account" value="{{ account.username }}" type="submit">Edit Information</button>
