@@ -416,7 +416,8 @@ class editTargetAccount(View):
         contact = request.POST["contact"]
 
         try:
-            UserClass.set_username(accobj,uname)
+            if uname != accobj.username:
+                UserClass.set_username(accobj,uname)
             UserClass.set_first_name(accobj,fname)
             UserClass.set_last_name(accobj,lname)
             UserClass.set_role(accobj,urole)
@@ -443,23 +444,16 @@ class editSelfAccount(View):
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         accobj = UserClass.get_user(request.POST["account"])
-        uname = request.POST["username"]
-        fname = request.POST["first_name"]
-        lname = request.POST["last_name"]
         contact = request.POST["contact"]
 
         try:
-            if accobj.username != uname:
-                UserClass.set_username(accobj,uname)
-            UserClass.set_first_name(accobj,fname)
-            UserClass.set_last_name(accobj,lname)
             UserClass.set_email(accobj,contact)
         except Exception as e:
             return render(request, "editSelfAccount.html", {"message": str(e),
                                                               "role": UserClass.get_role(my_user),
                                                               "account": accobj})
         return render(request, "MyAccount.html", {"username": accobj.username,
-                                                  "full_name": fname + " " + lname,
+                                                  "full_name": accobj.first_name + " " + accobj.last_name,
                                                   "role": accobj.role,
                                                   "email": accobj.email,
                                                   "courses": UserClass.get_courses(accobj),
