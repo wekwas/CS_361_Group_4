@@ -220,6 +220,57 @@ class TestCreateCourse(TestCase):
         self.assertEqual(test_course.location, "the_abyss", "location incorrect")
 
 
+class TestViewCourses(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+
+    def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.get("/viewCourses/", follow=True)
+        self.assertTemplateUsed(response, "viewCourses.html")
+
+
+class TestViewAllCourses(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+
+    def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.get("/viewAllCourses/", follow=True)
+        self.assertTemplateUsed(response, "viewAllCourses.html")
+
+
+class TestViewCourse(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
+
+    def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.get("/viewCourse/", follow=True)
+        self.assertTemplateUsed(response, "viewCourse.html")
+
+
 class TestCreateSection(TestCase):
     monkey = None
 
@@ -242,58 +293,63 @@ class TestCreateSection(TestCase):
         session = self.monkey.session
         session['session_username'] = 'test_user_inst'
         session.save()
-        response = self.monkey.get("/CreateSection/", follow=True)
-        self.assertTemplateUsed(response, "CreateSection.html")
+        response = self.monkey.get("/CreateLabSection/", follow=True)
+        self.assertTemplateUsed(response, "CreateLabSection.html")
 
     def test_section_creation(self):
         session = self.monkey.session
         session['session_username'] = 'test_user_inst'
         session.save()
-        response = self.monkey.post("/CreateSection/", {"course_name": "test_add_101", "instructor": "test_user_inst",
-                                                        "semester": "Winter", "days": "Monday",
-                                                        "time_start": "00:01", "time_end": "12:00",
-                                                        "location": "the_abyss"}, follow=True)
-        self.assertTemplateUsed(response, "CreateCourse.html")
-        self.assertTrue(CourseClass.exists("test_add_101"), "course not added")
+        response = self.monkey.post("/CreateLabSection/", {"course": "test_course_101", "section_num": "101",
+                                                           "ta": "test_user_TA", "days": "Monday",
+                                                           "time_start": "00:01", "time_end": "12:00",
+                                                           "location": "the_abyss"}, follow=True)
+        self.assertTemplateUsed(response, "CreateLabSection.html")
+        self.assertTrue(SectionClass.exists("100"), "section not added")
 
-    def test_course_creation_message(self):
+    def test_section_creation_message(self):
         session = self.monkey.session
         session['session_username'] = 'test_user_inst'
         session.save()
-        response = self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
-                                                       "semester": "Winter", "days": "Monday",
-                                                       "time_start": "00:01", "time_end": "12:00",
-                                                       "location": "the_abyss"}, follow=True)
-        self.assertIn("Course created", response.context["message"], "message displayed incorrectly")
+        response = self.monkey.post("/CreateLabSection/", {"course": "test_course_101", "section_num": "101",
+                                                           "ta": "test_user_TA", "days": "Monday",
+                                                           "time_start": "00:01", "time_end": "12:00",
+                                                           "location": "the_abyss"}, follow=True)
+        self.assertIn("Section created", response.context["message"], "message displayed incorrectly")
 
     def test_new_course_data(self):
         session = self.monkey.session
         session['session_username'] = 'test_user_inst'
         session.save()
-        self.monkey.post("/CreateCourse/", {"course_name": "test_add_101", "instructor": "test_user_inst",
-                                                       "semester": "Winter", "days": "Monday",
-                                                       "time_start": "00:01", "time_end": "12:00",
-                                                       "location": "the_abyss"}, follow=True)
-        test_course = Course.objects.get(course_name="test_add_101")
-        self.assertEqual(test_course.course_name, "test_add_101", "course_name incorrect")
-        self.assertEqual(test_course.instructor.username, "test_user_inst", "instructor incorrect")
-        self.assertEqual(test_course.semester, "Winter", "semester incorrect")
-        self.assertEqual(test_course.days, "Monday", "days incorrect")
-        self.assertEqual(test_course.time_start, "00:01", "time_start incorrect")
-        self.assertEqual(test_course.time_end, "12:00", "time_end incorrect")
-        self.assertEqual(test_course.location, "the_abyss", "location incorrect")
+        self.monkey.post("/CreateLabSection/", {"course": "test_course_101", "section_num": "101",
+                                                "ta": "test_user_TA", "days": "Monday",
+                                                "time_start": "00:01", "time_end": "12:00",
+                                                "location": "the_abyss"}, follow=True)
+        test_section = Section.objects.get(section_num="101")
+        self.assertEqual(test_section.section_num, "101", "course_name incorrect")
+        self.assertEqual(test_section.ta.username, "test_user_TA", "instructor incorrect")
+        self.assertEqual(test_section.course.course_name, "test_course_101", "semester incorrect")
+        self.assertEqual(test_section.days, "Monday", "days incorrect")
+        self.assertEqual(test_section.time_start, "00:01", "time_start incorrect")
+        self.assertEqual(test_section.time_end, "12:00", "time_end incorrect")
+        self.assertEqual(test_section.location, "the_abyss", "location incorrect")
 
-class TestAddNotification(TestCase):
+
+class TestViewSection(TestCase):
     monkey = None
 
-    def test_addd_notifiction(self):
-        NotificationClass.add_notification("name", "message", "email")
-        try:
-            Notification.objects.get(name="name")
-        except:
-            pass
+    def setUp(self):
+        self.monkey = Client()
+        inst = User(username="test_user_inst", password="password_inst", role="Instructor", email="email_inst",
+                    first_name="first_name_inst", last_name="last_name_inst")
+        inst.save()
 
-
+    def test_default_template(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
+        response = self.monkey.get("/viewSection/", follow=True)
+        self.assertTemplateUsed(response, "viewSection.html")
 
 
 
