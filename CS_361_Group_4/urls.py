@@ -32,6 +32,7 @@ urlpatterns = [
     path('CreateCourse/', CreateCourse.as_view()),
     path('CreateLabSection/', CreateLabSection.as_view()),
     path('newnotification/', NewNotification.as_view()),
+    path('ViewCourse/', ViewCourse.as_view()),
 
 
 

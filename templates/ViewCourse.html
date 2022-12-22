@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'MyAccount.css' %}">
+</head>
+
+<body>
+    <nav>
+        <ul class="navlinks">
+            <li> {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
+            <li><a href="/viewCourses/">My Courses</a></li>
+            <li><a href="/viewAllCourses/">View Courses</a></li>
+            <li><a href="/MyAccount/">My Account</a></li>
+            <li><a href="/viewAccounts/">View Accounts</a></li>
+            <li><a href="/notification/">Mailbox</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </nav>
+<div  class="form">
+
+    <h1>My Account
+
+    </h1>
+    <br></br>
+    <form action = "/MyAccount/" method = "get">
+        <div><a class="field">Course Name: </a>{{ course.course_name }}</div>
+        <div><a class="field">Instructor: </a> {{ course.instructor}}</div>
+        <div><a class="field">Days: </a>{{ course.days }}</div>
+        <div><a class="field">Time Start: </a>{{ course.time_start }}</div>
+        <div><a class="field">Time End: </a> {{ course.time_end }}</div>
+        <div><a class="field">Location: </a>{{ course.location }}</div>
+    </form>
+    <!--Get user information-->
+
+    <!--For professors and TAs only-->
+
+    <br></br>
+    <button>Edit Information</button>
+
+</div>
+</body>
