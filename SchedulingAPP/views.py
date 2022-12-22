@@ -102,8 +102,8 @@ class ViewAllCourses(View):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
                                                        "all_courses": CourseClass.get_all_courses()})
-    def post(self, request):
 
+    def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         reqcourse = CourseClass.get_course(request.POST['coursesub'])
         labs = CourseClass.get_sections(reqcourse)
@@ -142,6 +142,7 @@ class CreateAccount(View):
                                                       "role": UserClass.get_role(my_user)})
 
     def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
         full_name = request.POST['fullName'].split()
         role = request.POST['role']
         username = request.POST['username']
@@ -155,7 +156,8 @@ class CreateAccount(View):
                 UserClass.add_user(username, password, role, " ", full_name[0], full_name[len(full_name)-1])
             except Exception as e:
                 return render(request, "CreateAccount.html", {"message": str(e)})
-            return render(request, "CreateAccount.html", {"message": "User created"})
+            return render(request, "CreateAccount.html", {"message": "User created",
+                                                          "role": UserClass.get_role(my_user)})
 
 
 class NewNotification(View):
