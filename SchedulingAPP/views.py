@@ -181,6 +181,7 @@ class NewNotification(View):
         except Exception as e:
             return render(request, "newnotification.html", {"message": str(e)})
         return render(request, "newnotification.html", {"message": "Notification Sent",
+                                                        "user": my_user,
                                                         "name": UserClass.get_full_name(my_user),
                                                         "role": UserClass.get_role(my_user),
                                                         "email": UserClass.get_email(my_user)})
@@ -283,6 +284,7 @@ class viewCourse(View):
         except Exception as e:
             reqsec = SectionClass.get_section(request.POST['secsub'])
             return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
+                                                        "user": my_user,
                                                         "sec": reqsec})
 
 
@@ -337,6 +339,7 @@ class viewSection(View):
                                                      "all_users": UserClass.get_all_users(),
                                                      "supervisors": suplist,
                                                      "instructors": instlist,
+                                                     "user": my_user,
                                                      "tas": talist})
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
@@ -381,6 +384,7 @@ class editSection(View):
                                                         "sec": secobj,
                                                         "tas": UserClass.get_all_tas()})
         return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
+                                                    "user": my_user,
                                                     "sec": secobj})
 
 
@@ -544,5 +548,6 @@ class sectionTA(View):
                                                       "sec": secobj,
                                                       "tas": UserClass.get_all_tas()})
         return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
+                                                    "user": my_user,
                                                     "sec": secobj})
 

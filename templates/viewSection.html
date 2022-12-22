@@ -52,7 +52,7 @@
          <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>
                     </form>
 {% endif %}
-{% if role != "TA" %}
+{% if role != "TA" and sec.course.instructor == user  %}
                     <form action = "/sectionTA/" method="post">
                         {% csrf_token %}
                         <button name="secsub" value="{{ sec.section_num }}" type="submit">Change TA</button>
