@@ -172,7 +172,7 @@ class NewNotification(View):
 
 
 ...
-class notification(View):
+class Notification(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "notification.html", {"username": UserClass.get_username(my_user),
@@ -230,8 +230,6 @@ class CreateCourse(View):
         instlist = UserClass.get_all_instructors()
         my_user = UserClass.get_user(request.session["session_username"])
         course_name = request.POST["course_name"]
-        if not UserClass.get_all_instructors:
-            return render(request, "CreateCourse.html", {"message": "No instructor"})
         instructor_name = request.POST["instructor"]
         semester = request.POST["semester"]
         days = request.POST["days"]
