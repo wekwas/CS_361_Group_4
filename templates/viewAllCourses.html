@@ -41,7 +41,7 @@
     <table>
         <tr>
             <th>Name</th>
-            <th>Instructors</th>
+            <th>Instructor</th>
             <th>TAs</th>
             <th>External Links</th>
         </tr>
@@ -54,8 +54,8 @@
                     {{ x.instructor }}
                 </td> 
                 <td>
-                    TA TBA
-                </td>  
+                    {{ x.instructor }}
+                </td>
                 <td>
                     <form action = "/viewAllCourses/" method="post">
                         {% csrf_token %}
