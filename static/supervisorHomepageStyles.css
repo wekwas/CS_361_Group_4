@@ -4,6 +4,16 @@ body{
     background-size: cover;
     background-attachment: fixed;
 }
+button {
+    min-height:50px;
+    width:150px;
+
+
+}
+.center {
+    margin: auto;
+    width:fit-content;
+}
 h1{
     text-align: center;
     padding: 2%;
