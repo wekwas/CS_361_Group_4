@@ -22,6 +22,7 @@ def set_section_num(section, new_section_num):
         raise Exception("Section num already in use")
     else:
         section.section_num = new_section_num
+        section.save()
 
 
 def get_ta(section):
@@ -35,6 +36,7 @@ def set_ta(section, new_ta):
         raise Exception("User not TA")
     else:
         section.ta = new_ta
+        section.save()
 
 
 def get_course(section):
@@ -46,6 +48,7 @@ def set_course(section, new_course):
         raise Exception("Course doesn't exist")
     else:
         section.course = new_course
+        section.save()
 
 
 def get_days(section):
@@ -56,6 +59,7 @@ def set_days(section, new_day):
     if not (new_day in WeekDay):
         raise Exception("Day not a WeekDay")
     section.days = new_day
+    section.save()
 
 
 def get_time_start(section):
@@ -69,6 +73,7 @@ def set_time_start(section, new_time):
         raise Exception("Start time > 5")
     else:
         section.time_start = new_time
+        section.save()
 
 
 def get_time_end(section):
@@ -82,6 +87,7 @@ def set_time_end(section, new_time):
         raise Exception("End time > 5")
     else:
         section.time_end = new_time
+        section.save()
 
 
 def get_location(section):
@@ -95,6 +101,7 @@ def set_location(section, location):
         raise Exception("Location > 25")
     else:
         section.location = location
+        section.save()
 
 
 def exists(section_num):

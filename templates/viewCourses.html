@@ -30,10 +30,8 @@
         </ul>
     </nav>
     <div class="content">
-
-
     <h1>My Courses</h1>
-    <div class="linkbox homelink"><a href="/">Homepage</a></div>
+
 <form>
     <h2>Courses:</h2>
     <div class="linkbox">
@@ -43,11 +41,11 @@
     <table>
         <tr>
             <th>Name</th>
-            <th>Instructors</th>
+            <th>Instructor</th>
             <th>TAs</th>
             <th>External Links</th>
         </tr>
-{% for x in courses %}
+        {% for x in courses %}
             <tr>
                 <td>
                     {{ x.course_name}}
@@ -56,20 +54,23 @@
                     {{ x.instructor }}
                 </td>
                 <td>
-                    TA TBA
+                    {{ x.instructor }}
                 </td>
                 <td>
-                    <a href="/">View Course Page</a>
+                    <form action = "/viewAllCourses/" method="post">
+                        {% csrf_token %}
+                        <button name="coursesub" value="{{ x.course_name }}" type="submit">Course Information</button>
+                    </form>
+
                 </td>
             </tr>
         {% endfor %}
 
     </table>
     </form>
-
-<div class="linkbox">
+    <div class="linkbox">
     <a href = "#top">Back to top</a>
 </div>
-    </div>
+</div>
 </body>
 </html>

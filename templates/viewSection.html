@@ -28,32 +28,27 @@
     </nav>
 <div  class="form">
 
-    <h1>{{ course.course_name }}
+    <h1>{{ sec.course }} {{ sec.section_num }}
 
     </h1>
     <br></br>
-        <div><a class="field">Course Name: </a>{{ course.course_name }}</div>
-        <div><a class="field">Instructor: </a> {{ course.instructor}}</div>
-        <div><a class="field">Days: </a>{{ course.days }}</div>
-        <div><a class="field">Time Start: </a>{{ course.time_start }}</div>
-        <div><a class="field">Time End: </a> {{ course.time_end }}</div>
-        <div><a class="field">Location: </a>{{ course.location }}</div>
-        <div><a class="field">Sections: </a>
-            {% for x in labs %}
-                <form action = "/viewCourse/" method = "post">
-                         {% csrf_token %}
+    <form action = "/MyAccount/" method = "get">
+        <div><a class="field">Section Number: </a>{{ sec.section_num }}</div>
+        <div><a class="field">Instructor: </a> {{ sec.ta}}</div>
+        <div><a class="field">Days: </a>{{ sec.days }}</div>
+        <div><a class="field">Time Start: </a>{{ sec.time_start }}</div>
+        <div><a class="field">Time End: </a> {{ sec.time_end }}</div>
+        <div><a class="field">Location: </a>{{ sec.location }}</div>
 
-                <button name="secsub" value="{{ x.section_num }}" type="submit">{{ x.section_num }}</button>
-                </form>
-            {% endfor %}</div>
+    </form>
     <!--Get user information-->
 
     <!--For professors and TAs only-->
 
     <br></br>
-     <form action = "/viewCourse/" method="post">
+     <form action = "/viewSection/" method="post">
          {% csrf_token %}
-         <button name="coursesub" value="{{ course.course_name }}" type="submit">Edit Information</button>
+         <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>
                     </form>
 
 </div>

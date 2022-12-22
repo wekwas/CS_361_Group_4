@@ -92,9 +92,11 @@ class ViewCourses(View):
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-
-        return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
-                                                    "courses": UserClass.get_courses(my_user)})
+        reqcourse = CourseClass.get_course(request.POST['coursesub'])
+        labs = CourseClass.get_sections(reqcourse)
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                   "course": reqcourse,
+                                                   "labs": labs})
 
 
 class ViewAllCourses(View):
@@ -251,7 +253,10 @@ class CreateCourse(View):
                                                      "role": UserClass.get_role(my_user),
                                                      "Instructors": instlist})
 class viewCourse(View):
+
+
     def get(self, request):
+
         talist = UserClass.get_all_tas()
         instlist = UserClass.get_all_instructors()
         suplist = UserClass.get_all_supervisors()
@@ -262,12 +267,18 @@ class viewCourse(View):
                                                      "instructors": instlist,
                                                      "tas": talist})
     def post(self, request):
-        my_user = UserClass.get_user(request.session["session_username"])
-        reqcourse = CourseClass.get_course(request.POST['coursesub'])
-        return render(request, "editCourse.html", {"role": UserClass.get_role(my_user),
-                                                   "course": reqcourse,
-                                                   "Instructors": UserClass.get_all_instructors()})
 
+        my_user = UserClass.get_user(request.session["session_username"])
+
+        try:
+            reqcourse = CourseClass.get_course(request.POST['coursesub'])
+            return render(request, "editCourse.html", {"role": UserClass.get_role(my_user),
+                                                       "course": reqcourse,
+                                                       "Instructors": UserClass.get_all_instructors()})
+        except Exception as e:
+            reqsec = SectionClass.get_section(request.POST['secsub'])
+            return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
+                                                        "sec": reqsec})
 class EditCourse(View):
     def get(self, request):
         talist = UserClass.get_all_tas()
@@ -283,8 +294,6 @@ class EditCourse(View):
         my_user = UserClass.get_user(request.session["session_username"])
         courseobj = CourseClass.get_course(request.POST["coursesub"])
         course_name = request.POST["course_name"]
-        if not UserClass.get_all_instructors:
-            return render(request, "CreateCourse.html", {"message": "No instructor"})
         instructor_name = request.POST["instructor"]
         semester = request.POST["semester"]
         days = request.POST["days"]
@@ -299,7 +308,7 @@ class EditCourse(View):
             CourseClass.set_time_start(courseobj, time_start)
             CourseClass.set_time_end(courseobj, time_end)
             CourseClass.set_location(courseobj, location)
-            CourseClass.set_instructor(instructor)
+            CourseClass.set_instructor(courseobj, instructor)
         except Exception as e:
             return render(request, "EditCourse.html", {"message": str(e),
                                                        "role": UserClass.get_role(my_user),
@@ -308,3 +317,72 @@ class EditCourse(View):
         return render(request, "ViewCourse.html", {"role": UserClass.get_role(my_user),
                                                    "course": courseobj,
                                                    "labs": CourseClass.get_sections(courseobj)})
+
+class viewSection(View):
+    def get(self, request):
+        talist = UserClass.get_all_tas()
+        instlist = UserClass.get_all_instructors()
+        suplist = UserClass.get_all_supervisors()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                     "all_users": UserClass.get_all_users(),
+                                                     "supervisors": suplist,
+                                                     "instructors": instlist,
+                                                     "tas": talist})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        reqsec = SectionClass.get_section(request.POST['secsub'])
+        return render(request, "editSection.html", {"role": UserClass.get_role(my_user),
+                                                   "sec": reqsec,
+                                                   "tas": UserClass.get_all_tas()})
+
+class editSection(View):
+    def get(self, request):
+        talist = UserClass.get_all_tas()
+        instlist = UserClass.get_all_instructors()
+        suplist = UserClass.get_all_supervisors()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                     "all_users": UserClass.get_all_users(),
+                                                     "supervisors": suplist,
+                                                     "instructors": instlist,
+                                                     "tas": talist})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        secobj = SectionClass.get_section(request.POST["secsub"])
+        section_num = request.POST["section_num"]
+        taname = request.POST["ta"]
+        days = request.POST["days"]
+        time_start = request.POST["time_start"]
+        time_end = request.POST["time_end"]
+        location = request.POST["location"]
+        ta = UserClass.get_user(taname)
+        try:
+            SectionClass.set_section_num(secobj,section_num)
+            SectionClass.set_time_start(secobj, time_start)
+            SectionClass.set_time_end(secobj,time_end)
+            SectionClass.set_days(secobj,days)
+            SectionClass.set_location(secobj,location)
+            SectionClass.set_ta(secobj,ta)
+        except Exception as e:
+            return render(request, "editSection.html", {"message": str(e),
+                                                       "role": UserClass.get_role(my_user),
+                                                       "sec": secobj,
+                                                       "Instructors": UserClass.get_all_instructors()})
+        return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
+                                                   "sec": secobj})
+
+
+class ViewAccounts(View):
+    def get(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
+                                                    "courses": UserClass.get_courses(my_user)})
+
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        reqcourse = CourseClass.get_course(request.POST['coursesub'])
+        labs = CourseClass.get_sections(reqcourse)
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                   "course": reqcourse,
+                                                   "labs": labs})

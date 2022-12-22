@@ -34,6 +34,8 @@ urlpatterns = [
     path('newnotification/', NewNotification.as_view()),
     path('viewCourse/', viewCourse.as_view()),
     path('EditCourse/', EditCourse.as_view()),
+    path('viewSection/', viewSection.as_view()),
+    path('editSection/', editSection.as_view()),
 
 
 
