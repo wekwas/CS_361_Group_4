@@ -47,49 +47,22 @@
             <th>TAs</th>
             <th>External Links</th>
         </tr>
-
+{% for x in courses %}
             <tr>
                 <td>
-                    CS 555
+                    {{ x.course_name}}
                 </td>
                 <td>
-                    John Smith, Will Rock
-                </td> 
+                    {{ x.instructor }}
+                </td>
                 <td>
-                    John Johnson
-                </td>  
+                    TA TBA
+                </td>
                 <td>
                     <a href="/">View Course Page</a>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    CS 420
-                </td> 
-                <td>
-                    Bob Johnson, Will Rock
-                </td>
-                <td>
-                    Don Thomson
-                </td>  
-                <td>
-                    <a href="/">View Course Page</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    CS 729
-                </td> 
-                <td>
-                    Dan Williams, Will Rock
-                </td>
-                <td>
-                    Tom Donson
-                </td>  
-                <td>
-                    <a href="/">View Course Page</a>
-                </td>
-            </tr>
+        {% endfor %}
 
     </table>
     </form>

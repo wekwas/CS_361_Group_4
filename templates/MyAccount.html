@@ -37,7 +37,8 @@
         <div><a class="field">Full Name: </a> {{ full_name}}</div>
         <div><a class="field">Role: </a>{{ role }}</div>
         <div><a class="field">Contact Information: </a>{{ email }}</div>
-        <div><a class="field">Courses: </a>N/A</div>
+        <div><a class="field">Courses: </a>{% for x in courses %} {{ x.course_name }}, {% endfor %}</div>
+        <div><a class="field">Labs: </a>{% for x in sections %} {{ x.course.course_name }} {{ x.section_num }}, {% endfor %}</div>
     </form>
     <!--Get user information-->
 

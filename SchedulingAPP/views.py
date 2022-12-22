@@ -107,9 +107,15 @@ class ViewAllCourses(View):
 
 class ViewAccounts(View):
     def get(self, request):
+        talist = UserClass.get_all_tas()
+        instlist = UserClass.get_all_instructors()
+        suplist = UserClass.get_all_supervisors()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "viewAccounts.html", {"role": UserClass.get_role(my_user),
-                                                     "all_users": UserClass.get_all_users()})
+                                                     "all_users": UserClass.get_all_users(),
+                                                     "supervisors": suplist,
+                                                     "instructors": instlist,
+                                                     "tas": talist})
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
