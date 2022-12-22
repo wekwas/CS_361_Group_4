@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import *
 from classes import UserClass, CourseClass, SectionClass
-from datetime import datetime
 
 
 class Login(View):
@@ -183,8 +182,6 @@ class Notification(View):
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user),
                                                      "all_notifications": all_notifications})
-
-
 
 
 class CreateLabSection(View):
