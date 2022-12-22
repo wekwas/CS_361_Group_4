@@ -109,6 +109,7 @@ class ViewAllCourses(View):
                                                    "course": reqcourse,
                                                    "labs": labs})
 
+
 class ViewAccounts(View):
     def get(self, request):
         talist = UserClass.get_all_tas()
@@ -180,10 +181,8 @@ class NewNotification(View):
                                                      "sections": UserClass.get_sections(my_user)})
 
 
-...
 class Notification(View):
     def get(self, request):
-
         all_notifications = NotificationClass.get_allnotifications();
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "notification.html", {"name": NotificationClass.get_name(Notification),
@@ -193,8 +192,6 @@ class Notification(View):
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user),
                                                      "all_notifications": all_notifications})
-
-
 
 
 class CreateLabSection(View):
@@ -253,6 +250,8 @@ class CreateCourse(View):
         return render(request, "CreateCourse.html", {"message": "Course created",
                                                      "role": UserClass.get_role(my_user),
                                                      "Instructors": instlist})
+
+
 class ViewCourse(View):
     def get(self, request):
         talist = UserClass.get_all_tas()
