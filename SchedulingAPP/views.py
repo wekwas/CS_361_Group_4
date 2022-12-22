@@ -143,53 +143,48 @@ class CreateAccount(View):
 class NewNotification(View):
     def get(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "CreateCourse.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
+        return render(request, "newnotification.html", {"name": NotificationClass.get_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
                                                      "courses": UserClass.get_courses(my_user),
                                                      "sections": UserClass.get_sections(my_user)})
 
     def post(self, request):
+
         my_user = UserClass.get_user(request.session["session_username"])
         name = request.POST["name"]
-        time = request.POST["time"]
-        date = request.POST["date"]
         message = request.POST["message"]
         role = request.POST["role"]
         email = request.POST["email"]
 
+
         try:
-            Notification.add_to_class(name, time, date, message, role, email)
+            NotificationClass.add_notification(name, message, email, role)
         except Exception as e:
             return render(request, "newnotification.html", {"message": str(e)})
         return render(request, "newnotification.html", {"message": "Notification Sent",
-                                                        "name": UserClass.get_full_name(my_user),
-                                                        "role": UserClass.get_role(my_user),
-                                                        "email": UserClass.get_email(my_user),
-                                                        "message": UserClass.get(my_user),
-                                                        "sections": UserClass.get_sections(my_user)})
+                                                     "name": UserClass.get_full_name(my_user),
+                                                     "role": UserClass.get_role(my_user),
+                                                     "email": UserClass.get_email(my_user),
+                                                     "message": UserClass.get(my_user),
+                                                     "sections": UserClass.get_sections(my_user)})
 
 
 ...
-class notification(View):
+class Notification(View):
     def get(self, request):
-        my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
-                                                     "full_name": UserClass.get_full_name(my_user),
-                                                     "role": UserClass.get_role(my_user),
-                                                     "email": UserClass.get_email(my_user),
-                                                     "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
 
-    def post(self, request):
+        all_notifications = NotificationClass.get_allnotifications();
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "notification.html", {"username": UserClass.get_username(my_user),
+        return render(request, "notification.html", {"name": NotificationClass.get_name(Notification),
                                                      "full_name": UserClass.get_full_name(my_user),
                                                      "role": UserClass.get_role(my_user),
                                                      "email": UserClass.get_email(my_user),
                                                      "courses": UserClass.get_courses(my_user),
-                                                     "sections": UserClass.get_sections(my_user)})
+                                                     "sections": UserClass.get_sections(my_user),
+                                                     "all_notifications": all_notifications})
+
+
 
 
 class CreateLabSection(View):
