@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'MyAccount.css' %}">
+</head>
+
+<body>
+    <nav>
+        <ul class="navlinks">
+            <li> {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
+            <li><a href="/viewCourses/">My Courses</a></li>
+            <li><a href="/viewAllCourses/">View Courses</a></li>
+            <li><a href="/MyAccount/">My Account</a></li>
+            <li><a href="/viewAccounts/">View Accounts</a></li>
+            <li><a href="/notification/">Mailbox</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </nav>
+<div  class="form">
+
+    <h1>{{ account.username }}
+
+    </h1>
+    <br></br>
+<p>
+    {{ message }}
+</p>
+    <form action = "/editSelfAccount/" method = "post">
+        <div><a class="field">Username: </a><input type='text' name='username' placeholder='{{ account.username }}' /></div>
+        <div><a class="field">First Name: </a><input type='text' name='first_name' placeholder='{{ account.first_name }}' /></div>
+        <div><a class="field">Last Name: </a><input type='text' name='last_name' placeholder='{{ account.last_name }}' /></div>
+        <div><a class="field">Contact Information: </a><input type='text' name='contact' placeholder='{{ account.email }}' /></div>
+
+        {% csrf_token %}
+         <button name="account" value="{{ account.username }}" type="submit">Edit Information</button>
+    </form>
+    <!--Get user information-->
+
+    <!--For professors and TAs only-->
+
+    <br></br>
+
+</div>
+</body>

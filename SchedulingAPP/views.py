@@ -434,3 +434,37 @@ class editTargetAccount(View):
                                                        "account": accobj})
         return render(request, "viewTargetAccount.html", {"role": UserClass.get_role(my_user),
                                                           "account": accobj})
+
+
+class editSelfAccount(View):
+    def get(self, request):
+        talist = UserClass.get_all_tas()
+        instlist = UserClass.get_all_instructors()
+        suplist = UserClass.get_all_supervisors()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "editSelfAccount.html", {"role": UserClass.get_role(my_user),
+                                                     "all_users": UserClass.get_all_users(),
+                                                     "supervisors": suplist,
+                                                     "instructors": instlist,
+                                                     "tas": talist})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        accobj = UserClass.get_user(request.POST["account"])
+        uname = request.POST["username"]
+        fname = request.POST["first_name"]
+        lname = request.POST["last_name"]
+        urole = request.POST["accrole"]
+        contact = request.POST["contact"]
+
+        try:
+            UserClass.set_username(accobj,uname)
+            UserClass.set_first_name(accobj,fname)
+            UserClass.set_last_name(accobj,lname)
+            UserClass.set_role(accobj,urole)
+            UserClass.set_email(accobj,contact)
+        except Exception as e:
+            return render(request, "editSelfAccount.html", {"message": str(e),
+                                                              "role": UserClass.get_role(my_user),
+                                                              "account": accobj})
+        return render(request, "MyAccount.html", {"role": UserClass.get_role(my_user),
+                                                          "account": accobj})

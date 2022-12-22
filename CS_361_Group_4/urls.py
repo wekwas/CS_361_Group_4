@@ -38,5 +38,6 @@ urlpatterns = [
     path('editSection/', editSection.as_view()),
     path('viewTargetAccount/', viewTargetAccount.as_view()),
     path('editTargetAccount/', editTargetAccount.as_view()),
+    path('editSelfAccount/', editSelfAccount.as_view()),
 
 ]
