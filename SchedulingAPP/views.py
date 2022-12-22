@@ -369,11 +369,11 @@ class editSection(View):
             SectionClass.set_ta(secobj,ta)
         except Exception as e:
             return render(request, "editSection.html", {"message": str(e),
-                                                       "role": UserClass.get_role(my_user),
-                                                       "sec": secobj,
-                                                       "Instructors": UserClass.get_all_instructors()})
+                                                        "role": UserClass.get_role(my_user),
+                                                        "sec": secobj,
+                                                        "tas": UserClass.get_all_tas()})
         return render(request, "viewSection.html", {"role": UserClass.get_role(my_user),
-                                                   "sec": secobj})
+                                                    "sec": secobj})
 
 class viewTargetAccount(View):
 
