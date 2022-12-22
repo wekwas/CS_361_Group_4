@@ -39,7 +39,7 @@
         </ul>
     </nav>
     <div class="hero">
-        <form action="/" method="POST">
+        <form method="POST" action="/newnotification/">
             {% csrf_token %}
             <div class="message-icon">
                 <i class="bi bi-telegram"></i>
@@ -48,10 +48,6 @@
             <div id="input-field">
                 <i class="bi bi-person"></i>
                 <input type="text" placeholder="Name (First and Last)" name="name">
-            </div>
-            <div id="input-field">
-                <i class="bi bi-telephone"></i>
-                <input type="text" placeholder="Phone No." name="Phone">
             </div>
             <div id="input-field">
                 <i class="bi bi-envelope"></i>
@@ -68,3 +64,4 @@
 </body>
 
 </html>
+
