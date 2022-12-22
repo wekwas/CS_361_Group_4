@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
-from .models import User, Course, Section
-from classes import UserClass, CourseClass, SectionClass
+from .models import User, Course, Section, Notification
+from classes import UserClass, CourseClass, SectionClass, NotificationClass
 
 
 class TestLogin(TestCase):
@@ -250,9 +250,9 @@ class TestCreateSection(TestCase):
         session['session_username'] = 'test_user_inst'
         session.save()
         response = self.monkey.post("/CreateSection/", {"course_name": "test_add_101", "instructor": "test_user_inst",
-                                                       "semester": "Winter", "days": "Monday",
-                                                       "time_start": "00:01", "time_end": "12:00",
-                                                       "location": "the_abyss"}, follow=True)
+                                                        "semester": "Winter", "days": "Monday",
+                                                        "time_start": "00:01", "time_end": "12:00",
+                                                        "location": "the_abyss"}, follow=True)
         self.assertTemplateUsed(response, "CreateCourse.html")
         self.assertTrue(CourseClass.exists("test_add_101"), "course not added")
 
@@ -282,6 +282,16 @@ class TestCreateSection(TestCase):
         self.assertEqual(test_course.time_start, "00:01", "time_start incorrect")
         self.assertEqual(test_course.time_end, "12:00", "time_end incorrect")
         self.assertEqual(test_course.location, "the_abyss", "location incorrect")
+
+class TestAddNotification(TestCase):
+    monkey = None
+
+    def test_addd_notifiction(self):
+        NotificationClass.add_notification("name", "message", "email")
+        try:
+            Notification.objects.get(name="name")
+        except:
+            pass
 
 
 
