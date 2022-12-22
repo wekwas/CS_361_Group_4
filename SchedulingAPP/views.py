@@ -90,6 +90,7 @@ class ViewCourses(View):
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
+
         return render(request, "viewCourses.html", {"role": UserClass.get_role(my_user),
                                                     "courses": UserClass.get_courses(my_user)})
 
@@ -101,9 +102,9 @@ class ViewAllCourses(View):
                                                        "all_courses": CourseClass.get_all_courses()})
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "viewAllCourses.html", {"role": UserClass.get_role(my_user),
-                                                       "all_courses": CourseClass.get_all_courses()})
-
+        reqcourse = CourseClass.get_course(request.POST['coursesub'])
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                   "course": reqcourse})
 
 class ViewAccounts(View):
     def get(self, request):
@@ -247,4 +248,20 @@ class CreateCourse(View):
         return render(request, "CreateCourse.html", {"message": "Course created",
                                                      "role": UserClass.get_role(my_user),
                                                      "Instructors": instlist})
+class ViewCourse(View):
+    def get(self, request):
+        talist = UserClass.get_all_tas()
+        instlist = UserClass.get_all_instructors()
+        suplist = UserClass.get_all_supervisors()
+        my_user = UserClass.get_user(request.session["session_username"])
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                     "all_users": UserClass.get_all_users(),
+                                                     "supervisors": suplist,
+                                                     "instructors": instlist,
+                                                     "tas": talist})
+    def post(self, request):
+        my_user = UserClass.get_user(request.session["session_username"])
+        reqcourse = CourseClass.get_course(request.POST['coursesub'])
+        return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
+                                                   "course": reqcourse})
 
