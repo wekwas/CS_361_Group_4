@@ -21,6 +21,7 @@ class Login(View):
             return render(request, "LoginPage.html", {"message": "Incorrect password"})
         else:
             request.session["session_username"] = post_username
+            request.session.set_expiry(0)
         if UserClass.get_role(my_user) == 'Supervisor':
             return redirect("/supervisorHomepage/")
         elif UserClass.get_role(my_user) == 'Instructor':
