@@ -28,28 +28,35 @@
     </nav>
 <div  class="form">
 
-    <h1>My Account
+    <h1>{{ account.username }}
 
     </h1>
     <br></br>
-    <form action = "/MyAccount/" method = "get">
-        <div><a class="field">Username: </a>{{ account.username }}</div>
-        <div><a class="field">Full Name: </a> {{ account.first_name}} {{ account.last_name}}</div>
-        <div><a class="field">Role: </a>{{ account.role }}</div>
-        <div><a class="field">Contact Information: </a>{{ account.email }}</div>
-        <div><a class="field">Courses: </a>{% for x in courses %} {{ x.course_name }}, {% endfor %}</div>
-        <div><a class="field">Labs: </a>{% for x in labs %} {{ x.course.course_name }} {{ x.section_num }}, {% endfor %}</div>
+<p>
+    {{ message }}
+</p>
+    <form action = "/editTargetAccount/" method = "post">
+        <div><a class="field">Username: </a><input type='text' name='username' placeholder='{{ account.username }}' /></div>
+        <div><a class="field">First Name: </a><input type='text' name='first_name' placeholder='{{ account.first_name }}' /></div>
+        <div><a class="field">Last Name: </a><input type='text' name='last_name' placeholder='{{ account.last_name }}' /></div>
+
+        <label for="accrole">Role:</label>
+              <select name="accrole" id="accrole">
+                <option value="Supervisor">Supervisor </option>
+                <option value="Instructor">Instructor</option>
+                <option value="TA">TA</option>
+              </select>
+
+        <div><a class="field">Contact Information: </a><input type='text' name='contact' placeholder='{{ account.email }}' /></div>
+
+        {% csrf_token %}
+         <button name="account" value="{{ account.username }}" type="submit">Edit Information</button>
     </form>
     <!--Get user information-->
 
     <!--For professors and TAs only-->
 
     <br></br>
-    {% if role == "Supervisor" %}
-    <form action = "/viewTargetAccount/" method="post">
-         {% csrf_token %}
-         <button name="account" value="{{ account.username }}" type="submit">Edit Information</button>
-                    </form>
-    {% endif %}
+
 </div>
 </body>

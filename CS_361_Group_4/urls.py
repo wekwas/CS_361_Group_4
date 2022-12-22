@@ -36,14 +36,7 @@ urlpatterns = [
     path('EditCourse/', EditCourse.as_view()),
     path('viewSection/', viewSection.as_view()),
     path('editSection/', editSection.as_view()),
-
-
-
-
-
-
-
-
-
+    path('viewTargetAccount/', viewTargetAccount.as_view()),
+    path('editTargetAccount/', editTargetAccount.as_view()),
 
 ]

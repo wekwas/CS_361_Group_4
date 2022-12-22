@@ -34,6 +34,7 @@ def set_username(user, new_username):
         raise Exception("Username already exists")
     else:
         user.username = new_username
+        user.save()
 
 
 def get_password(user):
@@ -47,6 +48,7 @@ def set_password(user, new_password):
         raise Exception("Password is too long")
     else:
         user.password = new_password
+        user.save()
 
 
 def get_role(user):
@@ -60,6 +62,7 @@ def set_role(user, new_role):
         raise Exception("Role not valid")
     else:
         user.role = new_role
+        user.save()
 
 
 def get_email(user):
@@ -73,6 +76,7 @@ def set_email(user, new_email):
         raise Exception("Email is too long")
     else:
         user.email = new_email
+        user.save()
 
 
 def get_first_name(user):
@@ -86,6 +90,7 @@ def set_first_name(user, new_first_name):
         raise Exception("First name is too long")
     else:
         user.first_name = new_first_name
+        user.save()
 
 
 def get_last_name(user):
@@ -99,6 +104,7 @@ def set_last_name(user, new_last_name):
         raise Exception("First name is too long")
     else:
         user.last_name = new_last_name
+        user.save()
 
 
 def get_full_name(user):
