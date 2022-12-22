@@ -21,6 +21,7 @@ class Login(View):
             return render(request, "LoginPage.html", {"message": "Incorrect password"})
         else:
             request.session["session_username"] = post_username
+            request.session.set_expiry(0)
         if UserClass.get_role(my_user) == 'Supervisor':
             return redirect("/supervisorHomepage/")
         elif UserClass.get_role(my_user) == 'Instructor':
@@ -455,6 +456,7 @@ class editSelfAccount(View):
             return render(request, "editSelfAccount.html", {"message": str(e),
                                                               "role": UserClass.get_role(my_user),
                                                               "account": accobj})
+        request.session["session_username"] = uname
         return render(request, "MyAccount.html", {"username": accobj.username,
                                                   "full_name": accobj.first_name + " " + accobj.last_name,
                                                   "role": accobj.role,
