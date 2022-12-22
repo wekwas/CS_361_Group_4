@@ -65,8 +65,6 @@ class Section(models.Model):
 
 class Notification(models.Model):
     name = models.CharField(max_length=25)
-    time = models.TimeField()
-    date = models.DateField()
     message = models.CharField(max_length=500)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.ta)
     email = models.EmailField(max_length=60)
