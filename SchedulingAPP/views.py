@@ -302,6 +302,7 @@ class EditCourse(View):
             CourseClass.set_time_start(courseobj, time_start)
             CourseClass.set_time_end(courseobj, time_end)
             CourseClass.set_location(courseobj, location)
+            CourseClass.set_instructor(instructor)
         except Exception as e:
             return render(request, "EditCourse.html", {"message": str(e),
                                                        "role": UserClass.get_role(my_user),
