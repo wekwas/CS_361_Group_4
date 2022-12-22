@@ -104,8 +104,10 @@ class ViewAllCourses(View):
 
         my_user = UserClass.get_user(request.session["session_username"])
         reqcourse = CourseClass.get_course(request.POST['coursesub'])
+        labs = CourseClass.get_sections(reqcourse)
         return render(request, "viewCourse.html", {"role": UserClass.get_role(my_user),
-                                                   "course": reqcourse})
+                                                   "course": reqcourse,
+                                                   "labs": labs})
 
 class ViewAccounts(View):
     def get(self, request):
@@ -198,9 +200,11 @@ class Notification(View):
 class CreateLabSection(View):
     def get(self, request):
         talist = UserClass.get_all_tas()
+        courses = CourseClass.get_all_courses()
         my_user = UserClass.get_user(request.session["session_username"])
         return render(request, "CreateLabSection.html", {"role": UserClass.get_role(my_user),
-                                                         "tas": talist})
+                                                         "tas": talist,
+                                                         "courses": courses})
 
     def post(self, request):
         talist = UserClass.get_all_tas()

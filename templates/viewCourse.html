@@ -39,6 +39,10 @@
         <div><a class="field">Time Start: </a>{{ course.time_start }}</div>
         <div><a class="field">Time End: </a> {{ course.time_end }}</div>
         <div><a class="field">Location: </a>{{ course.location }}</div>
+        <div><a class="field">Sections: </a>
+            {% for x in labs %}
+            <button name="labsub" value="{{ x.section_num }}" type="submit">{{ x.section_num }}</button>
+            {% endfor %}</div>
     </form>
     <!--Get user information-->
 

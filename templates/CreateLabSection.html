@@ -51,7 +51,7 @@
         <p>
             <label for="ta">Select a TA for the Lab Section: </label>
             <select name="ta" id="ta">
-            {% for x in talist %}
+            {% for x in tas %}
                 <option value={{ x.username }}>{{ x.username }} </option>
             {% endfor %}
         </select>
