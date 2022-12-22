@@ -18,6 +18,8 @@ def set_section_num(section, new_section_num):
         raise Exception("Section number not a number")
     elif len(new_section_num) > 3:
         raise Exception("Section number too large")
+    elif exists("new_section_num"):
+        raise Exception("Section num already in use")
     else:
         section.section_num = new_section_num
 
