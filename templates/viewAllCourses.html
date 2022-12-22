@@ -45,7 +45,7 @@
             <th>TAs</th>
             <th>External Links</th>
         </tr>
-        {% for x in courses %}
+        {% for x in all_courses %}
             <tr>
                 <td>
                     {{ x.course_name}}
@@ -61,62 +61,7 @@
                 </td>
             </tr>
         {% endfor %}
-            <tr>
-                <td>
-                    CS 420
-                </td> 
-                <td>
-                    Bob Johnson, Will Rock
-                </td>
-                <td>
-                    Don Thomson
-                </td>  
-                <td>
-                    <a href="/">View Course Page</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    CS 729
-                </td> 
-                <td>
-                    Dan Williams, Will Rock
-                </td>
-                <td>
-                    Tom Donson
-                </td>  
-                <td>
-                    <a href="/">View Course Page</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    CS 350
-                </td> 
-                <td>
-                    Dan Billiams
-                </td>
-                <td>
-                    Tommy Bigson
-                </td>  
-                <td>
-                    <a href="/">View Course Page</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    CS 647
-                </td> 
-                <td>
-                    Andrew Evans
-                </td>
-                <td>
-                    Timmy Adams
-                </td>  
-                <td>
-                    <a href="/">View Course Page</a>
-                </td>
-            </tr>
+
     </table>
     </form>
     <div class="linkbox">
