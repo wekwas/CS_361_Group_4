@@ -76,12 +76,9 @@ class MyAccount(View):
 
     def post(self, request):
         my_user = UserClass.get_user(request.session["session_username"])
-        return render(request, "MyAccount.html", {"username": UserClass.get_username(my_user),
-                                                  "full_name": UserClass.get_full_name(my_user),
-                                                  "role": UserClass.get_role(my_user),
-                                                  "email": UserClass.get_email(my_user),
-                                                  "courses": UserClass.get_courses(my_user),
-                                                  "sections": UserClass.get_sections(my_user)})
+        return render(request, "editSelfAccount.html", {"username": UserClass.get_username(my_user),
+                                                        "account": my_user,
+                                                        "role": UserClass.get_role(my_user)})
 
 
 class ViewCourses(View):
@@ -447,18 +444,21 @@ class editSelfAccount(View):
         uname = request.POST["username"]
         fname = request.POST["first_name"]
         lname = request.POST["last_name"]
-        urole = request.POST["accrole"]
         contact = request.POST["contact"]
 
         try:
-            UserClass.set_username(accobj,uname)
+            if accobj.username != uname:
+                UserClass.set_username(accobj,uname)
             UserClass.set_first_name(accobj,fname)
             UserClass.set_last_name(accobj,lname)
-            UserClass.set_role(accobj,urole)
             UserClass.set_email(accobj,contact)
         except Exception as e:
             return render(request, "editSelfAccount.html", {"message": str(e),
                                                               "role": UserClass.get_role(my_user),
                                                               "account": accobj})
-        return render(request, "MyAccount.html", {"role": UserClass.get_role(my_user),
-                                                          "account": accobj})
+        return render(request, "MyAccount.html", {"username": accobj.username,
+                                                  "full_name": fname + " " + lname,
+                                                  "role": accobj.role,
+                                                  "email": accobj.email,
+                                                  "courses": UserClass.get_courses(accobj),
+                                                  "sections": UserClass.get_sections(accobj)})

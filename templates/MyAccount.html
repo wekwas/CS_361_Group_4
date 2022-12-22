@@ -45,7 +45,9 @@
     <!--For professors and TAs only-->
 
     <br></br>
-    <button>Edit Information</button>
-
+<form action = "/MyAccount/" method="post">
+         {% csrf_token %}
+         <button name="account" value="{{ username }}" type="submit">Edit Information</button>
+                    </form>
 </div>
 </body>

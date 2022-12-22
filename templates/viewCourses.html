@@ -42,7 +42,6 @@
         <tr>
             <th>Name</th>
             <th>Instructor</th>
-            <th>TAs</th>
             <th>External Links</th>
         </tr>
         {% for x in courses %}
@@ -53,9 +52,7 @@
                 <td>
                     {{ x.instructor }}
                 </td>
-                <td>
-                    {{ x.instructor }}
-                </td>
+
                 <td>
                     <form action = "/viewAllCourses/" method="post">
                         {% csrf_token %}
@@ -73,9 +70,7 @@
                 <td>
                     {{ x.course.instructor }}
                 </td>
-                <td>
-                    {{ x.course.instructor }}
-                </td>
+
                 <td>
                     <form action = "/viewAllCourses/" method="post">
                         {% csrf_token %}

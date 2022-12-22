@@ -46,10 +46,11 @@
     <!--For professors and TAs only-->
 
     <br></br>
+    {% if role == "Supervisor" %}
      <form action = "/viewSection/" method="post">
          {% csrf_token %}
          <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>
                     </form>
-
+{% endif %}
 </div>
 </body>
