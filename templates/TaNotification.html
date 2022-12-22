@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive HTML Table</title>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'TaNotification.css' %}">
+</head>
+
+<body>
+    <nav>
+
+        <li> {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+        </li>
+        <li><a href="/viewCourses/">My Courses</a></li>
+        <li><a href="/viewAllCourses/">View Courses</a></li>
+        <li><a href="/MyAccount/">My Account</a></li>
+        <li><a href="/viewAccounts/">View Accounts</a></li>
+        <li><a href="/notification/">Mailbox</a></li>
+        <li><a href="/">Logout</a></li>
+    </nav>
+
+    <div class="heading">
+        <h1>Notifications</h1>
+    </div>
+    <div class="table_responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for notification in all_notifications reversed %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ notification.name }}</td>
+                    <td>{{ notification.email }}</td>
+                    <td>{{ notification.message }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+
+</html>
