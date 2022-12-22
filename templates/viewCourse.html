@@ -40,7 +40,9 @@
         <div><a class="field">Location: </a>{{ course.location }}</div>
         <div><a class="field">Sections: </a>
             {% for x in labs %}
-                <form action = "/ViewCourse/" method = "edsec">
+                <form action = "/viewCourse/" method = "post">
+                         {% csrf_token %}
+
                 <button name="secsub" value="{{ x.section_num }}" type="submit">{{ x.section_num }}</button>
                 </form>
             {% endfor %}</div>

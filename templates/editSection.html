@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <link rel="stylesheet" href="{% static 'MyAccount.css' %}">
+</head>
+
+<body>
+    <nav>
+        <ul class="navlinks">
+            <li> {% if role == "Supervisor" %}
+                <a href="/supervisorHomepage/">Homepage</a>
+
+                {%  elif role == "Instructor" %}
+                <a href="/instructorHomepage">Homepage</a>
+
+                {% elif role == "TA" %}
+                <a href="/TAHomepage">Homepage</a>
+                {% endif %}
+            </li>
+            <li><a href="/viewCourses/">My Courses</a></li>
+            <li><a href="/viewAllCourses/">View Courses</a></li>
+            <li><a href="/MyAccount/">My Account</a></li>
+            <li><a href="/viewAccounts/">View Accounts</a></li>
+            <li><a href="/notification/">Mailbox</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </nav>
+<div  class="form">
+
+    <h1>{{ sec.course }} {{ sec.section_num }}
+
+    </h1>
+    <br></br>
+<p>
+    {{ message }}
+</p>
+    <form action = "/editSection/" method = "post">
+        <div><a class="field">Section Number: </a><input type='text' name='section_num' placeholder='{{ sec.section_num }}' /></div>
+
+        <div><a class="field">TA: </a> <select name="ta" id="ta">
+            {% for x in tas %}
+                <option value={{ x.username }}>{{ x.username }} </option>
+            {% endfor %}
+        </select></div>
+        <div><a class="field">Days: </a>
+            <select name="days" id="days">
+                <option value="Monday">Monday </option>
+                <option value="Tuesday">Tuesday </option>
+                <option value="Wednesday">Wednesday </option>
+                <option value="Thursday">Thursday </option>
+                <option value="Friday">Friday </option>
+                <option value="Monday Wednesday">Monday Wednesday </option>
+                <option value="Monday Wednesday Friday">Monday Wednesday Friday</option>
+                <option value="Tuesday Thursday">Tuesday Thursday</option>
+        </select></div>
+
+        <div><a class="field">Time Start: </a><input type="time" id="time_start" name="time_start"
+            min="00:00" max="24:00" placeholder="{{ sec.time_start }}" required></div>
+
+        <div><a class="field">Time End: </a> <input type="time" id="time_end" name="time_end"
+            min="00:00" max="24:00" placeholder="{{ sec.time_end }}" required></div>
+
+        <div><a class="field">Location: </a><input type='text' name='location' placeholder='{{ sec.location }} ' /></div>
+
+        {% csrf_token %}
+         <button name="secsub" value="{{ sec.section_num }}" type="submit">Edit Information</button>
+    </form>
+    <!--Get user information-->
+
+    <!--For professors and TAs only-->
+
+    <br></br>
+
+</div>
+</body>
