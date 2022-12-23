@@ -8,7 +8,7 @@ def get_name(name):
 def set_name(notification,new_name):
     if new_name is None:
         raise Exception("Name is null")
-    elif len(new_name) > 50:
+    elif len(new_name) > 25:
         raise Exception("name is too long")
     else:
         notification.name = new_name;

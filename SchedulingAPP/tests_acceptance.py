@@ -83,52 +83,73 @@ class TestCreateAccount(TestCase):
         self.assertTemplateUsed(response, "CreateAccount.html")
 
     def test_account_creation(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "username": "test_username", "password": "test_password",
+                                                        "username": "test_username", "password": "test_password","email": "email",
                                                         "passwordCheck": "test_password"}, follow=True)
         self.assertTemplateUsed(response, "CreateAccount.html")
         self.assertTrue(UserClass.exists("test_username"), "user not added")
 
     def test_account_creation_message(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "username": "test_username", "password": "test_password",
+                                                        "username": "test_username", "password": "test_password","email": "email",
                                                         "passwordCheck": "test_password"}, follow=True)
         self.assertIn("User created", response.context["message"], "message displayed incorrectly")
 
     def test_new_account_data(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                             "username": "test_username", "password": "test_password",
+                                             "username": "test_username", "password": "test_password","email": "email",
                                              "passwordCheck": "test_password"}, follow=True)
         test_user = User.objects.get(username="test_username")
         self.assertEqual(test_user.username, "test_username", "username incorrect")
         self.assertEqual(test_user.password, "test_password", "password incorrect")
         self.assertEqual(test_user.role, "TA", "role incorrect")
-        self.assertEqual(test_user.email, " ", "email incorrect")
+        self.assertEqual(test_user.email, "email", "email incorrect")
         self.assertEqual(test_user.first_name, "test_first_name", "first_name incorrect")
         self.assertEqual(test_user.last_name, "test_last_name", "last_name incorrect")
 
     def test_duplicate_creation(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.post("/CreateAccount/", {"fullName": "first_name_TA last_name_TA", "role": "TA",
-                                                        "username": "test_user_TA", "password": "password_TA",
+                                                        "username": "test_user_TA", "password": "password_TA","email": "email",
                                                         "passwordCheck": "password_TA"}, follow=True)
         self.assertTemplateUsed(response, "CreateAccount.html")
 
     def test_duplicate_creation_message(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.post("/CreateAccount/", {"fullName": "first_name_TA last_name_TA", "role": "TA",
-                                                        "username": "test_user_TA", "password": "password_TA",
+                                                        "username": "test_user_TA", "password": "password_TA","email": "email",
                                                         "passwordCheck": "password_TA"}, follow=True)
         self.assertIn("Username already exists", response.context["message"], "message displayed incorrectly")
 
     def test_bad_password(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "username": "test_userName", "password": "test_password",
+                                                        "username": "test_userName", "password": "test_password","email": "email",
                                                         "passwordCheck": "fake_password"}, follow=True)
         self.assertFalse(UserClass.exists("test_userName"), "user added")
         self.assertTemplateUsed(response, "CreateAccount.html")
 
     def test_bad_password_message(self):
+        session = self.monkey.session
+        session['session_username'] = 'test_user_inst'
+        session.save()
         response = self.monkey.post("/CreateAccount/", {"fullName": "test_first_name test_last_name", "role": "TA",
-                                                        "username": "test_userName", "password": "test_password",
+                                                        "username": "test_userName", "password": "test_password","email": "email",
                                                         "passwordCheck": "fake_password"}, follow=True)
         self.assertIn("Passwords don't match", response.context["message"], "message displayed incorrectly")
 
@@ -350,7 +371,5 @@ class TestViewSection(TestCase):
         session.save()
         response = self.monkey.get("/viewSection/", follow=True)
         self.assertTemplateUsed(response, "viewSection.html")
-
-
 
 

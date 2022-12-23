@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
-from .models import User, Course, Section
-from classes import UserClass, CourseClass, SectionClass
+from .models import User, Course, Section, Notification
+from classes import UserClass, CourseClass, SectionClass, NotificationClass
 
 
 class TestUserClass(TestCase):
@@ -30,8 +30,11 @@ class TestUserClass(TestCase):
 
     def test_set_username_length(self):
         ta = UserClass.get_user("test_user_TA")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="username is too long"):
-            UserClass.set_username(ta, "-----------------------------")
+            UserClass.set_username(ta, s)
 
     def test_set_username_null(self):
         ta = UserClass.get_user("test_user_TA")
@@ -45,8 +48,11 @@ class TestUserClass(TestCase):
 
     def test_set_password_length(self):
         inst = UserClass.get_user("test_user_inst")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="password is too long"):
-            UserClass.set_password(inst, "-----------------------------")
+            UserClass.set_password(inst, s)
 
     def test_set_password_null(self):
         inst = UserClass.get_user("test_user_inst")
@@ -60,8 +66,11 @@ class TestUserClass(TestCase):
 
     def test_set_nonexistent_role(self):
         inst = UserClass.get_user("test_user_inst")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="role is incorrect"):
-            UserClass.set_role(inst, "-----------------------------")
+            UserClass.set_role(inst, s)
 
     def test_set_role_null(self):
         inst = UserClass.get_user("test_user_inst")
@@ -75,8 +84,11 @@ class TestUserClass(TestCase):
 
     def test_set_email_length(self):
         inst = UserClass.get_user("test_user_inst")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="email is too long"):
-            UserClass.set_email(inst, "----------------------------------------------------")
+            UserClass.set_email(inst, s)
 
     def test_set_email_null(self):
         inst = UserClass.get_user("test_user_inst")
@@ -90,8 +102,11 @@ class TestUserClass(TestCase):
 
     def test_set_first_name_length(self):
         inst = UserClass.get_user("test_user_inst")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="first_name is too long"):
-            UserClass.set_first_name(inst, "-----------------------------")
+            UserClass.set_first_name(inst, s)
 
     def test_set_first_name_null(self):
         inst = UserClass.get_user("test_user_inst")
@@ -105,8 +120,11 @@ class TestUserClass(TestCase):
 
     def test_set_last_name_length(self):
         inst = UserClass.get_user("test_user_inst")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="last_name is too long"):
-            UserClass.set_last_name(inst, "-----------------------------")
+            UserClass.set_last_name(inst, s)
 
     def test_set_last_name_null(self):
         inst = UserClass.get_user("test_user_inst")
@@ -181,8 +199,11 @@ class TestCourseClass(TestCase):
 
     def test_set_course_name_length(self):
         test_course = CourseClass.get_course("test_course_101")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="course_name is too long"):
-            CourseClass.set_course_name(test_course, "-----------------------------")
+            CourseClass.set_course_name(test_course, s)
 
     def test_set_course_name_null(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -208,8 +229,11 @@ class TestCourseClass(TestCase):
 
     def test_set_nonexistent_day(self):
         test_course = CourseClass.get_course("test_course_101")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="day is incorrect"):
-            CourseClass.set_days(test_course, "-----------------------------")
+            CourseClass.set_days(test_course, s)
 
     def test_set_day_null(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -223,8 +247,11 @@ class TestCourseClass(TestCase):
 
     def test_set_nonexistent_semester(self):
         test_course = CourseClass.get_course("test_course_101")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="semester is incorrect"):
-            CourseClass.set_semester(test_course, "-----------------------------")
+            CourseClass.set_semester(test_course, s)
 
     def test_set_semester_null(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -238,8 +265,11 @@ class TestCourseClass(TestCase):
 
     def test_set_start_time_length(self):
         test_course = CourseClass.get_course("test_course_101")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="start_time is too long"):
-            CourseClass.set_time_start(test_course, "-----------------------------")
+            CourseClass.set_time_start(test_course, s)
 
     def test_set_start_time_null(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -253,8 +283,11 @@ class TestCourseClass(TestCase):
 
     def test_set_end_time_length(self):
         test_course = CourseClass.get_course("test_course_101")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="start_time is too long"):
-            CourseClass.set_time_end(test_course, "-----------------------------")
+            CourseClass.set_time_end(test_course, s)
 
     def test_set_end_time_null(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -268,8 +301,11 @@ class TestCourseClass(TestCase):
 
     def test_set_location_length(self):
         test_course = CourseClass.get_course("test_course_101")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="location is too long"):
-            CourseClass.set_location(test_course, "-----------------------------")
+            CourseClass.set_location(test_course, s)
 
     def test_set_location_null(self):
         test_course = CourseClass.get_course("test_course_101")
@@ -340,8 +376,11 @@ class TestSectionClass(TestCase):
 
     def test_set_section_num_length(self):
         test_section = SectionClass.get_section("123")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="course_name is too long"):
-            SectionClass.set_section_num(test_section, "-----------------------------")
+            SectionClass.set_section_num(test_section, s)
 
     def test_set_section_num_null(self):
         test_section = SectionClass.get_section("123")
@@ -381,8 +420,11 @@ class TestSectionClass(TestCase):
 
     def test_set_nonexistent_day(self):
         test_section = SectionClass.get_section("123")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="day is incorrect"):
-            SectionClass.set_days(test_section, "-----------------------------")
+            SectionClass.set_days(test_section, s)
 
     def test_set_day_null(self):
         test_section = SectionClass.get_section("123")
@@ -396,8 +438,11 @@ class TestSectionClass(TestCase):
 
     def test_set_start_time_length(self):
         test_section = SectionClass.get_section("123")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="start_time is too long"):
-            SectionClass.set_time_start(test_section, "-----------------------------")
+            SectionClass.set_time_start(test_section, s)
 
     def test_set_start_time_null(self):
         test_section = SectionClass.get_section("123")
@@ -411,8 +456,11 @@ class TestSectionClass(TestCase):
 
     def test_set_end_time_length(self):
         test_section = SectionClass.get_section("123")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
         with self.assertRaises(Exception, msg="start_time is too long"):
-            SectionClass.set_time_end(test_section, "-----------------------------")
+            SectionClass.set_time_end(test_section, s)
 
     def test_set_end_time_null(self):
         test_section = SectionClass.get_section("123")
@@ -444,4 +492,92 @@ class TestSectionClass(TestCase):
     def test_delete_nonexistent_section(self):
         with self.assertRaises(Exception, msg="section not in database"):
             SectionClass.delete_section("999")
+
+
+class TestNotificationClass(TestCase):
+    monkey = None
+
+    def setUp(self):
+        self.monkey = Client()
+        n = Notification(name="test", message="test_message", role="TA", email="test_email")
+        n.save()
+
+    def test_set_nonexistent_role(self):
+        n = Notification.objects.get(name="test")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
+        with self.assertRaises(Exception, msg="role is incorrect"):
+            NotificationClass.set_role(n, s)
+
+    def test_set_role_null(self):
+        n = Notification.objects.get(name="test")
+        with self.assertRaises(Exception, msg="role is null"):
+            NotificationClass.set_role(n, None)
+
+    def test_set_role(self):
+        n = Notification.objects.get(name="test")
+        NotificationClass.set_role(n, "Supervisor")
+        self.assertEqual("Supervisor", n.role)
+
+    def test_set_email_length(self):
+        n = Notification.objects.get(name="test")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
+        with self.assertRaises(Exception, msg="email is too long"):
+            NotificationClass.set_email(n, s)
+
+    def test_set_email_null(self):
+        n = Notification.objects.get(name="test")
+        with self.assertRaises(Exception, msg="email is null"):
+            NotificationClass.set_email(n, None)
+
+    def test_set_email(self):
+        n = Notification.objects.get(name="test")
+        NotificationClass.set_email(n, "new_email_inst")
+        self.assertEqual("new_email_inst", n.email)
+
+    def test_set_name_length(self):
+        n = Notification.objects.get(name="test")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
+        with self.assertRaises(Exception, msg="name is too long"):
+            NotificationClass.set_name(n, s)
+
+    def test_set_name_null(self):
+        n = Notification.objects.get(name="test")
+        with self.assertRaises(Exception, msg="name is null"):
+            NotificationClass.set_name(n, None)
+
+    def test_set_name(self):
+        n = Notification.objects.get(name="test")
+        NotificationClass.set_name(n, "new")
+        self.assertEqual("new", n.name)
+
+    def test_set_message_length(self):
+        n = Notification.objects.get(name="test")
+        s = ""
+        while len(s) < 501:
+            s = s + "-"
+        with self.assertRaises(Exception, msg="message is too long"):
+            NotificationClass.set_message(n, s)
+
+    def test_set_message_null(self):
+        n = Notification.objects.get(name="test")
+        with self.assertRaises(Exception, msg="message is null"):
+            NotificationClass.set_message(n, None)
+
+    def test_set_message(self):
+        n = Notification.objects.get(name="test")
+        NotificationClass.set_message(n, "new")
+        self.assertEqual("new", n.message)
+
+    def test_add_notification(self):
+        NotificationClass.add_notification("new", "new_message", "new_email")
+        try:
+            Notification.objects.get(name="new")
+        except Exception as e:
+            raise Exception(str(e))
 
